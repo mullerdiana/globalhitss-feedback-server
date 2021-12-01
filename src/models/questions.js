@@ -40,4 +40,10 @@ Questions.hasMany(Answers, {
 //     foreignKey: 'idPergunta', onDelete: 'CASCADE', onUpdate: 'CASCADE', as: 'resps'
 // })
 
+const init = async () => {
+    await Questions.sync();
+  };
+  
+  init();
+
 module.exports = Questions;

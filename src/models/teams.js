@@ -40,4 +40,11 @@ Teams.hasMany(Users, {
 //     as: 'forms'
 // })
 
+const init = async () => {
+    await Teams.sync();
+  };
+  
+  init();
+
+
 module.exports = Teams;

@@ -33,4 +33,10 @@ const Answers = sequelize.define('answers', {
 //     foreignKey: 'idPergunta', onDelete: 'CASCADE', onUpdate: 'CASCADE', as: 'resps'
 // })
 
+const init = async () => {
+    await Answers.sync();
+  };
+  
+  init();
+
 module.exports = Answers;

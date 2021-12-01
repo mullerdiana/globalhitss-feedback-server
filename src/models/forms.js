@@ -35,4 +35,10 @@ Forms.hasMany(Questions,{
 //     foreignKey: 'idFormulario', onDelete: 'CASCADE', onUpdate: 'CASCADE', as: 'pergs'
 // })
 
+const init = async () => {
+    await Forms.sync();
+  };
+  
+  init();
+
 module.exports = Forms;
