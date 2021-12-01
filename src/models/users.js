@@ -72,4 +72,10 @@ const Users = sequelize.define('users', {
 //     as: 'respsAvaliado'
 // })
 
+const init = async () => {
+    await Users.sync();
+  };
+  
+  init();
+
 module.exports = Users;
