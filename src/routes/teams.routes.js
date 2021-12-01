@@ -3,7 +3,7 @@ const teamsRoutes = express.Router();
 
 const teamsController = require('../controllers/teams')
 
-teamsRoutes.post('/cadastrar', teamsController.Insert);
+teamsRoutes.post('/cadastrar', teamsController.Create);
 teamsRoutes.get('/todos', teamsController.SearchAll);
 teamsRoutes.get('/times/:id', teamsController.SearchOne);
 teamsRoutes.put('/deletar/:id', teamsController.Delete);

@@ -2,9 +2,9 @@ const express = require('express');
 const questionsRoutes = express.Router();
 
 
-const questionsController = require('../controllers/perguntaController')
+const questionsController = require('../controllers/questions');
 
-questionsRoutes.post('/cadastrar', questionsController.Insert);
+questionsRoutes.post('/cadastrar', questionsController.Create);
 questionsRoutes.get('/perguntas', questionsController.SearchAll);
 questionsRoutes.get('/pergunta/:id', questionsController.SearchOne);
 questionsRoutes.put('/deletar/:id', questionsController.Delete);

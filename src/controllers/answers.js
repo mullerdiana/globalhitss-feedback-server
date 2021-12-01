@@ -1,23 +1,24 @@
-//chama o Time de dentro de models
-const Teams = require('../models/teams');
-const Users = require("../models/users")
+//chama o Answers de dentro de models
+const Answers = require('../models/answers');
 const status = require('http-status');
-const sequelize = require('../database/sequelize');
 
 //comando para realizar inserção dos dados através de requisição
-exports.Create = (req, res, next) => {
+exports.Crete = (req, res, next) => {
     //criando variaveis de reconhecimento da requisiçao, de acordo com o que tem no model
     //lembrando que id é auto incrementavel, nao precisa chama-lo
-    const nome = req.body.nome;
+    const { idQuestion, textAnswer, type } = req.body;
 
     //Sequelize ira enviar os dados atraves do comando create. create é para inserir
-    Teams.create({
-        nome: nome //nome da chave : constante criada acima
+    Answers.create({
+        idQuestion,
+        textAnswer,
+        type
     }).then(
         (result) => {
             if (result) {
                 res.status(status.OK).send(result);
-            } else {
+            }
+            else {
                 res.status(status.NOT_FOUND).send();
             }
         }
@@ -30,7 +31,7 @@ exports.Create = (req, res, next) => {
 }
 
 exports.SearchAll = (req, res, next) => {
-    Teams.findAll()
+    Answers.findAll()
         .then(
             (result) => {
                 if (result) {
@@ -47,7 +48,7 @@ exports.SearchAll = (req, res, next) => {
 exports.SearchOne = (req, res, next) => {
     const id = req.params.id;
 
-    Teams.findByPk(id)
+    Answers.findByPk(id)
         .then(
             (result) => {
                 if (result) {
@@ -64,7 +65,7 @@ exports.SearchOne = (req, res, next) => {
 exports.Delete = (req, res, next) => {
     const id = req.params.id;
 
-    Teams.findByPk(id)
+    Answers.findByPk(id)
         .then(
             (result) => {
                 if (result) {
@@ -92,15 +93,20 @@ exports.Delete = (req, res, next) => {
 
 exports.Update = (req, res, next) => {
     const id = req.params.id;
-    const nome = req.body.nome;
+    const idFormulario = req.body.idFormulario;
+    const textoPergunta = req.body.textoPergunta;
+    const tipo = req.body.tipo;
 
-    Teams.findByPk(id)
+    Answers.findByPk(id)
         .then(
             result => {
                 if (result) {
                     result.update({
-                            nome: nome,
-                        }, { where: { id: id } })
+                        idFormulario: idFormulario,
+                        textoPergunta: textoPergunta,
+                        tipo: tipo
+                    }, { where: { id: id } }
+                    )
                         .then(
                             (result) => {
                                 if (result) {
@@ -122,31 +128,12 @@ exports.Update = (req, res, next) => {
         )
 }
 
-// chave estrangeira - mostra todos os times e seus usuarios
-exports.SearchAllUsersTimes = (req, res, next) => {
-    Teams.findAll({ include: [{ model: Users, as: "users" }] })
+// chave estrangeira - mostra todas respostas para as perguntas
+exports.SearchAllRespsPerguntas = (req, res, next) => {
+    Answers.findAll({include: ['resps']})
         .then(result => {
-            if (result) {
-                res.status(status.OK).send(result);
-            }
-        }).catch(
-            () => {
-                error = next(error)
-            }
-        )
-}
-
-// chave estrangeira - mostra todos os usuarios de um determinado result
-exports.SearchOneUsersTimes = (req, res, next) => {
-    const id = req.params.id;
-
-    Teams.findByPk(id, { include: [{ model: Users, as: "users" }] })
-        .then(
-            (result) => {
                 if (result) {
                     res.status(status.OK).send(result);
-                } else {
-                    res.status(status.NOT_FOUND).send();
                 }
             }
         ).catch(
@@ -156,30 +143,16 @@ exports.SearchOneUsersTimes = (req, res, next) => {
         )
 }
 
-// chave estrangeira - mostra todos os times e seus formularios
-exports.SearchAllFormsTimes = (req, res, next) => {
-    Teams.findAll({ include: ['forms'] })
-        .then(result => {
-            if (result) {
-                res.status(status.OK).send(result);
-            }
-        }).catch(
-            () => {
-                error = next(error)
-            }
-        )
-}
-
-// chave estrangeira - mostra todos os formularios de um determinado result
-exports.SearchOneFormsTimes = (req, res, next) => {
+// chave estrangeira - mostra todas as respostas de uma determinada result
+exports.SearchOneRespsPerguntas = (req, res, next) => {
     const id = req.params.id;
 
-    Teams.findByPk(id, { include: ['forms'] })
+    Answers.findByPk(id, {include: ['resps']})
         .then(
             (result) => {
                 if (result) {
                     res.status(status.OK).send(result);
-                } else {
+                }else{
                     res.status(status.NOT_FOUND).send();
                 }
             }
@@ -188,16 +161,4 @@ exports.SearchOneFormsTimes = (req, res, next) => {
                 error = next(error)
             }
         )
-}
-
-
-
-exports.ContagemTimes = async(req, res, next) => {
-    try {
-        const [response] = await sequelize.query('SELECT count(id) AS count FROM `times`')
-        res.status(status.OK).send(response[0]);
-    } catch (error) {
-        next(error)
-    }
-
 }
