@@ -2,9 +2,9 @@ const express = require('express');
 const formsRoutes = express.Router();
 
 
-const formsController = require('../controllers/formularioController')
+const formsController = require('../controllers/forms');
 
-formsRoutes.post('/cadastrar', formsController.Insert);
+formsRoutes.post('/cadastrar', formsController.Create);
 formsRoutes.get('/todos', formsController.SearchAll);
 formsRoutes.get('/formulario/:id', formsController.SearchOne);
 formsRoutes.put('/deletar/:id', formsController.Delete);
