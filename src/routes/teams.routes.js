@@ -3,15 +3,15 @@ const teamsRoutes = express.Router();
 
 const teamsController = require('../controllers/teams')
 
-teamsRoutes.post('/inserirTime', teamsController.Insert);
-teamsRoutes.get('/times', teamsController.SearchAll);
+teamsRoutes.post('/cadastrar', teamsController.Insert);
+teamsRoutes.get('/todos', teamsController.SearchAll);
 teamsRoutes.get('/times/:id', teamsController.SearchOne);
-teamsRoutes.put('/deletarTime/:id', teamsController.Delete);
-teamsRoutes.put('/editarTime/:id', teamsController.Update);
-teamsRoutes.get('/usersTime', teamsController.SearchAllUsersTimes);
-teamsRoutes.get('/usersTime/:id', teamsController.SearchOneUsersTimes);
-teamsRoutes.get('/formsTime', teamsController.SearchAllFormsTimes);
-teamsRoutes.get('/formsTime/:id', teamsController.SearchOneFormsTimes);
-teamsRoutes.get('/contagemTimes', teamsController.ContagemTimes);
+teamsRoutes.put('/deletar/:id', teamsController.Delete);
+teamsRoutes.put('/editar/:id', teamsController.Update);
+teamsRoutes.get('/usuarios', teamsController.SearchAllUsersTimes);
+teamsRoutes.get('/usuario/:id', teamsController.SearchOneUsersTimes);
+teamsRoutes.get('/formularios', teamsController.SearchAllFormsTimes);
+teamsRoutes.get('/formulario/:id', teamsController.SearchOneFormsTimes);
+teamsRoutes.get('/contagem', teamsController.ContagemTimes);
 
 module.exports = teamsRoutes;
