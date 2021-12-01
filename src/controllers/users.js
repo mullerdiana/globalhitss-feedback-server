@@ -1,7 +1,7 @@
 const User = require("../models/users");
 const bcrypt = require("bcrypt");
 const status = require('http-status');
-const sequelize = require('../sequelize');
+const sequelize = require('../database/sequelize');
 
 //comando para realizar inserção dos dados através de requisição
 exports.Create = (req, res, next) => {

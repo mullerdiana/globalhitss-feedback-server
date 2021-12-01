@@ -1,7 +1,7 @@
 const express = require('express');
 const teamsRoutes = express.Router();
 
-const teamsController = require('../controllers/timesController')
+const teamsController = require('../controllers/teams')
 
 teamsRoutes.post('/inserirTime', teamsController.Insert);
 teamsRoutes.get('/times', teamsController.SearchAll);
