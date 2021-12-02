@@ -41,7 +41,7 @@ Teams.hasMany(Users, {
 // })
 
 const init = async () => {
-    await Teams.sync();
+    await Teams.sync({alter:true});
   };
   
   init();
