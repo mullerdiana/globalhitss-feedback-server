@@ -36,7 +36,7 @@ Forms.hasMany(Questions,{
 // })
 
 const init = async () => {
-    await Forms.sync();
+    await Forms.sync({alter:true});
   };
   
   init();
