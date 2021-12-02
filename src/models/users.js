@@ -73,7 +73,7 @@ const Users = sequelize.define('users', {
 // })
 
 const init = async () => {
-    await Users.sync();
+    await Users.sync({alter:true});
   };
   
   init();

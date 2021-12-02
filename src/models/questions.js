@@ -41,7 +41,7 @@ Questions.hasMany(Answers, {
 // })
 
 const init = async () => {
-    await Questions.sync();
+    await Questions.sync({alter:true});
   };
   
   init();

@@ -9,7 +9,7 @@ const Answers = sequelize.define('answers', {
     idQuestion: {
         type: Sequelize.INTEGER,
         references: {
-            model: 'question', // refers to table name
+            model: 'questions', // refers to table name
             key: 'id', // 'id' refers to column in table
         }
     },
@@ -34,7 +34,7 @@ const Answers = sequelize.define('answers', {
 // })
 
 const init = async () => {
-    await Answers.sync();
+    await Answers.sync({alter:true});
   };
   
   init();
