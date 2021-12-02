@@ -17,31 +17,31 @@ const Users = sequelize.define('users', {
     username: {
         allowNull: false,
         unique: true,
-        type: Sequelize.STRING(20),
+        type: Sequelize.STRING(100),
         validate: {
-            len: [3, 20]
+            len: [3, 100]
         }
     },
     email: {
         allowNull: false,
         unique: true,
-        type: Sequelize.STRING(20),
+        type: Sequelize.STRING(100),
         validate: {
-            len: [3, 20]
+            len: [3, 100]
         }
     },
     password: {
         allowNull: false,
-        type: Sequelize.STRING(20),
+        type: Sequelize.STRING(100),
         validate: {
-            len: [3, 20]
+            len: [3, 100]
         }
     },
     type: {
         allowNull: false,
-        type: Sequelize.STRING(20),
+        type: Sequelize.STRING(100),
         validate: {
-            len: [3, 20]
+            len: [3, 100]
         }
     },
     idTeam: {
