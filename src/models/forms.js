@@ -7,38 +7,32 @@ const Questions = require('./questions');
 // sequelize.define define a estrutura que a tabela deve possuir, passando o nome e os campos da tabela
 
 const Forms = sequelize.define('forms', {
-    title: {
-        allowNull: false,
-        type: Sequelize.STRING(50),
-        validate: {
-            len: [3, 20]
-        }
-    },
-    type: {
-        allowNull: false,
-        type: Sequelize.STRING(20),
-        validate: {
-            len: [3, 20]
-        }
-    }
+	title: {
+		allowNull: false,
+		type: Sequelize.STRING(50),
+		validate: {
+			len: [3, 20],
+		},
+	},
+	type: {
+		allowNull: false,
+		type: Sequelize.STRING(20),
+		validate: {
+			len: [3, 20],
+		},
+	},
 });
 
-Forms.hasMany(Questions,{
-    foreignKey: "idForm",
-    onUpdate: "CASCADE",
-    as: "questionsForms",
-})
-
-//chave estrangeira id formulario dentro da tabela perguntas
-// const perguntas = require('./perguntas');
-// Formularios.hasMany(perguntas, {
-//     foreignKey: 'idFormulario', onDelete: 'CASCADE', onUpdate: 'CASCADE', as: 'pergs'
+// Forms.hasMany(Questions,{
+//     foreignKey: "idForm",
+//     onUpdate: "CASCADE",
+//     as: "questionsForms",
 // })
 
 const init = async () => {
-    await Forms.sync({alter:true});
-  };
-  
-  init();
+	await Forms.sync({ alter: true });
+};
+
+init();
 
 module.exports = Forms;
