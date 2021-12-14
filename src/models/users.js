@@ -37,14 +37,6 @@ const Users = sequelize.define('users', {
 			len: [3, 100],
 		},
 	},
-	idTeam: {
-		type: Sequelize.INTEGER,
-		allowNull: true,
-		references: {
-			model: 'teams', // refers to table name
-			key: 'id', // 'id' refers to column in table
-		},
-	},
 });
 
 Users.belongsTo(Teams, {
