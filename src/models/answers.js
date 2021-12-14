@@ -6,25 +6,18 @@ const sequelize = require('../database/sequelize');
 // sequelize.define define a estrutura que a tabela deve possuir, passando o nome e os campos da tabela
 
 const Answers = sequelize.define('answers', {
-    idQuestion: {
-        type: Sequelize.INTEGER,
-        references: {
-            model: 'questions', // refers to table name
-            key: 'id', // 'id' refers to column in table
-        }
-    },
-    textAnswer: {
-        allowNull: false,
-        type: Sequelize.STRING(255),
-        validate: {
-            len: [3, 255] //define tamanho minimo e maximo do campo
-        }
-    },
-    type: {
-        allowNull: false,
-        type: Sequelize.STRING(255),
-        defaultValue: "text",
-    }
+	textAnswer: {
+		allowNull: false,
+		type: Sequelize.STRING(255),
+		validate: {
+			len: [3, 255], //define tamanho minimo e maximo do campo
+		},
+	},
+	type: {
+		allowNull: false,
+		type: Sequelize.STRING(255),
+		defaultValue: 'text',
+	},
 });
 
 //chave estrangeira id pergunta dentro da tabela respostas
@@ -34,9 +27,9 @@ const Answers = sequelize.define('answers', {
 // })
 
 const init = async () => {
-    await Answers.sync({alter:true});
-  };
-  
-  init();
+	await Answers.sync({ alter: true });
+};
+
+init();
 
 module.exports = Answers;

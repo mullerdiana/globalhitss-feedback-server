@@ -14,13 +14,21 @@ const Teams = sequelize.define('teams', {
 			len: [3, 255], //define tamanho minimo e maximo do campo
 		},
 	},
+	idUser: {
+		type: Sequelize.INTEGER,
+		references: {
+			model: 'users', // refers to table name
+			key: 'id', // 'id' refers to column in table
+		},
+	},
 });
 
-Teams.hasMany(Users, {
-	foreignKey: 'idUser',
-	onUpdate: 'CASCADE',
-	as: 'teamsUser',
-});
+// Teams.hasMany(Users, {
+// 	as: 'users',
+// 	onDelete: 'CASCADE',
+// 	onUpdate: 'CASCADE',
+// 	foreignKey: 'idUser',
+// });
 
 const init = async () => {
 	await Teams.sync({ alter: true });
