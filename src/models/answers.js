@@ -20,16 +20,10 @@ const Answers = sequelize.define('answers', {
 	},
 });
 
-//chave estrangeira id pergunta dentro da tabela respostas
-// const respostas = require('./respostas');
-// Answers.hasMany(respostas, {
-//     foreignKey: 'idPergunta', onDelete: 'CASCADE', onUpdate: 'CASCADE', as: 'resps'
-// })
+// const init = async () => {
+// 	await Answers.sync({ alter: true });
+// };
 
-const init = async () => {
-	await Answers.sync({ alter: true });
-};
-
-init();
+// init();
 
 module.exports = Answers;
