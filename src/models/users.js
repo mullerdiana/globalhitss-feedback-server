@@ -37,24 +37,17 @@ const Users = sequelize.define('users', {
 			len: [3, 100],
 		},
 	},
-	idTeam: {
-		type: Sequelize.INTEGER,
-		references: {
-			model: 'times', // refers to table name
-			key: 'id', // 'id' refers to column in table
-		},
-	},
 });
 
-// Users.belongsTo(Teams, {
-// 	constraints: true,
-// 	foreingKey: 'idTeam',
-// });
+Users.belongsTo(Teams, {
+	constraints: true,
+	foreingKey: 'idTeam',
+});
 
-const init = async () => {
-	await Users.sync({ alter: true });
-};
+// const init = async () => {
+// 	await Users.sync({ alter: true });
+// };
 
-init();
+// init();
 
 module.exports = Users;
