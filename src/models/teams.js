@@ -16,12 +16,16 @@ const Teams = sequelize.define('teams', {
 	},
 });
 
-Teams.hasMany(Users, {
-	as: 'users',
-	onDelete: 'CASCADE',
-	onUpdate: 'CASCADE',
-	foreignKey: 'idUser',
-});
+// Teams.belongsToMany(Users, {
+// 	through: 'teamUser',
+// });
+
+// Teams.hasMany(Users, {
+// 	foreignKey: 'idUser',
+// 	onDelete: 'CASCADE',
+// 	onUpdate: 'CASCADE',
+// 	as: 'users',
+// });
 
 // const init = async () => {
 // 	await Teams.sync({ alter: true });

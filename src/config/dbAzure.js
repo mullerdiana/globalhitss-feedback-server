@@ -1,4 +1,4 @@
-import * as tedious from 'tedious';
+require('dotenv').config();
 
 module.exports = {
 	database: process.env.DATABASE_DB,
@@ -7,5 +7,4 @@ module.exports = {
 	password: process.env.DATABASE_PASSWORD,
 	host: process.env.DATABASE_HOST,
 	dialect: 'mssql',
-	dialectModule: tedious,
 };

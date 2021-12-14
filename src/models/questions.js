@@ -21,11 +21,11 @@ const Questions = sequelize.define('questions', {
 	},
 });
 
-Questions.hasMany(Answers, {
-	foreignKey: 'idQuestion',
-	onUpdate: 'CASCADE',
-	as: 'questionsAnswers',
-});
+// Questions.hasMany(Answers, {
+// 	foreignKey: 'idQuestion',
+// 	onUpdate: 'CASCADE',
+// 	as: 'questionsAnswers',
+// });
 
 // const init = async () => {
 // 	await Questions.sync({ alter: true });

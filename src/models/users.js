@@ -37,12 +37,25 @@ const Users = sequelize.define('users', {
 			len: [3, 100],
 		},
 	},
+	teamsId: {
+		type: Sequelize.INTEGER,
+		references: {
+			model: Teams,
+			key: 'id',
+		},
+	},
 });
 
 Users.belongsTo(Teams, {
-	constraints: true,
-	foreingKey: 'idTeam',
+	as: 'Teams',
+	foreignKey: 'teamsId',
 });
+
+// Users.associations = (models) => {
+// 	Users.belongsTo(models.Teams, {
+
+// 	});
+// };
 
 // const init = async () => {
 // 	await Users.sync({ alter: true });

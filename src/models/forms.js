@@ -23,11 +23,11 @@ const Forms = sequelize.define('forms', {
 	},
 });
 
-Forms.hasMany(Questions, {
-	foreignKey: 'idForm',
-	onUpdate: 'CASCADE',
-	as: 'questionsForms',
-});
+// Forms.hasMany(Questions, {
+// 	foreignKey: 'idForm',
+// 	onUpdate: 'CASCADE',
+// 	as: 'questionsForms',
+// });
 
 // const init = async () => {
 // 	await Forms.sync({ alter: true });
