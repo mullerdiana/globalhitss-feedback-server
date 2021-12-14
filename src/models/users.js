@@ -37,7 +37,7 @@ const Users = sequelize.define('users', {
 			len: [3, 100],
 		},
 	},
-	teamsId: {
+	teamId: {
 		type: Sequelize.INTEGER,
 		references: {
 			model: Teams,

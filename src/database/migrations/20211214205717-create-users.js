@@ -27,6 +27,10 @@ module.exports = {
 			},
 			teamID: {
 				type: Sequelize.INTEGER,
+				references: {
+					model: 'teams',
+					key: 'id',
+				},
 			},
 			created_at: {
 				type: Sequelize.DATE,
