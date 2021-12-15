@@ -18,12 +18,11 @@ exports.Create = (req, res, next) => {
 			if (result) {
 				res.status(status.OK).send(result);
 			} else {
-				res.status(status.NOT_FOUND).send();
+				res.status(status.BAD_REQUEST).send();
 			}
 		})
-		.catch((err) => {
-			console.log(err);
-			error = next(error);
+		.catch((error) => {
+			res.status(status.BAD_REQUEST).send(error);
 		});
 };
 
