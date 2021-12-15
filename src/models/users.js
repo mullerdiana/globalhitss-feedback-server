@@ -39,6 +39,7 @@ const Users = sequelize.define('users', {
 	},
 	teamId: {
 		type: Sequelize.INTEGER,
+		allowNull: true,
 		references: {
 			model: Teams,
 			key: 'id',
@@ -48,7 +49,7 @@ const Users = sequelize.define('users', {
 
 Users.belongsTo(Teams, {
 	as: 'Teams',
-	foreignKey: 'teamsId',
+	foreignKey: 'teamId',
 });
 
 // Users.associations = (models) => {

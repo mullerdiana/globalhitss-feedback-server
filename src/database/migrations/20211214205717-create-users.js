@@ -15,6 +15,7 @@ module.exports = {
 			},
 			email: {
 				type: Sequelize.STRING,
+				unique: true,
 				allowNull: false,
 			},
 			password: {
@@ -27,6 +28,7 @@ module.exports = {
 			},
 			teamID: {
 				type: Sequelize.INTEGER,
+				allowNull: true,
 				references: {
 					model: 'teams',
 					key: 'id',
