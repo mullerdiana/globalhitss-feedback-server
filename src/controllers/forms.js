@@ -4,188 +4,123 @@ const status = require('http-status');
 
 //comando para realizar inserção dos dados através de requisição
 exports.Create = (req, res, next) => {
-    //criando variaveis de reconhecimento da requisiçao, de acordo com o que tem no model
-    //lembrando que id é auto incrementavel, nao precisa chama-lo
     const { title, type } = req.body;
 
-    //Sequelize ira enviar os dados atraves do comando create. create é para inserir
     Forms.create({
         title,
         type
-    }).then(
-        (result) => {
+    })
+        .then((result) => {
             if (result) {
                 res.status(status.OK).send(result);
-            }
-            else {
+                // TODO: definir qual será mensagem de erro
+            } else {
                 res.status(status.NOT_FOUND).send();
             }
-        }
-    ).catch(
-        () => {
-            error = next(error)
-        }
-    )
+        })
+        .catch((err) => {
+            console.log(err);
+            error = next(error);
+        });
 
 }
 
 exports.SearchAll = (req, res, next) => {
     Forms.findAll()
-        .then(
-            (result) => {
-                if (result) {
-                    res.status(status.OK).send(result);
-                }
-            }
-        ).catch(
-            () => {
-                error = next(error)
-            }
-        )
+        .then((result) => {
+            res.status(status.OK).json(result);
+        })
+        .catch(() => {
+            res.status(status.INTERNAL_SERVER_ERROR).send({ error: "Internal Server Error!" });
+        });
+
 }
 
 exports.SearchOne = (req, res, next) => {
-    const id = req.params.id;
+    const { id } = req.params;
 
     Forms.findByPk(id)
-        .then(
-            (result) => {
-                if (result) {
-                    res.status(status.OK).send(result);
-                }
+        .then((result) => {
+            if (result) {
+                res.status(status.OK).send(result);
+            } else {
+                throw new Error();
             }
-        ).catch(
-            () => {
-                error = next(error)
-            }
-        )
+        })
+        .catch(() => {
+            res.status(401).json({ msg: 'Form not found!' });
+        });
 }
 
 exports.Delete = (req, res, next) => {
-    const id = req.params.id;
+    const { id } = req.params;
 
     Forms.findByPk(id)
-        .then(
-            (result) => {
-                if (result) {
-                    result.destroy({
-                        where: { id: id }
-                    }).then(
-                        (result) => {
-                            if (result) {
-                                res.status(status.OK).send();
-                            }
+        .then((result) => {
+            if (result) {
+                result.destroy({
+                    where: { id: id }
+                }).then((result) => {
+                        if (result) {
+                            res.status(status.OK).send();
                         }
-                    ).catch(
-                        () => {
-                            error = next(error)
-                        }
-                    )
-                }
-            }
-        ).catch(
-            () => {
-                error = next(error)
-            }
-        )
+                    })
+                    .catch((error) => {
+						res.status(status.NOT_FOUND).send(error);
+					});
+			} else {
+				throw new Error();
+			}
+		})
+		.catch(() => {
+			res.status(401).json({ msg: 'Form not found!' });
+		});
+
 }
 
 exports.Update = (req, res, next) => {
-    const id = req.params.id;
-    const idTime = req.body.idTime;
-    const tipo = req.body.tipo;
-    
+    const { id } = req.params;
+    const { title, type } = req.body;
+
     Forms.findByPk(id)
         .then(
             result => {
                 if (result) {
                     result.update({
-                        idTime: idTime,
-                        tipo: tipo
+                        title: title,
+                        type: type
                     }, { where: { id: id } }
                     )
-                        .then(
-                            (result) => {
-                                if (result) {
-                                    res.status(status.OK).send(result);
-                                }
-                            }
-                        ).catch(
-                            () => {
-                                error => next(error)
-                            }
-                        )
-                }
-            }
-        )
-        .catch(
-            () => {
-                error => next(error)
-            }
-        )
+					.then((result) => {
+						if (result) {
+							res.status(status.OK).send(result);
+						}
+					})
+					.catch((error) => {
+						if (error.name === 'SequelizeForeignKeyConstraintError') {
+							res.status(404).json({ msg: 'Forms not found!' });
+						}
+					});
+			} else {
+				throw new Error();
+			}
+		})
+		.catch(() => {
+			res.status(401).json({ msg: 'Form not found!' });
+		});
 }
 
-// chave estrangeira - mostra todas perguntas em seus formularios
-exports.SearchAllPergsFormularios = (req, res, next) => {
-    Forms.findAll({include: ['pergs']})
-        .then(result => {
-                if (result) {
-                    res.status(status.OK).send(result);
-                }
-            }
-        ).catch(
-            () => {
-                error = next(error)
-            }
-        )
-}
 
 // chave estrangeira - mostra todas as perguntas de um determinado form
 exports.SearchOnePergsFormularios = (req, res, next) => {
     const id = req.params.id;
 
-    Forms.findByPk(id, {include: ['pergs']})
+    Forms.findByPk(id, { include: ['pergs'] })
         .then(
             (result) => {
                 if (result) {
                     res.status(status.OK).send(result);
-                }else{
-                    res.status(status.NOT_FOUND).send();
-                }
-            }
-        ).catch(
-            () => {
-                error = next(error)
-            }
-        )
-}
-
-
-// chave estrangeira - mostra todas respostas em seus formularios
-exports.SearchAllRespsFormularios = (req, res, next) => {
-    Forms.findAll({include: ['resps']})
-        .then(result => {
-                if (result) {
-                    res.status(status.OK).send(result);
-                }
-            }
-        ).catch(
-            () => {
-                error = next(error)
-            }
-        )
-}
-
-// chave estrangeira - mostra todas as respostas de um determinado form
-exports.SearchOneRespsFormularios = (req, res, next) => {
-    const id = req.params.id;
-
-    Forms.findByPk(id, {include: ['resps']})
-        .then(
-            (result) => {
-                if (result) {
-                    res.status(status.OK).send(result);
-                }else{
+                } else {
                     res.status(status.NOT_FOUND).send();
                 }
             }
