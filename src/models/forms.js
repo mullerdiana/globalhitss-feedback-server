@@ -4,7 +4,7 @@ const sequelize = require('../database/sequelize');
 const Questions = require('./questions');
 
 // montando a estrutura da tabela no Sequelize.
-// sequelize.define define a estrutura que a tabela deve possuir, passando o nome e os campos da tabela
+// sequelize.define define a estrutura que a tabela deve possuir, passando o name e os campos da tabela
 
 const Forms = sequelize.define('forms', {
 	title: {

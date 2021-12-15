@@ -4,7 +4,7 @@ const sequelize = require('../database/sequelize');
 const Teams = require('../models/teams');
 
 // montando a estrutura da tabela no Sequelize.
-// sequelize.define define a estrutura que a tabela deve possuir, passando o nome e os campos da tabela
+// sequelize.define define a estrutura que a tabela deve possuir, passando o name e os campos da tabela
 
 const Users = sequelize.define('users', {
 	name: {
@@ -37,7 +37,7 @@ const Users = sequelize.define('users', {
 			len: [3, 100],
 		},
 	},
-	teamId: {
+	team_id: {
 		type: Sequelize.INTEGER,
 		allowNull: true,
 		references: {
@@ -49,19 +49,7 @@ const Users = sequelize.define('users', {
 
 Users.belongsTo(Teams, {
 	as: 'Teams',
-	foreignKey: 'teamId',
+	foreignKey: 'team_id',
 });
-
-// Users.associations = (models) => {
-// 	Users.belongsTo(models.Teams, {
-
-// 	});
-// };
-
-// const init = async () => {
-// 	await Users.sync({ alter: true });
-// };
-
-// init();
 
 module.exports = Users;

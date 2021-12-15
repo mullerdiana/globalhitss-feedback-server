@@ -8,5 +8,6 @@ module.exports = {
 	dialect: 'mssql',
 	define: {
 		timestamps: true,
+		underscored: true,
 	},
 };

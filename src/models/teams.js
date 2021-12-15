@@ -4,10 +4,10 @@ const sequelize = require('../database/sequelize');
 const Users = require('./users');
 
 // montando a estrutura da tabela no Sequelize.
-// sequelize.define define a estrutura que a tabela deve possuir, passando o nome e os campos da tabela
+// sequelize.define define a estrutura que a tabela deve possuir, passando o name e os campos da tabela
 
 const Teams = sequelize.define('teams', {
-	nome: {
+	name: {
 		allowNull: true,
 		type: Sequelize.STRING(255),
 		validate: {
