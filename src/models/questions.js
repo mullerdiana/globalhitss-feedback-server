@@ -7,7 +7,7 @@ const Answers = require('./answers');
 // sequelize.define define a estrutura que a tabela deve possuir, passando o name e os campos da tabela
 
 const Questions = sequelize.define('questions', {
-	textQuestion: {
+	title: {
 		allowNull: false,
 		type: Sequelize.STRING(500),
 		validate: {
@@ -17,7 +17,9 @@ const Questions = sequelize.define('questions', {
 	type: {
 		allowNull: false,
 		type: Sequelize.STRING(255),
-		defaultValue: 'text',
+		validate: {
+			len: [3, 255],
+		},
 	},
 });
 
