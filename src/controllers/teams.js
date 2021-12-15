@@ -39,16 +39,18 @@ exports.SearchAll = (req, res, next) => {
 };
 
 exports.SearchOne = (req, res, next) => {
-	const id = req.params.id;
+	const { id } = req.params;
 
 	Teams.findByPk(id)
 		.then((result) => {
 			if (result) {
 				res.status(status.OK).send(result);
+			} else {
+				throw new Error();
 			}
 		})
 		.catch(() => {
-			error = next(error);
+			res.status(status.NOT_FOUND).send({ error: "Team not found!"});
 		});
 };
 
