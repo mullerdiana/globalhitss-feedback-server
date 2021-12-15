@@ -55,7 +55,7 @@ exports.SearchOne = (req, res, next) => {
 };
 
 exports.Delete = (req, res, next) => {
-	const id = req.params.id;
+	const { id } = req.params;
 
 	Teams.findByPk(id)
 		.then((result) => {
@@ -70,13 +70,16 @@ exports.Delete = (req, res, next) => {
 						}
 					})
 					.catch(() => {
-						error = next(error);
+						res.status(status.INTERNAL_SERVER_ERROR).send({ error: "Internal Server Error!"});
 					});
+			}else {
+				throw new Error();
 			}
 		})
 		.catch(() => {
-			error = next(error);
+			res.status(status.NOT_FOUND).send({ error: "Team not found!"});
 		});
+
 };
 
 exports.Update = (req, res, next) => {
