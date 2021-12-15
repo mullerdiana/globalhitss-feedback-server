@@ -8,9 +8,9 @@ const sequelize = require('../database/sequelize');
 const Answers = sequelize.define('answers', {
 	textAnswer: {
 		allowNull: false,
-		type: Sequelize.STRING(255),
+		type: Sequelize.STRING(1000),
 		validate: {
-			len: [3, 255], //define tamanho minimo e maximo do campo
+			len: [3, 1000], //define tamanho minimo e maximo do campo
 		},
 	},
 	type: {

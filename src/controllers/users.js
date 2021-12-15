@@ -15,6 +15,7 @@ exports.Create = (req, res, next) => {
 		.then((result) => {
 			if (result) {
 				res.status(status.OK).json(result);
+				// TODO: definir qual será mensagem de erro
 			} else {
 				res.status(status.NOT_FOUND).send();
 			}
@@ -31,7 +32,7 @@ exports.SearchAll = (req, res, next) => {
 			res.status(status.OK).json(result);
 		})
 		.catch(() => {
-			error = next(error);
+			res.status(status.INTERNAL_SERVER_ERROR).send({ error: "Internal Server Error!" });
 		});
 };
 
@@ -66,10 +67,9 @@ exports.Delete = (req, res, next) => {
 	User.findByPk(id)
 		.then((result) => {
 			if (result) {
-				result
-					.destroy({
-						where: { id: id },
-					})
+				result.destroy({
+					where: { id: id },
+				})
 					.then((result) => {
 						if (result) {
 							res.status(status.OK).send();
