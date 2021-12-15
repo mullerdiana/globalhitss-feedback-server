@@ -3,15 +3,11 @@ const bcrypt = require('bcrypt');
 const status = require('http-status');
 const sequelize = require('../database/sequelize');
 
-//comando para realizar inserção dos dados através de requisição
 exports.Create = (req, res, next) => {
-	//criando variaveis de reconhecimento da requisiçao, de acordo com o que tem no model
-	//lembrando que id é auto incrementavel, nao precisa chama-lo
 	const { name, email, password, type } = req.body;
 
-	//Sequelize ira enviar os dados atraves do comando create. create é para inserir
 	User.create({
-		name, //name da chave : constante criada acima
+		name,
 		email,
 		password: bcrypt.hashSync(password, 10),
 		type,
@@ -103,7 +99,7 @@ exports.Update = (req, res, next) => {
 						{
 							name: name,
 							email: email,
-							password: password,
+							password: bcrypt.hashSync(password, 10),
 							type: type,
 							team_id: team_id,
 						},
