@@ -8,6 +8,7 @@ teamsRoutes.get('/todos', teamsController.SearchAll);
 teamsRoutes.get('/time/:id', teamsController.SearchOne);
 teamsRoutes.delete('/deletar/:id', teamsController.Delete);
 teamsRoutes.put('/editar/:id', teamsController.Update);
+// /////////////////////////////////
 teamsRoutes.get('/usuarios', teamsController.SearchAllUsersTimes);
 teamsRoutes.get('/usuario/:id', teamsController.SearchOneUsersTimes);
 teamsRoutes.get('/formularios', teamsController.SearchAllFormsTimes);
