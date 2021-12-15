@@ -83,8 +83,8 @@ exports.Delete = (req, res, next) => {
 };
 
 exports.Update = (req, res, next) => {
-	const id = req.params.id;
-	const name = req.body.name;
+	const { id } = req.params;
+	const { name } = req.body;
 
 	Teams.findByPk(id)
 		.then((result) => {
@@ -102,12 +102,14 @@ exports.Update = (req, res, next) => {
 						}
 					})
 					.catch(() => {
-						(error) => next(error);
+						res.status(status.INTERNAL_SERVER_ERROR).send({ error: "Internal Server Error!"});
 					});
+			} else {
+				throw new Error();
 			}
 		})
 		.catch(() => {
-			(error) => next(error);
+			res.status(status.NOT_FOUND).send({ error: "Team not found!"});
 		});
 };
 
