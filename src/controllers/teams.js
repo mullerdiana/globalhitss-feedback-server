@@ -33,8 +33,8 @@ exports.SearchAll = (req, res, next) => {
 				res.status(status.OK).send(result);
 			}
 		})
-		.catch(() => {
-			error = next(error);
+		.catch((error) => {
+			res.status(status.GATEWAY_TIMEOUT).send(error);
 		});
 };
 
