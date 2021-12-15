@@ -9,16 +9,16 @@ const Questions = require('./questions');
 const Forms = sequelize.define('forms', {
 	title: {
 		allowNull: false,
-		type: Sequelize.STRING(50),
+		type: Sequelize.STRING(100),
 		validate: {
-			len: [3, 20],
+			len: [3, 100],
 		},
 	},
 	type: {
 		allowNull: false,
-		type: Sequelize.STRING(20),
+		type: Sequelize.STRING(100),
 		validate: {
-			len: [3, 20],
+			len: [3, 100],
 		},
 	},
 });
