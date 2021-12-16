@@ -1,5 +1,6 @@
 const Sequelize = require("sequelize");
 const sequelize = require("../database/sequelize");
+const Manager = require("./manager");
 
 const Forms = sequelize.define("forms", {
 	title: {
@@ -16,6 +17,11 @@ const Forms = sequelize.define("forms", {
 			len: [3, 100],
 		},
 	},
+});
+
+Forms.belongsTo(Manager, {
+	as: "Manager",
+	foreignKey: "manager_id",
 });
 
 module.exports = Forms;
