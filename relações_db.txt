@@ -1,4 +1,4 @@
-teams 1 -> n users
-users 1 -> n forms
+teams 1 -> n employees
+employees 1 -> n forms
 forms 1 -> n questions
 question 1 -> 1 answers

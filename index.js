@@ -5,7 +5,7 @@ const cors = require("cors");
 const PORT = process.env.DATABASE_PORT || 5000;
 const app = express();
 
-const usersRoutes = require("./src/routes/users.routes.js");
+const employeesRoutes = require("./src/routes/employees.routes.js");
 const managersRoutes = require("./src/routes/managers.routes.js");
 const teamsRoutes = require("./src/routes/teams.routes.js");
 const formsRoutes = require("./src/routes/forms.routes.js");
@@ -14,7 +14,7 @@ const answersRoutes = require("./src/routes/answers.routes.js");
 
 app.use(cors());
 app.use(express.json());
-app.use("/usuarios", usersRoutes);
+app.use("/colaboradores", employeesRoutes);
 app.use("/gestores", managersRoutes);
 app.use("/times", teamsRoutes);
 app.use("/formularios", formsRoutes);
