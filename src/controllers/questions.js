@@ -4,14 +4,11 @@ const status = require('http-status');
 
 //comando para realizar inserção dos dados através de requisição
 exports.Create = (req, res, next) => {
-    //criando variaveis de reconhecimento da requisiçao, de acordo com o que tem no model
-    //lembrando que id é auto incrementavel, nao precisa chama-lo
-    const { textQuestion, type, idForm} = req.body;
+    const { title, type, form_id} = req.body;
 
-    //Sequelize ira enviar os dados atraves do comando create. create é para inserir
     Questions.create({
-        idForm,
-        textQuestion,
+        form_id,
+        title,
         type
     }).then(
         (result) => {

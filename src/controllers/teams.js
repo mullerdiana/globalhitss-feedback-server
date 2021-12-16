@@ -18,12 +18,11 @@ exports.Create = (req, res, next) => {
 			if (result) {
 				res.status(status.OK).send(result);
 			} else {
-				res.status(status.NOT_FOUND).send();
+				res.status(status.BAD_REQUEST).send();
 			}
 		})
-		.catch((err) => {
-			console.log(err);
-			error = next(error);
+		.catch((error) => {
+			res.status(status.BAD_REQUEST).send(error);
 		});
 };
 
@@ -34,27 +33,29 @@ exports.SearchAll = (req, res, next) => {
 				res.status(status.OK).send(result);
 			}
 		})
-		.catch(() => {
-			error = next(error);
+		.catch((error) => {
+			res.status(status.GATEWAY_TIMEOUT).send(error);
 		});
 };
 
 exports.SearchOne = (req, res, next) => {
-	const id = req.params.id;
+	const { id } = req.params;
 
 	Teams.findByPk(id)
 		.then((result) => {
 			if (result) {
 				res.status(status.OK).send(result);
+			} else {
+				throw new Error();
 			}
 		})
 		.catch(() => {
-			error = next(error);
+			res.status(status.NOT_FOUND).send({ error: "Team not found!"});
 		});
 };
 
 exports.Delete = (req, res, next) => {
-	const id = req.params.id;
+	const { id } = req.params;
 
 	Teams.findByPk(id)
 		.then((result) => {
@@ -69,18 +70,21 @@ exports.Delete = (req, res, next) => {
 						}
 					})
 					.catch(() => {
-						error = next(error);
+						res.status(status.INTERNAL_SERVER_ERROR).send({ error: "Internal Server Error!"});
 					});
+			}else {
+				throw new Error();
 			}
 		})
 		.catch(() => {
-			error = next(error);
+			res.status(status.NOT_FOUND).send({ error: "Team not found!"});
 		});
+
 };
 
 exports.Update = (req, res, next) => {
-	const id = req.params.id;
-	const name = req.body.name;
+	const { id } = req.params;
+	const { name } = req.body;
 
 	Teams.findByPk(id)
 		.then((result) => {
@@ -98,12 +102,14 @@ exports.Update = (req, res, next) => {
 						}
 					})
 					.catch(() => {
-						(error) => next(error);
+						res.status(status.INTERNAL_SERVER_ERROR).send({ error: "Internal Server Error!"});
 					});
+			} else {
+				throw new Error();
 			}
 		})
 		.catch(() => {
-			(error) => next(error);
+			res.status(status.NOT_FOUND).send({ error: "Team not found!"});
 		});
 };
 

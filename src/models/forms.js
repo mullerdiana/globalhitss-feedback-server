@@ -1,38 +1,27 @@
-//chamando o sequelize e o arquivo de configuraçao do database.js
-const Sequelize = require('sequelize');
-const sequelize = require('../database/sequelize');
-const Questions = require('./questions');
+const Sequelize = require("sequelize");
+const sequelize = require("../database/sequelize");
+const Manager = require("./manager");
 
-// montando a estrutura da tabela no Sequelize.
-// sequelize.define define a estrutura que a tabela deve possuir, passando o name e os campos da tabela
-
-const Forms = sequelize.define('forms', {
+const Forms = sequelize.define("forms", {
 	title: {
 		allowNull: false,
-		type: Sequelize.STRING(50),
+		type: Sequelize.STRING(100),
 		validate: {
-			len: [3, 20],
+			len: [3, 100],
 		},
 	},
 	type: {
 		allowNull: false,
-		type: Sequelize.STRING(20),
+		type: Sequelize.STRING(100),
 		validate: {
-			len: [3, 20],
+			len: [3, 100],
 		},
 	},
 });
 
-// Forms.hasMany(Questions, {
-// 	foreignKey: 'idForm',
-// 	onUpdate: 'CASCADE',
-// 	as: 'questionsForms',
-// });
-
-// const init = async () => {
-// 	await Forms.sync({ alter: true });
-// };
-
-// init();
+Forms.belongsTo(Manager, {
+	as: "Manager",
+	foreignKey: "manager_id",
+});
 
 module.exports = Forms;
