@@ -3,7 +3,7 @@ const answerRoutes = express.Router();
 
 const answersController = require('../controllers/answers');
 
-answerRoutes.post('/cadastrar', answersController.Crete);
+answerRoutes.post('/cadastrar', answersController.Create);
 answerRoutes.get('/todas', answersController.SearchAll);
 answerRoutes.get('/resposta/:id', answersController.SearchOne);
 answerRoutes.put('/deletar/:id', answersController.Delete);
