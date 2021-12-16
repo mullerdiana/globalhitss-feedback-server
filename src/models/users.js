@@ -1,6 +1,6 @@
 const Sequelize = require("sequelize");
 const sequelize = require("../database/sequelize");
-const Manager = require("./manager");
+const Managers = require("./managers");
 const Teams = require("./teams");
 
 const Users = sequelize.define("users", {
@@ -41,8 +41,8 @@ Users.belongsTo(Teams, {
 	foreignKey: "team_id",
 });
 
-Users.belongsTo(Manager, {
-	as: "Manager",
+Users.belongsTo(Managers, {
+	as: "Managers",
 	foreignKey: "manager_id",
 });
 
