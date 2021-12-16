@@ -1,17 +1,19 @@
-const User = require('../models/users');
-const bcrypt = require('bcrypt');
-const status = require('http-status');
-const sequelize = require('../database/sequelize');
+const employee = require("../models/employees");
+const bcrypt = require("bcrypt");
+const status = require("http-status");
+const sequelize = require("../database/sequelize");
 
 exports.Create = (req, res, next) => {
-	const { name, email, password, type } = req.body;
+	const { name, email, password, type, manager_id } = req.body;
 
-	User.create({
-		name,
-		email,
-		password: bcrypt.hashSync(password, 10),
-		type,
-	})
+	employee
+		.create({
+			name,
+			email,
+			password: bcrypt.hashSync(password, 10),
+			type,
+			manager_id,
+		})
 		.then((result) => {
 			if (result) {
 				res.status(status.OK).json(result);
@@ -27,20 +29,23 @@ exports.Create = (req, res, next) => {
 };
 
 exports.SearchAll = (req, res, next) => {
-	User.findAll()
+	employee
+		.findAll()
 		.then((result) => {
 			res.status(status.OK).json(result);
 		})
 		.catch(() => {
-			res.status(status.INTERNAL_SERVER_ERROR).send({ error: "Internal Server Error!" });
+			res
+				.status(status.INTERNAL_SERVER_ERROR)
+				.send({ error: "Internal Server Error!" });
 		});
 };
 
 exports.Search = async (req, res, next) => {
 	const { search } = req.query;
-	console.log(search);
+
 	const [response] = await sequelize.query(
-		`SELECT * FROM users WHERE name LIKE '%${search}%' OR email LIKE '%${search}%'`
+		`SELECT * FROM employees WHERE name LIKE '%${search}%' OR email LIKE '%${search}%'`
 	);
 	//TODO: Validar se ao não encontrar usuário, é correto retornar status 200 e array vazio
 	res.status(status.OK).send(response);
@@ -48,7 +53,8 @@ exports.Search = async (req, res, next) => {
 
 exports.SearchOne = (req, res, next) => {
 	const { id } = req.params;
-	User.findByPk(id)
+	employee
+		.findByPk(id)
 		.then((result) => {
 			if (result) {
 				res.status(status.OK).send(result);
@@ -57,19 +63,21 @@ exports.SearchOne = (req, res, next) => {
 			}
 		})
 		.catch(() => {
-			res.status(401).json({ msg: 'User not found!' });
+			res.status(401).json({ msg: "employee not found!" });
 		});
 };
 
 exports.Delete = (req, res, next) => {
 	const { id } = req.params;
 
-	User.findByPk(id)
+	employee
+		.findByPk(id)
 		.then((result) => {
 			if (result) {
-				result.destroy({
-					where: { id: id },
-				})
+				result
+					.destroy({
+						where: { id: id },
+					})
 					.then((result) => {
 						if (result) {
 							res.status(status.OK).send();
@@ -83,7 +91,7 @@ exports.Delete = (req, res, next) => {
 			}
 		})
 		.catch(() => {
-			res.status(401).json({ msg: 'User not found!' });
+			res.status(401).json({ msg: "employee not found!" });
 		});
 };
 
@@ -91,7 +99,8 @@ exports.Update = (req, res, next) => {
 	const { id } = req.params;
 	const { name, email, password, type, team_id } = req.body;
 
-	User.findByPk(id)
+	employee
+		.findByPk(id)
 		.then((result) => {
 			if (result) {
 				result
@@ -111,8 +120,8 @@ exports.Update = (req, res, next) => {
 						}
 					})
 					.catch((error) => {
-						if (error.name === 'SequelizeForeignKeyConstraintError') {
-							res.status(404).json({ msg: 'Teams not found!' });
+						if (error.name === "SequelizeForeignKeyConstraintError") {
+							res.status(404).json({ msg: "Teams not found!" });
 						}
 					});
 			} else {
@@ -120,6 +129,6 @@ exports.Update = (req, res, next) => {
 			}
 		})
 		.catch(() => {
-			res.status(401).json({ msg: 'User not found!' });
+			res.status(401).json({ msg: "employee not found!" });
 		});
 };

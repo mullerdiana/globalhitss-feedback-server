@@ -2,43 +2,22 @@
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable("users", {
+		return queryInterface.createTable("answers", {
 			id: {
 				type: Sequelize.INTEGER,
 				primaryKey: true,
 				autoIncrement: true,
 				allowNull: false,
 			},
-			name: {
-				type: Sequelize.STRING,
+			value: {
 				allowNull: false,
-			},
-			email: {
 				type: Sequelize.STRING,
-				unique: true,
-				allowNull: false,
 			},
-			password: {
-				type: Sequelize.STRING,
-				allowNull: false,
-			},
-			type: {
-				type: Sequelize.STRING,
-				allowNull: false,
-			},
-			team_id: {
-				type: Sequelize.INTEGER,
-				allowNull: true,
-				references: {
-					model: "teams",
-					key: "id",
-				},
-			},
-			manager_id: {
+			question_id: {
 				type: Sequelize.INTEGER,
 				allowNull: false,
 				references: {
-					model: "manager",
+					model: "questions",
 					key: "id",
 				},
 			},
@@ -52,8 +31,7 @@ module.exports = {
 			},
 		});
 	},
-
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable("users");
+		return queryInterface.dropTable("answers");
 	},
 };

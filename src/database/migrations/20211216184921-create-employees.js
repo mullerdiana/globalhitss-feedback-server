@@ -2,26 +2,43 @@
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable("forms", {
+		return queryInterface.createTable("employees", {
 			id: {
 				type: Sequelize.INTEGER,
 				primaryKey: true,
 				autoIncrement: true,
 				allowNull: false,
 			},
-			title: {
-				allowNull: false,
+			name: {
 				type: Sequelize.STRING,
+				allowNull: false,
+			},
+			email: {
+				type: Sequelize.STRING,
+				unique: true,
+				allowNull: false,
+			},
+			password: {
+				type: Sequelize.STRING,
+				allowNull: false,
 			},
 			type: {
-				allowNull: false,
 				type: Sequelize.STRING,
+				allowNull: false,
+			},
+			team_id: {
+				type: Sequelize.INTEGER,
+				allowNull: true,
+				references: {
+					model: "teams",
+					key: "id",
+				},
 			},
 			manager_id: {
 				type: Sequelize.INTEGER,
 				allowNull: false,
 				references: {
-					model: "manager",
+					model: "managers",
 					key: "id",
 				},
 			},
@@ -35,7 +52,8 @@ module.exports = {
 			},
 		});
 	},
+
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable("forms");
+		return queryInterface.dropTable("employees");
 	},
 };

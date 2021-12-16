@@ -1,7 +1,9 @@
 const Sequelize = require("sequelize");
 const sequelize = require("../database/sequelize");
+const Managers = require("./managers");
+const Teams = require("./teams");
 
-const Manager = sequelize.define("manager", {
+const employees = sequelize.define("employees", {
 	name: {
 		allowNull: false,
 		unique: true,
@@ -34,4 +36,14 @@ const Manager = sequelize.define("manager", {
 	},
 });
 
-module.exports = Manager;
+employees.belongsTo(Teams, {
+	as: "Teams",
+	foreignKey: "team_id",
+});
+
+employees.belongsTo(Managers, {
+	as: "Managers",
+	foreignKey: "manager_id",
+});
+
+module.exports = employees;
