@@ -3,7 +3,7 @@ const sequelize = require("../database/sequelize");
 const Managers = require("./managers");
 const Teams = require("./teams");
 
-const Users = sequelize.define("users", {
+const employees = sequelize.define("employees", {
 	name: {
 		allowNull: false,
 		unique: true,
@@ -36,14 +36,14 @@ const Users = sequelize.define("users", {
 	},
 });
 
-Users.belongsTo(Teams, {
+employees.belongsTo(Teams, {
 	as: "Teams",
 	foreignKey: "team_id",
 });
 
-Users.belongsTo(Managers, {
+employees.belongsTo(Managers, {
 	as: "Managers",
 	foreignKey: "manager_id",
 });
 
-module.exports = Users;
+module.exports = employees;

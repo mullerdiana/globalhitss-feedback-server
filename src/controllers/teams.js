@@ -1,6 +1,6 @@
 //chama o Time de dentro de models
 const Teams = require("../models/teams");
-const Users = require("../models/users");
+const employees = require("../models/employees");
 const status = require("http-status");
 const sequelize = require("../database/sequelize");
 
@@ -113,8 +113,8 @@ exports.Update = (req, res, next) => {
 };
 
 // chave estrangeira - mostra todos os times e seus usuarios
-exports.SearchAllUsersTimes = (req, res, next) => {
-	Teams.findAll({ include: [{ model: Users, as: "users" }] })
+exports.SearchAllemployeesTimes = (req, res, next) => {
+	Teams.findAll({ include: [{ model: employees, as: "employees" }] })
 		.then((result) => {
 			if (result) {
 				res.status(status.OK).send(result);
@@ -126,10 +126,10 @@ exports.SearchAllUsersTimes = (req, res, next) => {
 };
 
 // chave estrangeira - mostra todos os usuarios de um determinado result
-exports.SearchOneUsersTimes = (req, res, next) => {
+exports.SearchOneemployeesTimes = (req, res, next) => {
 	const id = req.params.id;
 
-	Teams.findByPk(id, { include: [{ model: Users, as: "users" }] })
+	Teams.findByPk(id, { include: [{ model: employees, as: "employees" }] })
 		.then((result) => {
 			if (result) {
 				res.status(status.OK).send(result);
