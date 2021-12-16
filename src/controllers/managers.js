@@ -1,19 +1,20 @@
-//chama o Forms de dentro de models
-const Forms = require("../models/forms");
+const Managers = require("../models/managers");
+const bcrypt = require("bcrypt");
 const status = require("http-status");
+const sequelize = require("../database/sequelize");
 
-//comando para realizar inserção dos dados através de requisição
 exports.Create = (req, res, next) => {
-	const { title, type, manager_id } = req.body;
+	const { name, email, password, type } = req.body;
 
-	Forms.create({
-		title,
+	Managers.create({
+		name,
+		email,
+		password: bcrypt.hashSync(password, 10),
 		type,
-		manager_id,
 	})
 		.then((result) => {
 			if (result) {
-				res.status(status.OK).send(result);
+				res.status(status.OK).json(result);
 				// TODO: definir qual será mensagem de erro
 			} else {
 				res.status(status.NOT_FOUND).send();
@@ -26,7 +27,7 @@ exports.Create = (req, res, next) => {
 };
 
 exports.SearchAll = (req, res, next) => {
-	Forms.findAll()
+	Managers.findAll()
 		.then((result) => {
 			res.status(status.OK).json(result);
 		})
@@ -37,10 +38,19 @@ exports.SearchAll = (req, res, next) => {
 		});
 };
 
+exports.Search = async (req, res, next) => {
+	const { search } = req.query;
+
+	const [response] = await sequelize.query(
+		`SELECT * FROM managers WHERE name LIKE '%${search}%' OR email LIKE '%${search}%'`
+	);
+	//TODO: Validar se ao não encontrar usuário, é correto retornar status 200 e array vazio
+	res.status(status.OK).send(response);
+};
+
 exports.SearchOne = (req, res, next) => {
 	const { id } = req.params;
-
-	Forms.findByPk(id)
+	Managers.findByPk(id)
 		.then((result) => {
 			if (result) {
 				res.status(status.OK).send(result);
@@ -49,14 +59,14 @@ exports.SearchOne = (req, res, next) => {
 			}
 		})
 		.catch(() => {
-			res.status(401).json({ msg: "Form not found!" });
+			res.status(401).json({ msg: "Managers not found!" });
 		});
 };
 
 exports.Delete = (req, res, next) => {
 	const { id } = req.params;
 
-	Forms.findByPk(id)
+	Managers.findByPk(id)
 		.then((result) => {
 			if (result) {
 				result
@@ -76,21 +86,24 @@ exports.Delete = (req, res, next) => {
 			}
 		})
 		.catch(() => {
-			res.status(401).json({ msg: "Form not found!" });
+			res.status(401).json({ msg: "Managers not found!" });
 		});
 };
 
 exports.Update = (req, res, next) => {
 	const { id } = req.params;
-	const { title, type } = req.body;
+	const { name, email, password, type } = req.body;
 
-	Forms.findByPk(id)
+	Managers.findByPk(id)
 		.then((result) => {
-			if (result) {
+			console.log(result);
+			if (result.dateValues) {
 				result
 					.update(
 						{
-							title: title,
+							name: name,
+							email: email,
+							password: bcrypt.hashSync(password, 10),
 							type: type,
 						},
 						{ where: { id: id } }
@@ -101,32 +114,13 @@ exports.Update = (req, res, next) => {
 						}
 					})
 					.catch((error) => {
-						if (error.name === "SequelizeForeignKeyConstraintError") {
-							res.status(404).json({ msg: "Forms not found!" });
-						}
+						res.status(status.OK).send(error);
 					});
 			} else {
 				throw new Error();
 			}
 		})
 		.catch(() => {
-			res.status(401).json({ msg: "Form not found!" });
-		});
-};
-
-// chave estrangeira - mostra todas as perguntas de um determinado form
-exports.SearchOnePergsFormularios = (req, res, next) => {
-	const id = req.params.id;
-
-	Forms.findByPk(id, { include: ["pergs"] })
-		.then((result) => {
-			if (result) {
-				res.status(status.OK).send(result);
-			} else {
-				res.status(status.NOT_FOUND).send();
-			}
-		})
-		.catch(() => {
-			error = next(error);
+			res.status(401).json({ msg: "Managers not found!" });
 		});
 };

@@ -1,7 +1,7 @@
 const Sequelize = require("sequelize");
 const sequelize = require("../database/sequelize");
 
-const Manager = sequelize.define("manager", {
+const Managers = sequelize.define("manager", {
 	name: {
 		allowNull: false,
 		unique: true,
@@ -34,4 +34,4 @@ const Manager = sequelize.define("manager", {
 	},
 });
 
-module.exports = Manager;
+module.exports = Managers;
