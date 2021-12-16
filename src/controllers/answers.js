@@ -3,162 +3,139 @@ const Answers = require('../models/answers');
 const status = require('http-status');
 
 //comando para realizar inserção dos dados através de requisição
-exports.Crete = (req, res, next) => {
-    //criando variaveis de reconhecimento da requisiçao, de acordo com o que tem no model
-    //lembrando que id é auto incrementavel, nao precisa chama-lo
-    const { idQuestion, textAnswer, type } = req.body;
+exports.Create = (req, res, next) => {
+	//criando variaveis de reconhecimento da requisiçao, de acordo com o que tem no model
+	//lembrando que id é auto incrementavel, nao precisa chama-lo
+	const { idQuestion, textAnswer, type } = req.body;
 
-    //Sequelize ira enviar os dados atraves do comando create. create é para inserir
-    Answers.create({
-        idQuestion,
-        textAnswer,
-        type
-    }).then(
-        (result) => {
-            if (result) {
-                res.status(status.OK).send(result);
-            }
-            else {
-                res.status(status.NOT_FOUND).send();
-            }
-        }
-    ).catch(
-        () => {
-            error = next(error)
-        }
-    )
-
-}
+	//Sequelize ira enviar os dados atraves do comando create. create é para inserir
+	Answers.create({
+		idQuestion,
+		textAnswer,
+		type,
+	})
+		.then((result) => {
+			if (result) {
+				res.status(status.OK).send(result);
+			} else {
+				res.status(status.NOT_FOUND).send();
+			}
+		})
+		.catch(() => {
+			error = next(error);
+		});
+};
 
 exports.SearchAll = (req, res, next) => {
-    Answers.findAll()
-        .then(
-            (result) => {
-                if (result) {
-                    res.status(status.OK).send(result);
-                }
-            }
-        ).catch(
-            () => {
-                error = next(error)
-            }
-        )
-}
+	Answers.findAll()
+		.then((result) => {
+			if (result) {
+				res.status(status.OK).send(result);
+			}
+		})
+		.catch(() => {
+			error = next(error);
+		});
+};
 
 exports.SearchOne = (req, res, next) => {
-    const id = req.params.id;
+	const id = req.params.id;
 
-    Answers.findByPk(id)
-        .then(
-            (result) => {
-                if (result) {
-                    res.status(status.OK).send(result);
-                }
-            }
-        ).catch(
-            () => {
-                error = next(error)
-            }
-        )
-}
+	Answers.findByPk(id)
+		.then((result) => {
+			if (result) {
+				res.status(status.OK).send(result);
+			}
+		})
+		.catch(() => {
+			error = next(error);
+		});
+};
 
 exports.Delete = (req, res, next) => {
-    const id = req.params.id;
+	const id = req.params.id;
 
-    Answers.findByPk(id)
-        .then(
-            (result) => {
-                if (result) {
-                    result.destroy({
-                        where: { id: id }
-                    }).then(
-                        (result) => {
-                            if (result) {
-                                res.status(status.OK).send();
-                            }
-                        }
-                    ).catch(
-                        () => {
-                            error = next(error)
-                        }
-                    )
-                }
-            }
-        ).catch(
-            () => {
-                error = next(error)
-            }
-        )
-}
+	Answers.findByPk(id)
+		.then((result) => {
+			if (result) {
+				result
+					.destroy({
+						where: { id: id },
+					})
+					.then((result) => {
+						if (result) {
+							res.status(status.OK).send();
+						}
+					})
+					.catch(() => {
+						error = next(error);
+					});
+			}
+		})
+		.catch(() => {
+			error = next(error);
+		});
+};
 
 exports.Update = (req, res, next) => {
-    const id = req.params.id;
-    const idFormulario = req.body.idFormulario;
-    const textoPergunta = req.body.textoPergunta;
-    const tipo = req.body.tipo;
+	const id = req.params.id;
+	const idFormulario = req.body.idFormulario;
+	const textoPergunta = req.body.textoPergunta;
+	const tipo = req.body.tipo;
 
-    Answers.findByPk(id)
-        .then(
-            result => {
-                if (result) {
-                    result.update({
-                        idFormulario: idFormulario,
-                        textoPergunta: textoPergunta,
-                        tipo: tipo
-                    }, { where: { id: id } }
-                    )
-                        .then(
-                            (result) => {
-                                if (result) {
-                                    res.status(status.OK).send(result);
-                                }
-                            }
-                        ).catch(
-                            () => {
-                                error => next(error)
-                            }
-                        )
-                }
-            }
-        )
-        .catch(
-            () => {
-                error => next(error)
-            }
-        )
-}
+	Answers.findByPk(id)
+		.then((result) => {
+			if (result) {
+				result
+					.update(
+						{
+							idFormulario: idFormulario,
+							textoPergunta: textoPergunta,
+							tipo: tipo,
+						},
+						{ where: { id: id } }
+					)
+					.then((result) => {
+						if (result) {
+							res.status(status.OK).send(result);
+						}
+					})
+					.catch(() => {
+						(error) => next(error);
+					});
+			}
+		})
+		.catch(() => {
+			(error) => next(error);
+		});
+};
 
 // chave estrangeira - mostra todas respostas para as perguntas
 exports.SearchAllRespsPerguntas = (req, res, next) => {
-    Answers.findAll({include: ['resps']})
-        .then(result => {
-                if (result) {
-                    res.status(status.OK).send(result);
-                }
-            }
-        ).catch(
-            () => {
-                error = next(error)
-            }
-        )
-}
+	Answers.findAll({ include: ['resps'] })
+		.then((result) => {
+			if (result) {
+				res.status(status.OK).send(result);
+			}
+		})
+		.catch(() => {
+			error = next(error);
+		});
+};
 
 // chave estrangeira - mostra todas as respostas de uma determinada result
 exports.SearchOneRespsPerguntas = (req, res, next) => {
-    const id = req.params.id;
+	const id = req.params.id;
 
-    Answers.findByPk(id, {include: ['resps']})
-        .then(
-            (result) => {
-                if (result) {
-                    res.status(status.OK).send(result);
-                }else{
-                    res.status(status.NOT_FOUND).send();
-                }
-            }
-        ).catch(
-            () => {
-                error = next(error)
-            }
-        )
-}
+	Answers.findByPk(id, { include: ['resps'] })
+		.then((result) => {
+			if (result) {
+				res.status(status.OK).send(result);
+			} else {
+				res.status(status.NOT_FOUND).send();
+			}
+		})
+		.catch(() => {
+			error = next(error);
+		});
+};
