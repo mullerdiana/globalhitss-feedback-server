@@ -1,18 +1,12 @@
-//chama o Answers de dentro de models
-const Answers = require('../models/answers');
-const status = require('http-status');
+const Answers = require("../models/answers");
+const status = require("http-status");
 
-//comando para realizar inserção dos dados através de requisição
 exports.Create = (req, res, next) => {
-	//criando variaveis de reconhecimento da requisiçao, de acordo com o que tem no model
-	//lembrando que id é auto incrementavel, nao precisa chama-lo
-	const { idQuestion, textAnswer, type } = req.body;
+	const { question_id, value } = req.body;
 
-	//Sequelize ira enviar os dados atraves do comando create. create é para inserir
 	Answers.create({
-		idQuestion,
-		textAnswer,
-		type,
+		question_id,
+		value,
 	})
 		.then((result) => {
 			if (result) {
@@ -22,7 +16,7 @@ exports.Create = (req, res, next) => {
 			}
 		})
 		.catch(() => {
-			error = next(error);
+			res.status(status.NOT_FOUND).send({ msg: "Question not found!" });
 		});
 };
 
@@ -112,7 +106,7 @@ exports.Update = (req, res, next) => {
 
 // chave estrangeira - mostra todas respostas para as perguntas
 exports.SearchAllRespsPerguntas = (req, res, next) => {
-	Answers.findAll({ include: ['resps'] })
+	Answers.findAll({ include: ["resps"] })
 		.then((result) => {
 			if (result) {
 				res.status(status.OK).send(result);
@@ -127,7 +121,7 @@ exports.SearchAllRespsPerguntas = (req, res, next) => {
 exports.SearchOneRespsPerguntas = (req, res, next) => {
 	const id = req.params.id;
 
-	Answers.findByPk(id, { include: ['resps'] })
+	Answers.findByPk(id, { include: ["resps"] })
 		.then((result) => {
 			if (result) {
 				res.status(status.OK).send(result);
