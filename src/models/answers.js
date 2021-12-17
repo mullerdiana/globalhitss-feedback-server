@@ -21,4 +21,11 @@ Answers.belongsTo(Questions, {
 	foreignKey: "question_id",
 });
 
+Answers.associate = (models) => {
+	Answers.belongsToMany(models.Employees, {
+		through: "employees_answers",
+		as: "Answers_Employees",
+	});
+};
+
 module.exports = Answers;
