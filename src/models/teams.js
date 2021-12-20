@@ -1,4 +1,3 @@
-//chamando o sequelize e o arquivo de configuraçao do database.js
 const Sequelize = require("sequelize");
 const sequelize = require("../database/sequelize");
 const Managers = require("./managers");

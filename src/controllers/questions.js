@@ -1,27 +1,26 @@
-//chama o Questions de dentro de models
-const Questions = require('../models/questions');
-const status = require('http-status');
+const Questions = require("../models/questions");
+const status = require("http-status");
 
 exports.Create = (req, res, next) => {
-    const { title, type, form_id} = req.body;
+	const { title, type, form_id } = req.body;
 
-    Questions.create({
-        form_id,
-        title,
-        type
-    })
-    .then((result) => {
-        if (result) {
-            res.status(status.OK).json(result);
-            // TODO: definir qual será mensagem de erro
-        } else {
-            res.status(status.NOT_FOUND).send();
-        }
-    })
-    .catch((err) => {
-        console.log(err);
-        error = next(error);
-    });
+	Questions.create({
+		form_id,
+		title,
+		type,
+	})
+		.then((result) => {
+			if (result) {
+				res.status(status.OK).json(result);
+				// TODO: definir qual será mensagem de erro
+			} else {
+				res.status(status.NOT_FOUND).send();
+			}
+		})
+		.catch((err) => {
+			console.log(err);
+			error = next(error);
+		});
 };
 
 exports.SearchAll = (req, res, next) => {
@@ -30,7 +29,9 @@ exports.SearchAll = (req, res, next) => {
 			res.status(status.OK).json(result);
 		})
 		.catch(() => {
-			res.status(status.INTERNAL_SERVER_ERROR).send({ error: "Internal Server Error!" });
+			res
+				.status(status.INTERNAL_SERVER_ERROR)
+				.send({ error: "Internal Server Error!" });
 		});
 };
 
@@ -45,12 +46,12 @@ exports.SearchOne = (req, res, next) => {
 			}
 		})
 		.catch(() => {
-			res.status(401).json({ msg: 'Question not found!' });
+			res.status(401).json({ msg: "Question not found!" });
 		});
 };
 
 exports.Delete = (req, res, next) => {
-    const { id } = req.params;
+	const { id } = req.params;
 
 	Questions.findByPk(id)
 		.then((result) => {
@@ -77,20 +78,20 @@ exports.Delete = (req, res, next) => {
 };
 
 exports.Update = (req, res, next) => {
-    const { id } = req.params;
-    const { title, type } = req.body;
+	const { id } = req.params;
+	const { title, type } = req.body;
 
-    Questions.findByPk(id)
-        .then(
-            result => {
-                if (result) {
-                    result.update({
-                        title: title,
-                        type: type,
-
-                    },
-                    { where: { id: id } }
-                    )
+	Questions.findByPk(id)
+		.then((result) => {
+			if (result) {
+				result
+					.update(
+						{
+							title: title,
+							type: type,
+						},
+						{ where: { id: id } }
+					)
 					.then((result) => {
 						if (result) {
 							res.status(status.OK).send(result);
