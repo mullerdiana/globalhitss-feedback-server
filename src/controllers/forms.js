@@ -2,7 +2,6 @@
 const Forms = require("../models/forms");
 const status = require("http-status");
 
-//comando para realizar inserção dos dados através de requisição
 exports.Create = (req, res, next) => {
 	const { title, type, manager_id } = req.body;
 
@@ -114,7 +113,6 @@ exports.Update = (req, res, next) => {
 		});
 };
 
-// chave estrangeira - mostra todas as perguntas de um determinado form
 exports.SearchOnePergsFormularios = (req, res, next) => {
 	const id = req.params.id;
 
