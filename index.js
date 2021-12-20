@@ -12,9 +12,12 @@ const formsRoutes = require("./src/routes/forms.routes.js");
 const questionsRoutes = require("./src/routes/questions.routes.js");
 const answersRoutes = require("./src/routes/answers.routes.js");
 const employees_AnswersRoutes = require("./src/routes/employees_answers.routes.js");
+const loginRoutes = require("./src/routes/login.routes.js");
+
 
 app.use(cors());
 app.use(express.json());
+app.use(loginRoutes);
 app.use("/colaboradores", employeesRoutes);
 app.use("/gestores", managersRoutes);
 app.use("/times", teamsRoutes);
