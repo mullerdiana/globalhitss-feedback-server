@@ -11,6 +11,7 @@ const teamsRoutes = require("./src/routes/teams.routes.js");
 const formsRoutes = require("./src/routes/forms.routes.js");
 const questionsRoutes = require("./src/routes/questions.routes.js");
 const answersRoutes = require("./src/routes/answers.routes.js");
+const employees_AnswersRoutes = require("./src/routes/employees_answers.routes.js");
 
 app.use(cors());
 app.use(express.json());
@@ -20,6 +21,7 @@ app.use("/times", teamsRoutes);
 app.use("/formularios", formsRoutes);
 app.use("/perguntas", questionsRoutes);
 app.use("/respostas", answersRoutes);
+app.use("/enviarresposta", employees_AnswersRoutes);
 
 //error handling
 app.use((err, req, res, next) => {

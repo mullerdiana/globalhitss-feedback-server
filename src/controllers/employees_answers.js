@@ -25,3 +25,75 @@ exports.Create = (req, res, next) => {
     });
 };
 
+exports.SearchAll = (req, res, next) => {
+
+	Employees_answers.findAll()
+		.then((result) => {
+			res.status(status.OK).json(result);
+		})
+		.catch(() => {
+			res
+				.status(status.INTERNAL_SERVER_ERROR)
+				.send({ error: "Internal Server Error!" });
+		});
+};
+
+exports.Delete = (req, res, next) => {
+	const { id } = req.params;
+
+	Employees_answers.findByPk(id)
+		.then((result) => {
+			if (result) {
+				result
+					.destroy({
+						where: { id: id },
+					})
+					.then((result) => {
+						if (result) {
+							res.status(status.OK).send();
+						}
+					})
+					.catch((error) => {
+						res.status(status.NOT_FOUND).send(error);
+					});
+			} else {
+				throw new Error();
+			}
+		})
+		.catch(() => {
+			res.status(401).json({ msg: "employees_answers not found!" });
+		});
+};
+
+exports.Update = (req, res, next) => {
+	const { id } = req.params;
+	const { value_answer } = req.body;
+
+	Employees_answers.findByPk(id)
+		.then((result) => {
+			if (result) {
+				result
+					.update(
+						{
+							value_answer: value_answer
+						},
+						{ where: { id: id } }
+					)
+					.then((result) => {
+						if (result) {
+							res.status(status.OK).send(result);
+						}
+					})
+					.catch((error) => {
+						if (error.name === "SequelizeForeignKeyConstraintError") {
+							res.status(500).json({ msg: "Internal server error!" });
+						}
+					});
+			} else {
+				throw new Error();
+			}
+		})
+		.catch(() => {
+			res.status(401).json({ msg: "employees_answers not found!" });
+		});
+};
