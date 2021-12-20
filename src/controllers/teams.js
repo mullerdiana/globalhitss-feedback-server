@@ -1,4 +1,3 @@
-//chama o Time de dentro de models
 const Teams = require("../models/teams");
 const employees = require("../models/employees");
 const status = require("http-status");
@@ -112,7 +111,6 @@ exports.Update = (req, res, next) => {
 		});
 };
 
-// chave estrangeira - mostra todos os times e seus usuarios
 exports.SearchAllemployeesTimes = (req, res, next) => {
 	Teams.findAll({ include: [{ model: employees, as: "employees" }] })
 		.then((result) => {
@@ -125,7 +123,6 @@ exports.SearchAllemployeesTimes = (req, res, next) => {
 		});
 };
 
-// chave estrangeira - mostra todos os usuarios de um determinado result
 exports.SearchOneemployeesTimes = (req, res, next) => {
 	const id = req.params.id;
 
@@ -142,7 +139,6 @@ exports.SearchOneemployeesTimes = (req, res, next) => {
 		});
 };
 
-// chave estrangeira - mostra todos os times e seus formularios
 exports.SearchAllFormsTimes = (req, res, next) => {
 	Teams.findAll({ include: ["forms"] })
 		.then((result) => {
@@ -155,7 +151,6 @@ exports.SearchAllFormsTimes = (req, res, next) => {
 		});
 };
 
-// chave estrangeira - mostra todos os formularios de um determinado result
 exports.SearchOneFormsTimes = (req, res, next) => {
 	const id = req.params.id;
 

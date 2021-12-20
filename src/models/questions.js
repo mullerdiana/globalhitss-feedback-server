@@ -7,7 +7,7 @@ const Questions = sequelize.define("questions", {
 		allowNull: false,
 		type: Sequelize.STRING(500),
 		validate: {
-			len: [3, 500], //define tamanho minimo e maximo do campo
+			len: [3, 500],
 		},
 	},
 	type: {
