@@ -30,7 +30,7 @@ module.exports = {
 				onUpdate: "NO ACTION",
 			},
 			value_answer: {
-				type: Sequelize.INTEGER,
+				type: Sequelize.STRING,
 				allowNull: false,
 			},
 			created_at: {
