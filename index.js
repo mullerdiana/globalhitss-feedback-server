@@ -13,6 +13,7 @@ const questionsRoutes = require("./src/routes/questions.routes.js");
 const answersRoutes = require("./src/routes/answers.routes.js");
 const employees_AnswersRoutes = require("./src/routes/employees_answers.routes.js");
 const loginRoutes = require("./src/routes/login.routes.js");
+const employees_FormsRoutes = require("./src/routes/employees_forms.routes.js");
 
 
 app.use(cors());
@@ -25,6 +26,7 @@ app.use("/formularios", formsRoutes);
 app.use("/perguntas", questionsRoutes);
 app.use("/respostas", answersRoutes);
 app.use("/enviarresposta", employees_AnswersRoutes);
+app.use("/enviarforms", employees_FormsRoutes);
 
 //error handling
 app.use((err, req, res, next) => {

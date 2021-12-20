@@ -22,6 +22,9 @@ const Employees_forms = sequelize.define("employees_forms", {
 		onDelete: "NO ACTION",
 		onUpdate: "NO ACTION",
 	},
+	answered: {
+		type: Sequelize.BOOLEAN
+	}
 });
 
 module.exports = Employees_forms;

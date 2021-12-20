@@ -1,7 +1,5 @@
 const Employees_answers = require("../models/employees_answers");
-const bcrypt = require("bcrypt");
 const status = require("http-status");
-const sequelize = require("../database/sequelize");
 
 exports.Create = (req, res, next) => {
     const { value_answer, answers_id, employees_id } = req.body;
