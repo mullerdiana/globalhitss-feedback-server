@@ -2,7 +2,8 @@ require("dotenv").config();
 
 const express = require("express");
 const cors = require("cors");
-const PORT = process.env.DATABASE_PORT || 5000;
+const PORT =
+	process.env.NODE_ENV === "production" ? process.env.DATABASE_PORT : 5000;
 const app = express();
 
 const employeesRoutes = require("./src/routes/employees.routes.js");
@@ -14,7 +15,6 @@ const answersRoutes = require("./src/routes/answers.routes.js");
 const employees_AnswersRoutes = require("./src/routes/employees_answers.routes.js");
 const loginRoutes = require("./src/routes/login.routes.js");
 const employees_FormsRoutes = require("./src/routes/employees_forms.routes.js");
-
 
 app.use(cors());
 app.use(express.json());
