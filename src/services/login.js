@@ -9,63 +9,56 @@ const Managers = require("../models/managers");
 module.exports = {
 	login(req, res, next) {
 		const { email, password, type } = req.body;
+		let model;
 
-		if (type === "managers" || type === "admin") {
-			Managers.findOne({
-				where: {
-					email: email,
-				},
-			})
-				.then((manager) => {
-					// Valida se o usuário existe
-					if (!manager)
-						return res.status(401).json({ error: "Email not found" });
-
-					// se existe, valida se a senha é igual
-					if (!bcrypt.compareSync(password, manager.password)) {
-						return res.status(401).json({ error: "Invalid password" });
-					}
-
-					// Cria um payload público para inserir no token
-					let jwtPayload = {
-						name: manager.name,
-						email: manager.email,
-						type: manager.type,
-					};
-					// Cria o token com informação do payload e hash secret
-					let token = jwt.sign(jwtPayload, process.env.JWT_SECRET);
-
-					return res.status(200).json({ token });
-				})
-				.catch((error) => {
-					return res.status(500).send(error);
-				});
+		if (type === "colaborador") {
+			model = Employess;
 		} else {
-			Employess.findOne({
+			model = Managers;
+		}
+
+		model
+			.findOne({
 				where: {
 					email: email,
 				},
 			})
-				.then((employee) => {
-					if (!employee)
-						return res.status(401).json({ error: "Email not found" });
+			.then((result) => {
+				// Valida se o usuário existe
+				if (!result)
+					return res.status(401).json({ error: "Manager not found" });
 
-					if (!bcrypt.compareSync(password, employee.password)) {
-						return res.status(401).json({ error: "Invalid password" });
-					}
+				// se existe, valida se a senha é igual
+				if (!bcrypt.compareSync(password, result.password)) {
+					return res.status(401).json({ error: "Invalid password" });
+				}
 
-					let jwtPayload = {
-						name: employee.name,
-						email: employee.email,
-						type: employee.type,
-					};
-					let token = jwt.sign(jwtPayload, process.env.JWT_SECRET);
+				// Cria um payload público para inserir no token
+				let jwtPayload = {
+					id: result.id,
+					name: result.name,
+					email: result.email,
+					type: result.type,
+				};
+				// Cria o token com informação do payload e hash secret
+				let token = jwt.sign(jwtPayload, process.env.JWT_SECRET);
 
-					return res.status(200).json({ token });
-				})
-				.catch((error) => {
-					return res.status(500).send(error);
-				});
-		}
+				return res.status(200).json({ jwtPayload, token });
+			})
+			.catch((error) => {
+				return res.status(500).send(error);
+			});
+	},
+
+	loginWithToken(req, res, next) {
+		const { token } = req.body;
+		console.log(token);
+		jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+			if (err) {
+				// permit.fail(res);
+				return res.status(401).json({ error: "failed to authenticate token!" });
+			}
+		});
+		res.status(200).json({ msg: "Token validado" });
 	},
 };
