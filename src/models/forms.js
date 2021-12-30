@@ -18,6 +18,9 @@ const Forms = sequelize.define("forms", {
 			len: [3, 100],
 		},
 	},
+	is_active: {
+		type: Sequelize.BOOLEAN,
+	},
 });
 
 Forms.belongsTo(Managers, {

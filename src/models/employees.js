@@ -34,6 +34,9 @@ const Employees = sequelize.define("employees", {
 			len: [3, 100],
 		},
 	},
+	is_active: {
+		type: Sequelize.BOOLEAN,
+	},
 });
 
 Employees.belongsTo(Teams, {

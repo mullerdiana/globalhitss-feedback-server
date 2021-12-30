@@ -39,6 +39,7 @@ module.exports = {
 					name: result.name,
 					email: result.email,
 					type: result.type,
+					isActive: result.isActive,
 				};
 				// Cria o token com informação do payload e hash secret
 				let token = jwt.sign(jwtPayload, process.env.JWT_SECRET);
@@ -46,6 +47,7 @@ module.exports = {
 				return res.status(200).json({ jwtPayload, token });
 			})
 			.catch((error) => {
+				console.log(error);
 				return res.status(500).send(error);
 			});
 	},

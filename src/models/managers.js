@@ -32,6 +32,9 @@ const Managers = sequelize.define("manager", {
 			len: [3, 100],
 		},
 	},
+	is_active: {
+		type: Sequelize.BOOLEAN,
+	},
 });
 
 module.exports = Managers;

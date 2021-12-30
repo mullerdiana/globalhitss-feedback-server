@@ -12,9 +12,11 @@ const MultipleChoiceOptions = sequelize.define("multiple_choice_options", {
 	},
 });
 
-MultipleChoiceOptions.belongsTo(Questions, {
-	as: "Questions",
-	foreignKey: "question_id",
-});
+// MultipleChoiceOptions.belongsTo(Questions, {
+// 	as: "Questions",
+// 	foreignKey: "question_id",
+// 	onDelete: "CASCADE",
+// 	onUpdate: "CASCADE",
+// });
 
 module.exports = MultipleChoiceOptions;

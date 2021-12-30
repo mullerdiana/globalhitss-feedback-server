@@ -1,13 +1,15 @@
 const Questions = require("../models/questions");
 const status = require("http-status");
+const sequelize = require("../database/sequelize");
 
 exports.Create = (req, res, next) => {
-	const { title, type, form_id } = req.body;
+	const { title, type, form_id, is_selectable } = req.body;
 
 	Questions.create({
 		form_id,
 		title,
 		type,
+		is_selectable,
 	})
 		.then((result) => {
 			if (result) {
@@ -50,6 +52,17 @@ exports.SearchOne = (req, res, next) => {
 		});
 };
 
+exports.SearchId = async (req, res, next) => {
+	const { search } = req.query;
+
+	console.log(search);
+
+	const [response] = await sequelize.query(
+		`SELECT * FROM questions WHERE form_id LIKE '%${search}%'`
+	);
+	res.status(status.OK).send(response);
+};
+
 exports.Delete = (req, res, next) => {
 	const { id } = req.params;
 
@@ -66,6 +79,7 @@ exports.Delete = (req, res, next) => {
 						}
 					})
 					.catch((error) => {
+						console.log(error);
 						res.status(status.NOT_FOUND).send(error);
 					});
 			} else {
@@ -79,7 +93,9 @@ exports.Delete = (req, res, next) => {
 
 exports.Update = (req, res, next) => {
 	const { id } = req.params;
-	const { title, type } = req.body;
+	const { title, is_selectable } = req.body;
+
+	console.log(title, is_selectable);
 
 	Questions.findByPk(id)
 		.then((result) => {
@@ -87,8 +103,8 @@ exports.Update = (req, res, next) => {
 				result
 					.update(
 						{
-							title: title,
-							type: type,
+							title,
+							is_selectable,
 						},
 						{ where: { id: id } }
 					)
@@ -99,7 +115,7 @@ exports.Update = (req, res, next) => {
 					})
 					.catch((error) => {
 						if (error.name === "SequelizeForeignKeyConstraintError") {
-							res.status(404).json({ msg: "Forms not found!" });
+							res.status(404).json({ msg: "Question not found!" });
 						}
 					});
 			} else {
@@ -107,6 +123,6 @@ exports.Update = (req, res, next) => {
 			}
 		})
 		.catch(() => {
-			res.status(401).json({ msg: "Questions not found!" });
+			res.status(401).json({ msg: "Question not found!" });
 		});
 };

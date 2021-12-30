@@ -1,5 +1,6 @@
 const MultipleChoiceOptions = require("../models/multiple_choice_options");
 const status = require("http-status");
+const sequelize = require("../database/sequelize");
 
 exports.Create = (req, res, next) => {
 	const { question_id, title } = req.body;
@@ -46,6 +47,15 @@ exports.SearchOne = (req, res, next) => {
 		.catch(() => {
 			res.status(401).json({ msg: "Option not found!" });
 		});
+};
+
+exports.SearchId = async (req, res, next) => {
+	const { search } = req.query;
+
+	const [response] = await sequelize.query(
+		`SELECT * FROM multiple_choice_options WHERE question_id LIKE '%${search}%'`
+	);
+	res.status(status.OK).send(response);
 };
 
 exports.Delete = (req, res, next) => {

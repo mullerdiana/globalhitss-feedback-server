@@ -12,6 +12,10 @@ multipleChoiceOptionsRoutes.get(
 	multipleChoiceOptionsController.SearchAll
 );
 multipleChoiceOptionsRoutes.get(
+	"/search",
+	multipleChoiceOptionsController.SearchId
+);
+multipleChoiceOptionsRoutes.get(
 	"/resposta/:id",
 	multipleChoiceOptionsController.SearchOne
 );

@@ -10,6 +10,9 @@ const Teams = sequelize.define("teams", {
 			len: [3, 255],
 		},
 	},
+	is_active: {
+		type: Sequelize.BOOLEAN,
+	},
 });
 
 Teams.belongsTo(Managers, {
