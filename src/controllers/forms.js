@@ -18,9 +18,10 @@ exports.Create = (req, res, next) => {
 				res.status(status.NOT_FOUND).send();
 			}
 		})
-		.catch((err) => {
-			console.log(err);
-			error = next(error);
+		.catch(() => {
+			res
+				.status(status.INTERNAL_SERVER_ERROR)
+				.send({ error: "Internal Server Error!" });
 		});
 };
 
@@ -125,6 +126,8 @@ exports.SearchOnePergsFormularios = (req, res, next) => {
 			}
 		})
 		.catch(() => {
-			error = next(error);
+			res
+				.status(status.INTERNAL_SERVER_ERROR)
+				.send({ error: "Internal Server Error!" });
 		});
 };

@@ -2,29 +2,29 @@ const Employees_answers = require("../models/employees_answers");
 const status = require("http-status");
 
 exports.Create = (req, res, next) => {
-    const { value_answer, answers_id, employees_id } = req.body;
+	const { value_answer, answers_id, employees_id } = req.body;
 
-    Employees_answers.create({
-        value_answer: value_answer,
-        answers_id: answers_id,
-        employees_id: employees_id
-    })
-    .then((result) => {
-        if (result) {
-            res.status(status.OK).json(result);
-            // TODO: definir qual será mensagem de erro
-        } else {
-            res.status(status.NOT_FOUND).send();
-        }
-    })
-    .catch((err) => {
-        console.log(err);
-        error = next(error);
-    });
+	Employees_answers.create({
+		value_answer: value_answer,
+		answers_id: answers_id,
+		employees_id: employees_id,
+	})
+		.then((result) => {
+			if (result) {
+				res.status(status.OK).json(result);
+				// TODO: definir qual será mensagem de erro
+			} else {
+				res.status(status.NOT_FOUND).send();
+			}
+		})
+		.catch(() => {
+			res
+				.status(status.INTERNAL_SERVER_ERROR)
+				.send({ error: "Internal Server Error!" });
+		});
 };
 
 exports.SearchAll = (req, res, next) => {
-
 	Employees_answers.findAll()
 		.then((result) => {
 			res.status(status.OK).json(result);
@@ -73,7 +73,7 @@ exports.Update = (req, res, next) => {
 				result
 					.update(
 						{
-							value_answer: value_answer
+							value_answer: value_answer,
 						},
 						{ where: { id: id } }
 					)

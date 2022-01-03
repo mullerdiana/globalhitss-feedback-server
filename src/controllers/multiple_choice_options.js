@@ -52,10 +52,21 @@ exports.SearchOne = (req, res, next) => {
 exports.SearchId = async (req, res, next) => {
 	const { search } = req.query;
 
-	const [response] = await sequelize.query(
-		`SELECT * FROM multiple_choice_options WHERE question_id LIKE '%${search}%'`
-	);
-	res.status(status.OK).send(response);
+	MultipleChoiceOptions.findAll({
+		where: {
+			question_id: search,
+		},
+	})
+		.then((result) => {
+			if (result.length > 1) {
+				res.status(status.OK).send(result);
+			} else {
+				throw new Error();
+			}
+		})
+		.catch(() => {
+			res.status(status.NOT_FOUND).json({ msg: "Option not found" });
+		});
 };
 
 exports.Delete = (req, res, next) => {
@@ -87,7 +98,7 @@ exports.Delete = (req, res, next) => {
 
 exports.Update = (req, res, next) => {
 	const { id } = req.params;
-	const { value } = req.body;
+	const { title } = req.body;
 
 	MultipleChoiceOptions.findByPk(id)
 		.then((result) => {
@@ -95,7 +106,7 @@ exports.Update = (req, res, next) => {
 				result
 					.update(
 						{
-							value: value,
+							title,
 						},
 						{ where: { id: id } }
 					)

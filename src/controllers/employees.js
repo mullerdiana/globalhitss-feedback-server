@@ -6,7 +6,8 @@ const sequelize = require("../database/sequelize");
 exports.Create = (req, res, next) => {
 	const { name, email, password, type, manager_id } = req.body;
 
-	employee.create({
+	employee
+		.create({
 			name,
 			email,
 			password: bcrypt.hashSync(password, 10),
@@ -21,15 +22,16 @@ exports.Create = (req, res, next) => {
 				res.status(status.NOT_FOUND).send();
 			}
 		})
-		.catch((err) => {
-			console.log(err);
-			error = next(error);
+		.catch(() => {
+			res
+				.status(status.INTERNAL_SERVER_ERROR)
+				.send({ error: "Internal Server Error!" });
 		});
 };
 
 exports.SearchAll = (req, res, next) => {
-
-	employee.findAll()
+	employee
+		.findAll()
 		.then((result) => {
 			res.status(status.OK).json(result);
 		})
@@ -53,7 +55,8 @@ exports.Search = async (req, res, next) => {
 exports.SearchOne = (req, res, next) => {
 	const { id } = req.params;
 
-	employee.findByPk(id)
+	employee
+		.findByPk(id)
 		.then((result) => {
 			if (result) {
 				res.status(status.OK).send(result);
@@ -69,7 +72,8 @@ exports.SearchOne = (req, res, next) => {
 exports.Delete = (req, res, next) => {
 	const { id } = req.params;
 
-	employee.findByPk(id)
+	employee
+		.findByPk(id)
 		.then((result) => {
 			if (result) {
 				result
@@ -97,7 +101,8 @@ exports.Update = (req, res, next) => {
 	const { id } = req.params;
 	const { name, email, password, type, team_id } = req.body;
 
-	employee.findByPk(id)
+	employee
+		.findByPk(id)
 		.then((result) => {
 			if (result) {
 				result

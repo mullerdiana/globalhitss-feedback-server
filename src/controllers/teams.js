@@ -119,7 +119,9 @@ exports.SearchAllemployeesTimes = (req, res, next) => {
 			}
 		})
 		.catch(() => {
-			error = next(error);
+			res
+				.status(status.INTERNAL_SERVER_ERROR)
+				.send({ error: "Internal Server Error!" });
 		});
 };
 
@@ -135,7 +137,9 @@ exports.SearchOneemployeesTimes = (req, res, next) => {
 			}
 		})
 		.catch(() => {
-			error = next(error);
+			res
+				.status(status.INTERNAL_SERVER_ERROR)
+				.send({ error: "Internal Server Error!" });
 		});
 };
 
@@ -147,7 +151,9 @@ exports.SearchAllFormsTimes = (req, res, next) => {
 			}
 		})
 		.catch(() => {
-			error = next(error);
+			res
+				.status(status.INTERNAL_SERVER_ERROR)
+				.send({ error: "Internal Server Error!" });
 		});
 };
 
@@ -163,17 +169,8 @@ exports.SearchOneFormsTimes = (req, res, next) => {
 			}
 		})
 		.catch(() => {
-			error = next(error);
+			res
+				.status(status.INTERNAL_SERVER_ERROR)
+				.send({ error: "Internal Server Error!" });
 		});
-};
-
-exports.ContagemTimes = async (req, res, next) => {
-	try {
-		const [response] = await sequelize.query(
-			"SELECT count(id) AS count FROM `times`"
-		);
-		res.status(status.OK).send(response[0]);
-	} catch (error) {
-		next(error);
-	}
 };
