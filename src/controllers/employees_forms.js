@@ -1,5 +1,6 @@
 const Employees_forms = require("../models/employees_forms");
 const status = require("http-status");
+const sequelize = require("../database/sequelize");
 
 exports.Create = (req, res, next) => {
 	const { employees_id, forms_id } = req.body;
@@ -20,7 +21,6 @@ exports.Create = (req, res, next) => {
 };
 
 exports.SearchAll = (req, res, next) => {
-
 	Employees_forms.findAll()
 		.then((result) => {
 			res.status(status.OK).json(result);
@@ -30,6 +30,15 @@ exports.SearchAll = (req, res, next) => {
 				.status(status.INTERNAL_SERVER_ERROR)
 				.send({ error: "Internal Server Error!" });
 		});
+};
+
+exports.SearchForms = async (req, res, next) => {
+	const [response] = await sequelize.query(
+		`SELECT forms.id as id_form, forms.title as title_form, employees_forms.answered, employees_forms.employees_id, employees_forms.created_at, employees_forms.updated_at FROM forms INNER JOIN employees_forms on forms.id = employees_forms.forms_id
+		`
+	);
+
+	res.status(status.OK).send(response);
 };
 
 exports.Delete = (req, res, next) => {
@@ -69,7 +78,7 @@ exports.Update = (req, res, next) => {
 				result
 					.update(
 						{
-							answered: answered
+							answered: answered,
 						},
 						{ where: { id: id } }
 					)

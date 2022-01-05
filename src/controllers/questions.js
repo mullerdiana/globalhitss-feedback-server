@@ -62,6 +62,15 @@ exports.SearchId = async (req, res, next) => {
 	res.status(status.OK).send(response);
 };
 
+exports.SearchQuestionsByFormId = async (req, res, next) => {
+	const { formId } = req.query;
+
+	const [response] = await sequelize.query(
+		`SELECT questions.id as id_question, questions.title as title_question, questions.is_selectable FROM questions WHERE questions.form_id = ${formId}`
+	);
+	res.status(status.OK).send(response);
+};
+
 exports.Delete = (req, res, next) => {
 	const { id } = req.params;
 
