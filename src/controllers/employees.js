@@ -134,3 +134,37 @@ exports.Update = (req, res, next) => {
 			res.status(401).json({ msg: "employee not found!" });
 		});
 };
+
+exports.UpdateTeam = (req, res, next) => {
+	const { id } = req.params;
+	const { team_id } = req.body;
+
+	employee
+		.findByPk(id)
+		.then((result) => {
+			if (result) {
+				result
+					.update(
+						{
+							team_id,
+						},
+						{ where: { id: id } }
+					)
+					.then((result) => {
+						if (result) {
+							res.status(status.OK).send(result);
+						}
+					})
+					.catch((error) => {
+						if (error.name === "SequelizeForeignKeyConstraintError") {
+							res.status(404).json({ msg: "Teams not found!" });
+						}
+					});
+			} else {
+				throw new Error();
+			}
+		})
+		.catch(() => {
+			res.status(401).json({ msg: "employee not found!" });
+		});
+};

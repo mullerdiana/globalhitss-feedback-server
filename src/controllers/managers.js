@@ -97,7 +97,6 @@ exports.Update = (req, res, next) => {
 
 	Managers.findByPk(id)
 		.then((result) => {
-			console.log(result);
 			if (result.dateValues) {
 				result
 					.update(

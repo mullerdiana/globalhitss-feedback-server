@@ -19,9 +19,10 @@ exports.Create = (req, res, next) => {
 				res.status(status.NOT_FOUND).send();
 			}
 		})
-		.catch((err) => {
-			console.log(err);
-			error = next(error);
+		.catch(() => {
+			res
+				.status(status.INTERNAL_SERVER_ERROR)
+				.send({ error: "Internal Server Error!" });
 		});
 };
 
@@ -55,8 +56,6 @@ exports.SearchOne = (req, res, next) => {
 exports.SearchId = async (req, res, next) => {
 	const { search } = req.query;
 
-	console.log(search);
-
 	const [response] = await sequelize.query(
 		`SELECT * FROM questions WHERE form_id LIKE '%${search}%'`
 	);
@@ -79,7 +78,6 @@ exports.Delete = (req, res, next) => {
 						}
 					})
 					.catch((error) => {
-						console.log(error);
 						res.status(status.NOT_FOUND).send(error);
 					});
 			} else {
@@ -94,8 +92,6 @@ exports.Delete = (req, res, next) => {
 exports.Update = (req, res, next) => {
 	const { id } = req.params;
 	const { title, is_selectable } = req.body;
-
-	console.log(title, is_selectable);
 
 	Questions.findByPk(id)
 		.then((result) => {

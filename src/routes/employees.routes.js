@@ -9,5 +9,6 @@ employeesRoutes.get("/colaborador/:id", employeesController.SearchOne);
 employeesRoutes.get("/search", employeesController.Search);
 employeesRoutes.delete("/deletar/:id", employeesController.Delete);
 employeesRoutes.put("/editar/:id", employeesController.Update);
+employeesRoutes.patch("/editarTime/:id", employeesController.UpdateTeam);
 
 module.exports = employeesRoutes;
