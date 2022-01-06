@@ -12,6 +12,6 @@ employees_FormsRoutes.delete(
 	"/enviarforms/deletar/:id",
 	employees_Forms.Delete
 );
-employees_FormsRoutes.put("/enviarforms/editar/:id", employees_Forms.Update);
+employees_FormsRoutes.put("/editar/:id", employees_Forms.Update);
 
 module.exports = employees_FormsRoutes;

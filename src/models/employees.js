@@ -9,7 +9,7 @@ const Employees = sequelize.define("employees", {
 		unique: true,
 		type: Sequelize.STRING(255),
 		validate: {
-			len: [3, 255],
+			len: [1, 255],
 		},
 	},
 	email: {
@@ -17,21 +17,21 @@ const Employees = sequelize.define("employees", {
 		unique: true,
 		type: Sequelize.STRING(100),
 		validate: {
-			len: [3, 100],
+			len: [1, 100],
 		},
 	},
 	password: {
 		allowNull: false,
 		type: Sequelize.STRING(100),
 		validate: {
-			len: [3, 100],
+			len: [1, 100],
 		},
 	},
 	type: {
 		allowNull: false,
 		type: Sequelize.STRING(100),
 		validate: {
-			len: [3, 100],
+			len: [1, 100],
 		},
 	},
 	is_active: {
@@ -53,13 +53,6 @@ Employees.associate = (models) => {
 	Employees.belongsToMany(models.Forms, {
 		through: "employees_forms",
 		as: "Employees_Forms",
-	});
-};
-
-Employees.associate = (models) => {
-	Employees.belongsToMany(models.Answers, {
-		through: "employees_answers",
-		as: "Employees_Answers",
 	});
 };
 

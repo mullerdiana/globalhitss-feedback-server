@@ -8,14 +8,14 @@ const Forms = sequelize.define("forms", {
 		allowNull: false,
 		type: Sequelize.STRING(100),
 		validate: {
-			len: [3, 100],
+			len: [1, 100],
 		},
 	},
 	type: {
 		allowNull: false,
 		type: Sequelize.STRING(100),
 		validate: {
-			len: [3, 100],
+			len: [1, 100],
 		},
 	},
 	is_active: {

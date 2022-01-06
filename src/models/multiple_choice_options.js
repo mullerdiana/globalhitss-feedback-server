@@ -7,7 +7,7 @@ const MultipleChoiceOptions = sequelize.define("multiple_choice_options", {
 		allowNull: false,
 		type: Sequelize.STRING(1000),
 		validate: {
-			len: [3, 1000],
+			len: [1, 1000],
 		},
 	},
 });

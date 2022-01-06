@@ -66,7 +66,7 @@ exports.SearchQuestionsByFormId = async (req, res, next) => {
 	const { formId } = req.query;
 
 	const [response] = await sequelize.query(
-		`SELECT questions.id as id_question, questions.title as title_question, questions.is_selectable FROM questions WHERE questions.form_id = ${formId}`
+		`SELECT questions.id, questions.title, questions.is_selectable FROM questions WHERE questions.form_id = ${formId}`
 	);
 	res.status(status.OK).send(response);
 };

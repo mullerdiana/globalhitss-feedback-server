@@ -8,7 +8,7 @@ const Questions = sequelize.define("questions", {
 		allowNull: false,
 		type: Sequelize.STRING(500),
 		validate: {
-			len: [3, 500],
+			len: [1, 500],
 		},
 	},
 	is_selectable: {

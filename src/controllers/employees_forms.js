@@ -34,7 +34,7 @@ exports.SearchAll = (req, res, next) => {
 
 exports.SearchForms = async (req, res, next) => {
 	const [response] = await sequelize.query(
-		`SELECT forms.id as id_form, forms.title as title_form, employees_forms.answered, employees_forms.employees_id, employees_forms.created_at, employees_forms.updated_at FROM forms INNER JOIN employees_forms on forms.id = employees_forms.forms_id
+		`SELECT forms.id as id_form, forms.title as title_form, employees_forms.id ,employees_forms.answered, employees_forms.employees_id, employees_forms.created_at, employees_forms.updated_at FROM forms INNER JOIN employees_forms on forms.id = employees_forms.forms_id
 		`
 	);
 
