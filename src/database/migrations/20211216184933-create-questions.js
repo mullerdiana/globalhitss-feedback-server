@@ -11,7 +11,7 @@ module.exports = {
 			},
 			title: {
 				allowNull: false,
-				type: Sequelize.STRING,
+				type: Sequelize.STRING(4000),
 			},
 			form_id: {
 				type: Sequelize.INTEGER,

@@ -7,9 +7,6 @@ const Answers = sequelize.define("answers", {
 	value: {
 		allowNull: false,
 		type: Sequelize.STRING(1000),
-		validate: {
-			len: [1, 1000],
-		},
 	},
 });
 

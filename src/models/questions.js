@@ -6,10 +6,7 @@ const MultipleChoiceOptions = require("./multiple_choice_options");
 const Questions = sequelize.define("questions", {
 	title: {
 		allowNull: false,
-		type: Sequelize.STRING(500),
-		validate: {
-			len: [1, 500],
-		},
+		type: Sequelize.STRING,
 	},
 	is_selectable: {
 		type: Sequelize.BOOLEAN,

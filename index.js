@@ -12,7 +12,6 @@ const formsRoutes = require("./src/routes/forms.routes.js");
 const questionsRoutes = require("./src/routes/questions.routes.js");
 const multipleChoiceOptionsRoutes = require("./src/routes/multiple_choice_options.routes");
 const answersRoutes = require("./src/routes/answers.routes.js");
-const employees_AnswersRoutes = require("./src/routes/employees_answers.routes.js");
 const loginRoutes = require("./src/routes/login.routes.js");
 const employees_FormsRoutes = require("./src/routes/employees_forms.routes.js");
 
@@ -26,7 +25,6 @@ app.use("/formularios", formsRoutes);
 app.use("/perguntas", questionsRoutes);
 app.use("/opcoes", multipleChoiceOptionsRoutes);
 app.use("/respostas", answersRoutes);
-app.use("/enviarresposta", employees_AnswersRoutes);
 app.use("/enviarforms", employees_FormsRoutes);
 
 //error handling

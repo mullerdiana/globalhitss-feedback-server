@@ -19,7 +19,8 @@ exports.Create = (req, res, next) => {
 				res.status(status.NOT_FOUND).send();
 			}
 		})
-		.catch(() => {
+		.catch((error) => {
+			console.log(error);
 			res
 				.status(status.INTERNAL_SERVER_ERROR)
 				.send({ error: "Internal Server Error!" });

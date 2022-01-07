@@ -6,9 +6,6 @@ const Teams = sequelize.define("teams", {
 	name: {
 		allowNull: true,
 		type: Sequelize.STRING(255),
-		validate: {
-			len: [1, 255],
-		},
 	},
 	is_active: {
 		type: Sequelize.BOOLEAN,

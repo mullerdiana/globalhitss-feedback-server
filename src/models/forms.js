@@ -7,16 +7,10 @@ const Forms = sequelize.define("forms", {
 	title: {
 		allowNull: false,
 		type: Sequelize.STRING(100),
-		validate: {
-			len: [1, 100],
-		},
 	},
 	type: {
 		allowNull: false,
 		type: Sequelize.STRING(100),
-		validate: {
-			len: [1, 100],
-		},
 	},
 	is_active: {
 		type: Sequelize.BOOLEAN,
