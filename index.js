@@ -14,20 +14,20 @@ const multipleChoiceOptionsRoutes = require("./src/routes/multiple_choice_option
 const answersRoutes = require("./src/routes/answers.routes.js");
 const loginRoutes = require("./src/routes/login.routes.js");
 const employees_FormsRoutes = require("./src/routes/employees_forms.routes.js");
+const authentication = require("./src/middleware/auth");
 
 app.use(cors());
 app.use(express.json());
 app.use(loginRoutes);
-app.use("/colaboradores", employeesRoutes);
-app.use("/gestores", managersRoutes);
-app.use("/times", teamsRoutes);
-app.use("/formularios", formsRoutes);
-app.use("/perguntas", questionsRoutes);
-app.use("/opcoes", multipleChoiceOptionsRoutes);
-app.use("/respostas", answersRoutes);
-app.use("/enviarforms", employees_FormsRoutes);
+app.use("/colaboradores", authentication.auth, employeesRoutes);
+app.use("/gestores", authentication.auth, managersRoutes);
+app.use("/times", authentication.auth, teamsRoutes);
+app.use("/formularios", authentication.auth, formsRoutes);
+app.use("/perguntas", authentication.auth, questionsRoutes);
+app.use("/opcoes", authentication.auth, multipleChoiceOptionsRoutes);
+app.use("/respostas", authentication.auth, answersRoutes);
+app.use("/enviarforms", authentication.auth, employees_FormsRoutes);
 
-//error handling
 app.use((err, req, res, next) => {
 	if (process.env.NODE_ENV === "production")
 		res.status(500).json({ msg: "internal server error" });

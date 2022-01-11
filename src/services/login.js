@@ -8,46 +8,78 @@ const Managers = require("../models/managers");
 
 module.exports = {
 	login(req, res, next) {
-		const { email, password, type } = req.body;
-		let model;
+		const { email, password } = req.body;
 
-		if (type === "colaborador") {
-			model = Employess;
-		} else {
-			model = Managers;
-		}
-
-		model
-			.findOne({
-				where: {
-					email: email,
-				},
-			})
+		Managers.findOne({
+			where: {
+				email: email,
+			},
+		})
 			.then((result) => {
-				// Valida se o usuário existe
-				if (!result) return res.status(401).json({ msg: "Manager not found" });
+				if (!result) {
+					Employess.findOne({
+						where: {
+							email: email,
+						},
+					})
+						.then((result) => {
+							if (!result)
+								return res.status(401).json({ msg: "Usuário não encontrado" });
 
-				// se existe, valida se a senha é igual
-				if (!bcrypt.compareSync(password, result.password)) {
-					return res.status(401).json({ msg: "Invalid password" });
+							if (result.is_active) {
+								if (!bcrypt.compareSync(password, result.password)) {
+									return res.status(401).json({ msg: "Credenciais inválidas" });
+								}
+
+								let jwtPayload = {
+									id: result.id,
+									name: result.name,
+									email: result.email,
+									type: result.type,
+									isActive: result.isActive,
+								};
+
+								let token = jwt.sign(jwtPayload, process.env.JWT_SECRET, {
+									expiresIn: "12h",
+								});
+
+								return res.status(200).json({ jwtPayload, token });
+							} else {
+								return res.status(400).json({
+									msg: "O usuario não existe ou foi desativado na base de dados",
+								});
+							}
+						})
+						.catch(() => {
+							return res.status(401).json({ msg: "Usuário não encontrado" });
+						});
 				}
 
-				// Cria um payload público para inserir no token
-				let jwtPayload = {
-					id: result.id,
-					name: result.name,
-					email: result.email,
-					type: result.type,
-					isActive: result.isActive,
-				};
-				// Cria o token com informação do payload e hash secret
-				let token = jwt.sign(jwtPayload, process.env.JWT_SECRET);
+				if (result.is_active) {
+					if (!bcrypt.compareSync(password, result.password)) {
+						return res.status(401).json({ msg: "Credenciais inválidas" });
+					}
 
-				return res.status(200).json({ jwtPayload, token });
+					let jwtPayload = {
+						id: result.id,
+						name: result.name,
+						email: result.email,
+						type: result.type,
+						isActive: result.isActive,
+					};
+
+					let token = jwt.sign(jwtPayload, process.env.JWT_SECRET, {
+						expiresIn: "12h",
+					});
+
+					return res.status(200).json({ jwtPayload, token });
+				} else {
+					return res.status(400).json({
+						msg: "O usuario não existe ou foi desativado na base de dados",
+					});
+				}
 			})
-			.catch((error) => {
-				return res.status(500).send(error);
-			});
+			.catch(() => {});
 	},
 
 	loginWithToken(req, res, next) {
@@ -55,7 +87,6 @@ module.exports = {
 
 		jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
 			if (err) {
-				// permit.fail(res);
 				return res.status(401).json({ msg: "failed to authenticate token!" });
 			}
 		});

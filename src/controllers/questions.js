@@ -125,16 +125,18 @@ exports.Update = (req, res, next) => {
 					})
 					.catch((error) => {
 						if (error.name === "SequelizeForeignKeyConstraintError") {
-							res.status(404).json({ msg: "Pergunta não encontrada" });
+							res
+								.status(status.NOT_FOUND)
+								.json({ msg: "Pergunta não encontrada" });
 						}
 					});
 			} else {
 				res
-					.status(status.NOT_FOUND)
+					.status(status.BAD_REQUEST)
 					.json({ msg: "Ocorreu um erro imprevisto" });
 			}
 		})
 		.catch(() => {
-			res.status(401).json({ msg: "Pergunta não encontrada" });
+			res.status(status.NOT_FOUND).json({ msg: "Pergunta não encontrada" });
 		});
 };

@@ -89,9 +89,16 @@ exports.Delete = (req, res, next) => {
 						}
 					})
 					.catch((error) => {
-						res
-							.status(status.BAD_REQUEST)
-							.json({ msg: "Ocorreu um erro imprevisto" });
+						console.log(error);
+						if (error.name === "SequelizeForeignKeyConstraintError") {
+							res.status(status.BAD_REQUEST).json({
+								msg: "O colaborador possui formulários atribuídos para resposta e não pode ser excluído",
+							});
+						} else {
+							res
+								.status(status.BAD_REQUEST)
+								.json({ msg: "Ocorreu um erro imprevisto" });
+						}
 					});
 			} else {
 				res
