@@ -11,13 +11,17 @@ exports.Create = (req, res, next) => {
 	})
 		.then((result) => {
 			if (result) {
-				res.status(status.OK).send(result);
+				res.status(status.OK).json({ msg: `Time "${name}" criado` });
 			} else {
-				res.status(status.BAD_REQUEST).send();
+				res
+					.status(status.BAD_REQUEST)
+					.json({ msg: "Ocorreu um erro imprevisto" });
 			}
 		})
 		.catch((error) => {
-			res.status(status.BAD_REQUEST).send(error);
+			res
+				.status(status.BAD_REQUEST)
+				.json({ msg: "Não foi possível criar o time" });
 		});
 };
 
@@ -41,11 +45,13 @@ exports.SearchOne = (req, res, next) => {
 			if (result) {
 				res.status(status.OK).send(result);
 			} else {
-				throw new Error();
+				res
+					.status(status.NOT_FOUND)
+					.json({ msg: "Ocorreu um erro imprevisto" });
 			}
 		})
 		.catch(() => {
-			res.status(status.NOT_FOUND).send({ error: "Team not found!" });
+			res.status(status.NOT_FOUND).json({ msg: "Team not found!" });
 		});
 };
 
@@ -61,20 +67,22 @@ exports.Delete = (req, res, next) => {
 					})
 					.then((result) => {
 						if (result) {
-							res.status(status.OK).send();
+							res.status(status.OK).json({ msg: `Time deletado` });
 						}
 					})
 					.catch(() => {
 						res
 							.status(status.INTERNAL_SERVER_ERROR)
-							.send({ error: "Internal Server Error!" });
+							.json({ msg: "Internal Server Error!" });
 					});
 			} else {
-				throw new Error();
+				res
+					.status(status.NOT_FOUND)
+					.json({ msg: "Ocorreu um erro imprevisto" });
 			}
 		})
 		.catch(() => {
-			res.status(status.NOT_FOUND).send({ error: "Team not found!" });
+			res.status(status.NOT_FOUND).json({ msg: "Time não encontrado" });
 		});
 };
 
@@ -94,20 +102,22 @@ exports.Update = (req, res, next) => {
 					)
 					.then((result) => {
 						if (result) {
-							res.status(status.OK).send(result);
+							res.status(status.OK).json({ msg: `Time atualizado` });
 						}
 					})
 					.catch(() => {
 						res
 							.status(status.INTERNAL_SERVER_ERROR)
-							.send({ error: "Internal Server Error!" });
+							.json({ msg: "Internal Server Error!" });
 					});
 			} else {
-				throw new Error();
+				res
+					.status(status.NOT_FOUND)
+					.json({ msg: "Ocorreu um erro imprevisto" });
 			}
 		})
 		.catch(() => {
-			res.status(status.NOT_FOUND).send({ error: "Team not found!" });
+			res.status(status.NOT_FOUND).json({ msg: "Time não encontrado" });
 		});
 };
 
@@ -121,7 +131,7 @@ exports.SearchAllemployeesTimes = (req, res, next) => {
 		.catch(() => {
 			res
 				.status(status.INTERNAL_SERVER_ERROR)
-				.send({ error: "Internal Server Error!" });
+				.json({ msg: "Internal Server Error!" });
 		});
 };
 
@@ -133,13 +143,15 @@ exports.SearchOneemployeesTimes = (req, res, next) => {
 			if (result) {
 				res.status(status.OK).send(result);
 			} else {
-				res.status(status.NOT_FOUND).send();
+				res
+					.status(status.NOT_FOUND)
+					.json({ msg: "Ocorreu um erro imprevisto" });
 			}
 		})
 		.catch(() => {
 			res
 				.status(status.INTERNAL_SERVER_ERROR)
-				.send({ error: "Internal Server Error!" });
+				.json({ msg: "Internal Server Error!" });
 		});
 };
 
@@ -153,7 +165,7 @@ exports.SearchAllFormsTimes = (req, res, next) => {
 		.catch(() => {
 			res
 				.status(status.INTERNAL_SERVER_ERROR)
-				.send({ error: "Internal Server Error!" });
+				.json({ msg: "Internal Server Error!" });
 		});
 };
 
@@ -165,12 +177,14 @@ exports.SearchOneFormsTimes = (req, res, next) => {
 			if (result) {
 				res.status(status.OK).send(result);
 			} else {
-				res.status(status.NOT_FOUND).send();
+				res
+					.status(status.NOT_FOUND)
+					.json({ msg: "Ocorreu um erro imprevisto" });
 			}
 		})
 		.catch(() => {
 			res
 				.status(status.INTERNAL_SERVER_ERROR)
-				.send({ error: "Internal Server Error!" });
+				.json({ msg: "Internal Server Error!" });
 		});
 };

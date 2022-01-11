@@ -30,7 +30,7 @@ app.use("/enviarforms", employees_FormsRoutes);
 //error handling
 app.use((err, req, res, next) => {
 	if (process.env.NODE_ENV === "production")
-		res.status(500).json({ error: "internal server error" });
+		res.status(500).json({ msg: "internal server error" });
 	else return next(err);
 });
 

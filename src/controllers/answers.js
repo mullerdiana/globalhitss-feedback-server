@@ -1,5 +1,6 @@
 const Answers = require("../models/answers");
 const status = require("http-status");
+const sequelize = require("../database/sequelize");
 
 exports.Create = (req, res, next) => {
 	const { employee_id, question_id, value } = req.body;
@@ -13,11 +14,15 @@ exports.Create = (req, res, next) => {
 			if (result) {
 				res.status(status.OK).send(result);
 			} else {
-				res.status(status.NOT_FOUND).send();
+				res
+					.status(status.BAD_REQUEST)
+					.json({ msg: "Ocorreu um erro imprevisto" });
 			}
 		})
 		.catch(() => {
-			res.status(status.NOT_FOUND).send({ msg: "Question not found!" });
+			res
+				.status(status.BAD_REQUEST)
+				.json({ msg: "Não foi possível salvar a resposta" });
 		});
 };
 
@@ -29,7 +34,7 @@ exports.SearchAll = (req, res, next) => {
 		.catch(() => {
 			res
 				.status(status.INTERNAL_SERVER_ERROR)
-				.send({ error: "Internal Server Error!" });
+				.json({ msg: "Internal Server Error!" });
 		});
 };
 
@@ -41,12 +46,25 @@ exports.SearchOne = (req, res, next) => {
 			if (result) {
 				res.status(status.OK).send(result);
 			} else {
-				throw new Error();
+				res
+					.status(status.BAD_REQUEST)
+					.json({ msg: "Ocorreu um erro imprevisto" });
 			}
 		})
 		.catch(() => {
-			res.status(401).json({ msg: "Answers not found!" });
+			res.status(status.NOT_FOUND).json({ msg: "Resposta não encontrada" });
 		});
+};
+
+exports.SearchForAnswerValues = async (req, res, next) => {
+	const [response] = await sequelize.query(
+		`SELECT questions.id as id_question, questions.title as title_question, questions.form_id as id_form, answers.id as id_answer, answers.value,
+		answers.employee_id as id_employee
+		FROM questions
+		INNER JOIN answers on questions.id = answers.question_id`
+	);
+
+	res.status(status.OK).send(response);
 };
 
 exports.Delete = (req, res, next) => {
@@ -65,14 +83,18 @@ exports.Delete = (req, res, next) => {
 						}
 					})
 					.catch((error) => {
-						res.status(status.NOT_FOUND).send(error);
+						res
+							.status(status.BAD_REQUEST)
+							.json({ msg: "Ocorreu um erro imprevisto" });
 					});
 			} else {
-				throw new Error();
+				res
+					.status(status.BAD_REQUEST)
+					.json({ msg: "Ocorreu um erro imprevisto" });
 			}
 		})
 		.catch(() => {
-			res.status(401).json({ msg: "Answers not found!" });
+			res.status(status.NOT_FOUND).json({ msg: "Resposta não encontrada" });
 		});
 };
 
@@ -97,14 +119,18 @@ exports.Update = (req, res, next) => {
 					})
 					.catch((error) => {
 						if (error.name === "SequelizeForeignKeyConstraintError") {
-							res.status(404).json({ msg: "Question not found!" });
+							res
+								.status(status.NOT_FOUND)
+								.json({ msg: "Resposta não encontrada" });
 						}
 					});
 			} else {
-				throw new Error();
+				res
+					.status(status.BAD_REQUEST)
+					.json({ msg: "Ocorreu um erro imprevisto" });
 			}
 		})
 		.catch(() => {
-			res.status(401).json({ msg: "Answers not found!" });
+			res.status(status.NOT_FOUND).json({ msg: "Resposta não encontrada" });
 		});
 };

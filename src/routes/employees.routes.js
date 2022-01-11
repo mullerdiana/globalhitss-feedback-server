@@ -2,8 +2,13 @@ const express = require("express");
 const employeesRoutes = express.Router();
 
 const employeesController = require("../controllers/employees");
+const authentication = require("../middleware/auth");
 
-employeesRoutes.post("/cadastrar", employeesController.Create);
+employeesRoutes.post(
+	"/cadastrar",
+	authentication.auth,
+	employeesController.Create
+);
 employeesRoutes.get("/todos", employeesController.SearchAll);
 employeesRoutes.get("/colaborador/:id", employeesController.SearchOne);
 employeesRoutes.get("/search", employeesController.Search);

@@ -4,19 +4,24 @@ const sequelize = require("../database/sequelize");
 
 exports.Create = (req, res, next) => {
 	const { employees_id, forms_id } = req.body;
+
 	Employees_forms.create({
 		employees_id,
 		forms_id,
 	})
 		.then((result) => {
 			if (result) {
-				res.status(status.OK).send(result);
+				res.status(status.OK).send({ msg: "Formulário enviado" });
 			} else {
-				res.status(status.BAD_REQUEST).send();
+				res
+					.status(status.BAD_REQUEST)
+					.json({ msg: "Ocorreu um erro imprevisto" });
 			}
 		})
 		.catch((error) => {
-			res.status(status.BAD_REQUEST).send(error);
+			res
+				.status(status.BAD_REQUEST)
+				.json({ msg: "Não foi possível enviar o formulário" });
 		});
 };
 
@@ -28,7 +33,7 @@ exports.SearchAll = (req, res, next) => {
 		.catch(() => {
 			res
 				.status(status.INTERNAL_SERVER_ERROR)
-				.send({ error: "Internal Server Error!" });
+				.json({ msg: "Internal Server Error!" });
 		});
 };
 
@@ -36,6 +41,15 @@ exports.SearchForms = async (req, res, next) => {
 	const [response] = await sequelize.query(
 		`SELECT forms.id as id_form, forms.title as title_form, employees_forms.id ,employees_forms.answered, employees_forms.employees_id, employees_forms.created_at, employees_forms.updated_at FROM forms INNER JOIN employees_forms on forms.id = employees_forms.forms_id
 		`
+	);
+
+	res.status(status.OK).send(response);
+};
+
+exports.SearchFormsAnsweredsByEmployees = async (req, res, next) => {
+	const [response] = await sequelize.query(
+		`SELECT employees_forms.id,employees_forms.forms_id as id_form , employees.id as id_employee, employees.name as name_employee ,employees_forms.answered, employees_forms.created_at, employees_forms.updated_at
+		FROM employees INNER JOIN employees_forms on employees.id = employees_forms.employees_id`
 	);
 
 	res.status(status.OK).send(response);
@@ -57,14 +71,18 @@ exports.Delete = (req, res, next) => {
 						}
 					})
 					.catch((error) => {
-						res.status(status.NOT_FOUND).send(error);
+						res
+							.status(status.BAD_REQUEST)
+							.json({ msg: "Ocorreu um erro imprevisto" });
 					});
 			} else {
-				throw new Error();
+				res
+					.status(status.BAD_REQUEST)
+					.json({ msg: "Ocorreu um erro imprevisto" });
 			}
 		})
 		.catch(() => {
-			res.status(401).json({ msg: "Employees_forms not found!" });
+			res.status(status.NOT_FOUND).json({ msg: "Informação não encontrada" });
 		});
 };
 
@@ -84,7 +102,7 @@ exports.Update = (req, res, next) => {
 					)
 					.then((result) => {
 						if (result) {
-							res.status(status.OK).send(result);
+							res.status(status.OK).send();
 						}
 					})
 					.catch((error) => {
@@ -93,10 +111,12 @@ exports.Update = (req, res, next) => {
 						}
 					});
 			} else {
-				throw new Error();
+				res
+					.status(status.BAD_REQUEST)
+					.json({ msg: "Ocorreu um erro imprevisto" });
 			}
 		})
 		.catch(() => {
-			res.status(401).json({ msg: "employees_forms not found!" });
+			res.status(status.NOT_FOUND).json({ msg: "Informação não encontrada" });
 		});
 };

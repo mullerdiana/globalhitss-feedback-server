@@ -25,12 +25,11 @@ module.exports = {
 			})
 			.then((result) => {
 				// Valida se o usuário existe
-				if (!result)
-					return res.status(401).json({ error: "Manager not found" });
+				if (!result) return res.status(401).json({ msg: "Manager not found" });
 
 				// se existe, valida se a senha é igual
 				if (!bcrypt.compareSync(password, result.password)) {
-					return res.status(401).json({ error: "Invalid password" });
+					return res.status(401).json({ msg: "Invalid password" });
 				}
 
 				// Cria um payload público para inserir no token
@@ -57,7 +56,7 @@ module.exports = {
 		jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
 			if (err) {
 				// permit.fail(res);
-				return res.status(401).json({ error: "failed to authenticate token!" });
+				return res.status(401).json({ msg: "failed to authenticate token!" });
 			}
 		});
 		res.status(200).json({ msg: "Token validado" });
