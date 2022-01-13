@@ -1,33 +1,32 @@
-const Answers = require("../models/answers");
+const Employees_forms = require("../models/employees_forms");
 const status = require("http-status");
 const sequelize = require("../database/sequelize");
 
 exports.Create = (req, res, next) => {
-	const { employee_id, question_id, value } = req.body;
+	const { employees_id, forms_id } = req.body;
 
-	Answers.create({
-		employee_id,
-		question_id,
-		value,
+	Employees_forms.create({
+		employees_id,
+		forms_id,
 	})
 		.then((result) => {
 			if (result) {
-				res.status(status.OK).send(result);
+				res.status(status.OK).send({ msg: "Formulário enviado" });
 			} else {
 				res
 					.status(status.BAD_REQUEST)
 					.json({ msg: "Ocorreu um erro imprevisto" });
 			}
 		})
-		.catch(() => {
+		.catch((error) => {
 			res
 				.status(status.BAD_REQUEST)
-				.json({ msg: "Não foi possível salvar a resposta" });
+				.json({ msg: "Não foi possível enviar o formulário" });
 		});
 };
 
 exports.SearchAll = (req, res, next) => {
-	Answers.findAll()
+	Employees_forms.findAll()
 		.then((result) => {
 			res.status(status.OK).json(result);
 		})
@@ -38,30 +37,19 @@ exports.SearchAll = (req, res, next) => {
 		});
 };
 
-exports.SearchOne = (req, res, next) => {
-	const { id } = req.params;
+exports.SearchForms = async (req, res, next) => {
+	const [response] = await sequelize.query(
+		`SELECT forms.id as id_form, forms.title as title_form, employees_forms.id ,employees_forms.answered, employees_forms.employees_id, employees_forms.created_at, employees_forms.updated_at FROM forms INNER JOIN employees_forms on forms.id = employees_forms.forms_id
+		`
+	);
 
-	Answers.findByPk(id)
-		.then((result) => {
-			if (result) {
-				res.status(status.OK).send(result);
-			} else {
-				res
-					.status(status.BAD_REQUEST)
-					.json({ msg: "Ocorreu um erro imprevisto" });
-			}
-		})
-		.catch(() => {
-			res.status(status.NOT_FOUND).json({ msg: "Resposta não encontrada" });
-		});
+	res.status(status.OK).send(response);
 };
 
-exports.SearchForAnswerValues = async (req, res, next) => {
+exports.SearchFormsAnsweredsByEmployees = async (req, res, next) => {
 	const [response] = await sequelize.query(
-		`SELECT questions.id as id_question, questions.title as title_question, questions.form_id as id_form, answers.id as id_answer, answers.value,
-		answers.employee_id as id_employee
-		FROM questions
-		INNER JOIN answers on questions.id = answers.question_id`
+		`SELECT employees_forms.id,employees_forms.forms_id as id_form , employees.id as id_employee, employees.name as name_employee ,employees_forms.answered, employees_forms.created_at, employees_forms.updated_at
+		FROM employees INNER JOIN employees_forms on employees.id = employees_forms.employees_id`
 	);
 
 	res.status(status.OK).send(response);
@@ -70,7 +58,7 @@ exports.SearchForAnswerValues = async (req, res, next) => {
 exports.Delete = (req, res, next) => {
 	const { id } = req.params;
 
-	Answers.findByPk(id)
+	Employees_forms.findByPk(id)
 		.then((result) => {
 			if (result) {
 				result
@@ -94,34 +82,32 @@ exports.Delete = (req, res, next) => {
 			}
 		})
 		.catch(() => {
-			res.status(status.NOT_FOUND).json({ msg: "Resposta não encontrada" });
+			res.status(status.NOT_FOUND).json({ msg: "Informação não encontrada" });
 		});
 };
 
 exports.Update = (req, res, next) => {
 	const { id } = req.params;
-	const { value } = req.body;
+	const { answered } = req.body;
 
-	Answers.findByPk(id)
+	Employees_forms.findByPk(id)
 		.then((result) => {
 			if (result) {
 				result
 					.update(
 						{
-							value: value,
+							answered: answered,
 						},
 						{ where: { id: id } }
 					)
 					.then((result) => {
 						if (result) {
-							res.status(status.OK).send(result);
+							res.status(status.OK).send();
 						}
 					})
 					.catch((error) => {
 						if (error.name === "SequelizeForeignKeyConstraintError") {
-							res
-								.status(status.NOT_FOUND)
-								.json({ msg: "Resposta não encontrada" });
+							res.status(500).json({ msg: "Internal server error!" });
 						}
 					});
 			} else {
@@ -131,6 +117,6 @@ exports.Update = (req, res, next) => {
 			}
 		})
 		.catch(() => {
-			res.status(status.NOT_FOUND).json({ msg: "Resposta não encontrada" });
+			res.status(status.NOT_FOUND).json({ msg: "Informação não encontrada" });
 		});
 };

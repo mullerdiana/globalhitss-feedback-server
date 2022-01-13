@@ -2,7 +2,6 @@
 const Forms = require("../models/forms");
 const status = require("http-status");
 
-//comando para realizar inserção dos dados através de requisição
 exports.Create = (req, res, next) => {
 	const { title, type, manager_id } = req.body;
 
@@ -13,15 +12,17 @@ exports.Create = (req, res, next) => {
 	})
 		.then((result) => {
 			if (result) {
-				res.status(status.OK).send(result);
-				// TODO: definir qual será mensagem de erro
+				res.status(status.OK).json({ msg: `Formulário "${title}" criado` });
 			} else {
-				res.status(status.NOT_FOUND).send();
+				res
+					.status(status.BAD_REQUEST)
+					.json({ msg: "Ocorreu um erro imprevisto" });
 			}
 		})
-		.catch((err) => {
-			console.log(err);
-			error = next(error);
+		.catch(() => {
+			res
+				.status(status.BAD_REQUEST)
+				.json({ msg: "Não foi possível criar o formulário" });
 		});
 };
 
@@ -33,7 +34,7 @@ exports.SearchAll = (req, res, next) => {
 		.catch(() => {
 			res
 				.status(status.INTERNAL_SERVER_ERROR)
-				.send({ error: "Internal Server Error!" });
+				.json({ msg: "Internal Server Error!" });
 		});
 };
 
@@ -45,11 +46,13 @@ exports.SearchOne = (req, res, next) => {
 			if (result) {
 				res.status(status.OK).send(result);
 			} else {
-				throw new Error();
+				res
+					.status(status.BAD_REQUEST)
+					.json({ msg: "Ocorreu um erro imprevisto" });
 			}
 		})
 		.catch(() => {
-			res.status(401).json({ msg: "Form not found!" });
+			res.status(status.NOT_FOUND).json({ msg: "Formulário não encontrado" });
 		});
 };
 
@@ -65,18 +68,22 @@ exports.Delete = (req, res, next) => {
 					})
 					.then((result) => {
 						if (result) {
-							res.status(status.OK).send();
+							res.status(status.OK).json({ msg: `Formulário deletado` });
 						}
 					})
 					.catch((error) => {
-						res.status(status.NOT_FOUND).send(error);
+						res
+							.status(status.BAD_REQUEST)
+							.json({ msg: "Ocorreu um erro imprevisto" });
 					});
 			} else {
-				throw new Error();
+				res
+					.status(status.BAD_REQUEST)
+					.json({ msg: "Ocorreu um erro imprevisto" });
 			}
 		})
 		.catch(() => {
-			res.status(401).json({ msg: "Form not found!" });
+			res.status(status.NOT_FOUND).json({ msg: "Formulário não encontrado" });
 		});
 };
 
@@ -97,24 +104,27 @@ exports.Update = (req, res, next) => {
 					)
 					.then((result) => {
 						if (result) {
-							res.status(status.OK).send(result);
+							res.status(status.OK).json({ msg: `Formulário atualizado` });
 						}
 					})
 					.catch((error) => {
 						if (error.name === "SequelizeForeignKeyConstraintError") {
-							res.status(404).json({ msg: "Forms not found!" });
+							res
+								.status(status.NOT_FOUND)
+								.json({ msg: "Formulário não encontrado" });
 						}
 					});
 			} else {
-				throw new Error();
+				res
+					.status(status.BAD_REQUEST)
+					.json({ msg: "Ocorreu um erro imprevisto" });
 			}
 		})
 		.catch(() => {
-			res.status(401).json({ msg: "Form not found!" });
+			res.status(status.NOT_FOUND).json({ msg: "Formulário não encontrato" });
 		});
 };
 
-// chave estrangeira - mostra todas as perguntas de um determinado form
 exports.SearchOnePergsFormularios = (req, res, next) => {
 	const id = req.params.id;
 
@@ -123,10 +133,14 @@ exports.SearchOnePergsFormularios = (req, res, next) => {
 			if (result) {
 				res.status(status.OK).send(result);
 			} else {
-				res.status(status.NOT_FOUND).send();
+				res
+					.status(status.BAD_REQUEST)
+					.json({ msg: "Ocorreu um erro imprevisto" });
 			}
 		})
 		.catch(() => {
-			error = next(error);
+			res
+				.status(status.INTERNAL_SERVER_ERROR)
+				.json({ msg: "Internal Server Error!" });
 		});
 };

@@ -2,49 +2,36 @@
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable("employees", {
+		return queryInterface.createTable("employees_forms", {
 			id: {
 				type: Sequelize.INTEGER,
 				primaryKey: true,
 				autoIncrement: true,
 				allowNull: false,
 			},
-			name: {
-				type: Sequelize.STRING,
-				allowNull: false,
-			},
-			email: {
-				type: Sequelize.STRING,
-				unique: true,
-				allowNull: false,
-			},
-			password: {
-				type: Sequelize.STRING,
-				allowNull: false,
-			},
-			type: {
-				type: Sequelize.STRING,
-				allowNull: false,
-			},
-			team_id: {
-				type: Sequelize.INTEGER,
-				allowNull: true,
-				references: {
-					model: "teams",
-					key: "id",
-				},
-			},
-			manager_id: {
+			employees_id: {
 				type: Sequelize.INTEGER,
 				allowNull: false,
 				references: {
-					model: "managers",
+					model: "employees",
 					key: "id",
 				},
+				onDelete: "NO ACTION",
+				onUpdate: "NO ACTION",
 			},
-			is_active: {
+			forms_id: {
+				type: Sequelize.INTEGER,
+				allowNull: false,
+				references: {
+					model: "forms",
+					key: "id",
+				},
+				onDelete: "NO ACTION",
+				onUpdate: "NO ACTION",
+			},
+			answered: {
 				type: Sequelize.BOOLEAN,
-				defaultValue: true,
+				defaultValue: false,
 			},
 			created_at: {
 				type: Sequelize.DATE,
@@ -58,6 +45,6 @@ module.exports = {
 	},
 
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable("employees");
+		return queryInterface.dropTable("employees_forms");
 	},
 };

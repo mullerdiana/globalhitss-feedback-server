@@ -16,15 +16,17 @@ exports.Create = (req, res, next) => {
 		})
 		.then((result) => {
 			if (result) {
-				res.status(status.OK).json(result);
-				// TODO: definir qual será mensagem de erro
+				res.status(status.OK).json({ msg: `Colaborador "${name}" criado` });
 			} else {
-				res.status(status.NOT_FOUND).send();
+				res
+					.status(status.BAD_REQUEST)
+					.json({ msg: "Ocorreu um erro imprevisto" });
 			}
 		})
-		.catch((err) => {
-			console.log(err);
-			error = next(error);
+		.catch(() => {
+			res
+				.status(status.BAD_REQUEST)
+				.json({ msg: "Não foi possível criar o colaborador" });
 		});
 };
 
@@ -37,7 +39,7 @@ exports.SearchAll = (req, res, next) => {
 		.catch(() => {
 			res
 				.status(status.INTERNAL_SERVER_ERROR)
-				.send({ error: "Internal Server Error!" });
+				.json({ msg: "Internal Server Error!" });
 		});
 };
 
@@ -53,17 +55,20 @@ exports.Search = async (req, res, next) => {
 
 exports.SearchOne = (req, res, next) => {
 	const { id } = req.params;
+
 	employee
 		.findByPk(id)
 		.then((result) => {
 			if (result) {
 				res.status(status.OK).send(result);
 			} else {
-				throw new Error();
+				res
+					.status(status.BAD_REQUEST)
+					.json({ msg: "Ocorreu um erro imprevisto" });
 			}
 		})
 		.catch(() => {
-			res.status(401).json({ msg: "employee not found!" });
+			res.status(status.NOT_FOUND).json({ msg: "Colaborador não encontrado" });
 		});
 };
 
@@ -80,18 +85,29 @@ exports.Delete = (req, res, next) => {
 					})
 					.then((result) => {
 						if (result) {
-							res.status(status.OK).send();
+							res.status(status.OK).json({ msg: `Colaborador deletado` });
 						}
 					})
 					.catch((error) => {
-						res.status(status.NOT_FOUND).send(error);
+						console.log(error);
+						if (error.name === "SequelizeForeignKeyConstraintError") {
+							res.status(status.BAD_REQUEST).json({
+								msg: "O colaborador possui formulários atribuídos para resposta e não pode ser excluído",
+							});
+						} else {
+							res
+								.status(status.BAD_REQUEST)
+								.json({ msg: "Ocorreu um erro imprevisto" });
+						}
 					});
 			} else {
-				throw new Error();
+				res
+					.status(status.BAD_REQUEST)
+					.json({ msg: "Ocorreu um erro imprevisto" });
 			}
 		})
 		.catch(() => {
-			res.status(401).json({ msg: "employee not found!" });
+			res.status(status.NOT_FOUND).json({ msg: "Colaborador não encontrado" });
 		});
 };
 
@@ -116,19 +132,61 @@ exports.Update = (req, res, next) => {
 					)
 					.then((result) => {
 						if (result) {
+							res.status(status.OK).json({ msg: `Colaborador atualizado` });
+						}
+					})
+					.catch((error) => {
+						if (error.name === "SequelizeForeignKeyConstraintError") {
+							res
+								.status(status.NOT_FOUND)
+								.json({ msg: "Colaborador não encontrado" });
+						}
+					});
+			} else {
+				res
+					.status(status.BAD_REQUEST)
+					.json({ msg: "Ocorreu um erro imprevisto" });
+			}
+		})
+		.catch(() => {
+			res.status(status.NOT_FOUND).json({ msg: "Colaborador não encontrado" });
+		});
+};
+
+exports.UpdateTeam = (req, res, next) => {
+	const { id } = req.params;
+	const { team_id } = req.body;
+
+	employee
+		.findByPk(id)
+		.then((result) => {
+			if (result) {
+				result
+					.update(
+						{
+							team_id,
+						},
+						{ where: { id: id } }
+					)
+					.then((result) => {
+						if (result) {
 							res.status(status.OK).send(result);
 						}
 					})
 					.catch((error) => {
 						if (error.name === "SequelizeForeignKeyConstraintError") {
-							res.status(404).json({ msg: "Teams not found!" });
+							res
+								.status(status.NOT_FOUND)
+								.json({ msg: "Colaborador não encontrado" });
 						}
 					});
 			} else {
-				throw new Error();
+				res
+					.status(status.BAD_REQUEST)
+					.json({ msg: "Ocorreu um erro imprevisto" });
 			}
 		})
 		.catch(() => {
-			res.status(401).json({ msg: "employee not found!" });
+			res.status(status.NOT_FOUND).json({ msg: "Colaborador não encontrado" });
 		});
 };

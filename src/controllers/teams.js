@@ -1,4 +1,3 @@
-//chama o Time de dentro de models
 const Teams = require("../models/teams");
 const employees = require("../models/employees");
 const status = require("http-status");
@@ -12,13 +11,17 @@ exports.Create = (req, res, next) => {
 	})
 		.then((result) => {
 			if (result) {
-				res.status(status.OK).send(result);
+				res.status(status.OK).json({ msg: `Time "${name}" criado` });
 			} else {
-				res.status(status.BAD_REQUEST).send();
+				res
+					.status(status.BAD_REQUEST)
+					.json({ msg: "Ocorreu um erro imprevisto" });
 			}
 		})
 		.catch((error) => {
-			res.status(status.BAD_REQUEST).send(error);
+			res
+				.status(status.BAD_REQUEST)
+				.json({ msg: "Não foi possível criar o time" });
 		});
 };
 
@@ -42,11 +45,13 @@ exports.SearchOne = (req, res, next) => {
 			if (result) {
 				res.status(status.OK).send(result);
 			} else {
-				throw new Error();
+				res
+					.status(status.NOT_FOUND)
+					.json({ msg: "Ocorreu um erro imprevisto" });
 			}
 		})
 		.catch(() => {
-			res.status(status.NOT_FOUND).send({ error: "Team not found!" });
+			res.status(status.NOT_FOUND).json({ msg: "Team not found!" });
 		});
 };
 
@@ -62,20 +67,22 @@ exports.Delete = (req, res, next) => {
 					})
 					.then((result) => {
 						if (result) {
-							res.status(status.OK).send();
+							res.status(status.OK).json({ msg: `Time deletado` });
 						}
 					})
 					.catch(() => {
 						res
 							.status(status.INTERNAL_SERVER_ERROR)
-							.send({ error: "Internal Server Error!" });
+							.json({ msg: "Internal Server Error!" });
 					});
 			} else {
-				throw new Error();
+				res
+					.status(status.NOT_FOUND)
+					.json({ msg: "Ocorreu um erro imprevisto" });
 			}
 		})
 		.catch(() => {
-			res.status(status.NOT_FOUND).send({ error: "Team not found!" });
+			res.status(status.NOT_FOUND).json({ msg: "Time não encontrado" });
 		});
 };
 
@@ -95,24 +102,25 @@ exports.Update = (req, res, next) => {
 					)
 					.then((result) => {
 						if (result) {
-							res.status(status.OK).send(result);
+							res.status(status.OK).json({ msg: `Time atualizado` });
 						}
 					})
 					.catch(() => {
 						res
 							.status(status.INTERNAL_SERVER_ERROR)
-							.send({ error: "Internal Server Error!" });
+							.json({ msg: "Internal Server Error!" });
 					});
 			} else {
-				throw new Error();
+				res
+					.status(status.NOT_FOUND)
+					.json({ msg: "Ocorreu um erro imprevisto" });
 			}
 		})
 		.catch(() => {
-			res.status(status.NOT_FOUND).send({ error: "Team not found!" });
+			res.status(status.NOT_FOUND).json({ msg: "Time não encontrado" });
 		});
 };
 
-// chave estrangeira - mostra todos os times e seus usuarios
 exports.SearchAllemployeesTimes = (req, res, next) => {
 	Teams.findAll({ include: [{ model: employees, as: "employees" }] })
 		.then((result) => {
@@ -121,11 +129,12 @@ exports.SearchAllemployeesTimes = (req, res, next) => {
 			}
 		})
 		.catch(() => {
-			error = next(error);
+			res
+				.status(status.INTERNAL_SERVER_ERROR)
+				.json({ msg: "Internal Server Error!" });
 		});
 };
 
-// chave estrangeira - mostra todos os usuarios de um determinado result
 exports.SearchOneemployeesTimes = (req, res, next) => {
 	const id = req.params.id;
 
@@ -134,15 +143,18 @@ exports.SearchOneemployeesTimes = (req, res, next) => {
 			if (result) {
 				res.status(status.OK).send(result);
 			} else {
-				res.status(status.NOT_FOUND).send();
+				res
+					.status(status.NOT_FOUND)
+					.json({ msg: "Ocorreu um erro imprevisto" });
 			}
 		})
 		.catch(() => {
-			error = next(error);
+			res
+				.status(status.INTERNAL_SERVER_ERROR)
+				.json({ msg: "Internal Server Error!" });
 		});
 };
 
-// chave estrangeira - mostra todos os times e seus formularios
 exports.SearchAllFormsTimes = (req, res, next) => {
 	Teams.findAll({ include: ["forms"] })
 		.then((result) => {
@@ -151,11 +163,12 @@ exports.SearchAllFormsTimes = (req, res, next) => {
 			}
 		})
 		.catch(() => {
-			error = next(error);
+			res
+				.status(status.INTERNAL_SERVER_ERROR)
+				.json({ msg: "Internal Server Error!" });
 		});
 };
 
-// chave estrangeira - mostra todos os formularios de um determinado result
 exports.SearchOneFormsTimes = (req, res, next) => {
 	const id = req.params.id;
 
@@ -164,21 +177,14 @@ exports.SearchOneFormsTimes = (req, res, next) => {
 			if (result) {
 				res.status(status.OK).send(result);
 			} else {
-				res.status(status.NOT_FOUND).send();
+				res
+					.status(status.NOT_FOUND)
+					.json({ msg: "Ocorreu um erro imprevisto" });
 			}
 		})
 		.catch(() => {
-			error = next(error);
+			res
+				.status(status.INTERNAL_SERVER_ERROR)
+				.json({ msg: "Internal Server Error!" });
 		});
-};
-
-exports.ContagemTimes = async (req, res, next) => {
-	try {
-		const [response] = await sequelize.query(
-			"SELECT count(id) AS count FROM `times`"
-		);
-		res.status(status.OK).send(response[0]);
-	} catch (error) {
-		next(error);
-	}
 };

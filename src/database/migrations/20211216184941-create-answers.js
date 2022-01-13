@@ -13,6 +13,14 @@ module.exports = {
 				allowNull: false,
 				type: Sequelize.STRING,
 			},
+			employee_id: {
+				type: Sequelize.INTEGER,
+				allowNull: false,
+				references: {
+					model: "employees",
+					key: "id",
+				},
+			},
 			question_id: {
 				type: Sequelize.INTEGER,
 				allowNull: false,

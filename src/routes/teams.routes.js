@@ -13,6 +13,5 @@ teamsRoutes.get("/usuarios", teamsController.SearchAllemployeesTimes);
 teamsRoutes.get("/usuario/:id", teamsController.SearchOneemployeesTimes);
 teamsRoutes.get("/formularios", teamsController.SearchAllFormsTimes);
 teamsRoutes.get("/formulario/:id", teamsController.SearchOneFormsTimes);
-teamsRoutes.get("/contagem", teamsController.ContagemTimes);
 
 module.exports = teamsRoutes;

@@ -2,7 +2,7 @@
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable("questions", {
+		return queryInterface.createTable("multiple_choice_options", {
 			id: {
 				type: Sequelize.INTEGER,
 				primaryKey: true,
@@ -11,23 +11,15 @@ module.exports = {
 			},
 			title: {
 				allowNull: false,
-				type: Sequelize.STRING(4000),
+				type: Sequelize.STRING,
 			},
-			form_id: {
+			question_id: {
 				type: Sequelize.INTEGER,
 				allowNull: false,
 				references: {
-					model: "forms",
+					model: "questions",
 					key: "id",
 				},
-			},
-			is_selectable: {
-				type: Sequelize.BOOLEAN,
-				defaultValue: true,
-			},
-			is_active: {
-				type: Sequelize.BOOLEAN,
-				defaultValue: true,
 			},
 			created_at: {
 				type: Sequelize.DATE,
@@ -39,7 +31,8 @@ module.exports = {
 			},
 		});
 	},
+
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable("questions");
+		return queryInterface.dropTable("multiple_choice_options");
 	},
 };
