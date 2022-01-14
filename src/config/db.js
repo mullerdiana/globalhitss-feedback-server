@@ -1,13 +1,13 @@
 require("dotenv").config();
 
 module.exports = {
-	database: process.env.DATABASE_DB,
-	username: process.env.DATABASE_USER,
-	password: process.env.DATABASE_PASSWORD,
-	host: process.env.DATABASE_HOST,
+	database: 'd7ilm0j559t6ck',
+	username: 'pzsnndwbzksdzk',
+	password: '5ca4ffb794352871c135b2c55d3c2e108240a2d2df782a44c097652f0fbf2408',
+	host: 'ec2-184-73-243-101.compute-1.amazonaws.com',
 	dialect: 'postgres',
 	define: {
-		ssl: process.env.PGSSLMODE,
+		ssl: 'no-verify',
 		timestamps: true,
 		underscored: true,
 	},
