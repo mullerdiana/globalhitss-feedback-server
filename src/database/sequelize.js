@@ -1,7 +1,7 @@
 const { Sequelize } = require("sequelize");
-const dbAzureConfig = require("../config/dbAzure");
+const dbConfig = require("../config/db");
 
-const sequelize = new Sequelize(dbAzureConfig);
+const sequelize = new Sequelize(dbConfig);
 
 sequelize
 	.authenticate()

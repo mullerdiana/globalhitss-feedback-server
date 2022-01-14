@@ -5,8 +5,9 @@ module.exports = {
 	username: process.env.DATABASE_USER,
 	password: process.env.DATABASE_PASSWORD,
 	host: process.env.DATABASE_HOST,
-	dialect: "mssql",
+	dialect: process.env.DATABASE_DIALECT,
 	define: {
+		ssl: process.env.PGSSLMODE,
 		timestamps: true,
 		underscored: true,
 	},
