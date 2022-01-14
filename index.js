@@ -2,7 +2,7 @@ require("dotenv").config();
 
 const express = require("express");
 const cors = require("cors");
-const PORT = process.env.DATABASE_PORT || 5000;
+// const PORT = process.env.DATABASE_PORT || 5000;
 const app = express();
 
 const employeesRoutes = require("./src/routes/employees.routes.js");
@@ -34,4 +34,14 @@ app.use((err, req, res, next) => {
 	else return next(err);
 });
 
-app.listen(PORT);
+app.set('port', (process.env.DATABASE_PORT || 5000));
+
+//For avoidong Heroku $PORT error
+app.get('/', function(request, response) {
+    var result = 'App is running'
+    response.send(result);
+}).listen(app.get('port'), function() {
+    console.log('App is running, server is listening on port ',app.get('port'));
+});
+
+// app.listen(PORT);
