@@ -1,6 +1,7 @@
 //chama o Forms de dentro de models
 const Forms = require("../models/forms");
 const status = require("http-status");
+const sequelize = require("../database/sequelize");
 
 exports.Create = (req, res, next) => {
 	const { title, type, manager_id } = req.body;
@@ -54,6 +55,15 @@ exports.SearchOne = (req, res, next) => {
 		.catch(() => {
 			res.status(status.NOT_FOUND).json({ msg: "Formulário não encontrado" });
 		});
+};
+
+exports.GetByManager = async (req, res, next) => {
+	const { manager } = req.query;
+
+	const [response] = await sequelize.query(
+		`SELECT id, title, type, is_active FROM forms WHERE manager_id LIKE '%${manager}%'`
+	);
+	res.status(status.OK).send(response);
 };
 
 exports.Delete = (req, res, next) => {

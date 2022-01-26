@@ -39,9 +39,11 @@ module.exports = {
 									isActive: result.isActive,
 								};
 
-								let token = jwt.sign(jwtPayload, process.env.JWT_SECRET, {
-									expiresIn: "12h",
-								});
+								let token = jwt.sign(jwtPayload, process.env.JWT_SECRET,
+								 {
+									expiresIn: "24h",
+								}
+								);
 
 								return res.status(200).json({ jwtPayload, token });
 							} else {
@@ -68,9 +70,11 @@ module.exports = {
 						isActive: result.isActive,
 					};
 
-					let token = jwt.sign(jwtPayload, process.env.JWT_SECRET, {
-						expiresIn: "12h",
-					});
+					let token = jwt.sign(jwtPayload, process.env.JWT_SECRET,
+						 {
+						expiresIn: "24h",
+					}
+					);
 
 					return res.status(200).json({ jwtPayload, token });
 				} else {
@@ -87,7 +91,7 @@ module.exports = {
 
 		jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
 			if (err) {
-				return res.status(401).json({ msg: "failed to authenticate token!" });
+				return res.status(401).json({ msg: "Falha na autenticação" });
 			}
 		});
 		res.status(200).json({ msg: "Token validado" });
