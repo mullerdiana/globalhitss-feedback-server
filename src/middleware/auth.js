@@ -13,14 +13,14 @@ module.exports = {
 		// Se o token não for infomado, retorna mensagem negativa
 		if (!token) {
 			permit.fail(res);
-			return res.status(401).json({ msg: "authentication required!" });
+			return res.status(401).json({ msg: "Autenticação necessária" });
 		}
 
 		// Se o token for informado, mas não for igual, retorna mensagem negativa
 		jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
 			if (err) {
 				permit.fail(res);
-				return res.status(401).json({ msg: "failed to authenticate token!" });
+				return res.status(401).json({ msg: "Falha na autenticação" });
 			}
 
 			// Salva o user em req.user

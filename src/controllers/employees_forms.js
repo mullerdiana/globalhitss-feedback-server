@@ -55,6 +55,21 @@ exports.SearchFormsAnsweredsByEmployees = async (req, res, next) => {
 	res.status(status.OK).send(response);
 };
 
+exports.GetFormsByEmployeeAndAnswered = async (req, res, next) => {
+	const {employee_id, answered} = req.query;
+
+	const [response] = await sequelize.query(
+		`SELECT 
+		employees_forms.id,
+		employees_forms.forms_id as id_form,
+		employees_forms.answered,
+		forms.title
+		FROM employees_forms
+		LEFT JOIN forms on employees_forms.forms_id = forms.id WHERE employees_id = ${employee_id} AND answered = ${answered}`
+	)
+	res.status(status.OK).send(response);
+}
+
 exports.Delete = (req, res, next) => {
 	const { id } = req.params;
 

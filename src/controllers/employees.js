@@ -72,6 +72,36 @@ exports.SearchOne = (req, res, next) => {
 		});
 };
 
+exports.GetByManager = async (req, res, next) => {
+	const { search } = req.query;
+
+	const [response] = await sequelize.query(
+		`SELECT id, name, email, team_id, is_active FROM employees WHERE manager_id LIKE '%${search}%'`
+	);
+	//TODO: Validar se ao não encontrar usuário, é correto retornar status 200 e array vazio
+	res.status(status.OK).send(response);
+};
+
+exports.GetByManagerAndTeam = async (req, res, next) => {
+	const { manager, team } = req.query;
+
+	const [response] = await sequelize.query(
+		`SELECT id, name, email, team_id, is_active FROM employees WHERE manager_id LIKE '%${manager}%' AND team_id LIKE '%${team}%'`
+	);
+	//TODO: Validar se ao não encontrar usuário, é correto retornar status 200 e array vazio
+	res.status(status.OK).send(response);
+};
+
+exports.GetByManagerAndTeamNull = async (req, res, next) => {
+	const { manager } = req.query;
+
+	const [response] = await sequelize.query(
+		`SELECT id, name, email, team_id, is_active FROM employees WHERE manager_id LIKE '%${manager}%' AND team_id IS NULL`
+	);
+	//TODO: Validar se ao não encontrar usuário, é correto retornar status 200 e array vazio
+	res.status(status.OK).send(response);
+};
+
 exports.Delete = (req, res, next) => {
 	const { id } = req.params;
 
@@ -97,13 +127,13 @@ exports.Delete = (req, res, next) => {
 						} else {
 							res
 								.status(status.BAD_REQUEST)
-								.json({ msg: "Ocorreu um erro imprevisto" });
+								.json({ msg: "Colaborador não encontrado" });
 						}
 					});
 			} else {
 				res
 					.status(status.BAD_REQUEST)
-					.json({ msg: "Ocorreu um erro imprevisto" });
+					.json({ msg: "Colaborador não encontrado" });
 			}
 		})
 		.catch(() => {
@@ -170,7 +200,12 @@ exports.UpdateTeam = (req, res, next) => {
 					)
 					.then((result) => {
 						if (result) {
-							res.status(status.OK).send(result);
+							if(team_id === null) {
+								res.status(status.OK).json({ msg: `Colaborador removido do time` });
+							} else {
+								res.status(status.OK).json({ msg: `Colaborador adicionado ao time` });
+
+							}
 						}
 					})
 					.catch((error) => {
