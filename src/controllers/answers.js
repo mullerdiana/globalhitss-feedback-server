@@ -3,27 +3,33 @@ const status = require("http-status");
 const sequelize = require("../database/sequelize");
 
 exports.Create = (req, res, next) => {
-	const { employee_id, question_id, value } = req.body;
+	const { value } = req.body;
+	let check = true
 
-	Answers.create({
-		employee_id,
-		question_id,
-		value,
-	})
-		.then((result) => {
-			if (result) {
-				res.status(status.OK).send(result);
-			} else {
-				res
-					.status(status.BAD_REQUEST)
-					.json({ msg: "Ocorreu um erro imprevisto" });
-			}
+		value.map((item) => {
+			Answers.create({
+				employee_id: item.employee_id,
+				question_id: item.question_id,
+				value: item.value,
+			})
+				.then((result) => {
+					if (result) {
+						if(check){
+							check = false;
+							res.status(status.OK).json({ msg: "Respostas enviadas" });
+						}
+					} else {
+						res
+							.status(status.BAD_REQUEST)
+							.json({ msg: "Ocorreu um erro imprevisto" });
+					}
+				})
+				.catch(() => {
+					res
+						.status(status.BAD_REQUEST)
+						.json({ msg: "Não foi possível salvar a resposta" });
+				});
 		})
-		.catch(() => {
-			res
-				.status(status.BAD_REQUEST)
-				.json({ msg: "Não foi possível salvar a resposta" });
-		});
 };
 
 exports.SearchAll = (req, res, next) => {
@@ -66,6 +72,20 @@ exports.SearchForAnswerValues = async (req, res, next) => {
 
 	res.status(status.OK).send(response);
 };
+
+exports.GetAnswersByEmployee = async (req, res, next) => {
+	const {employee} = req.query;
+
+	Answers.findAll({where: { employee_id: employee}}).then((result) => {
+		if(result) {
+			res.status(status.OK).send(result)
+		}
+	}).catch(() => {
+		res
+					.status(status.BAD_REQUEST)
+					.json({ msg: "Ocorreu um erro imprevisto" });
+	})
+}
 
 exports.Delete = (req, res, next) => {
 	const { id } = req.params;

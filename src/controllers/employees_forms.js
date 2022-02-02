@@ -48,12 +48,39 @@ exports.SearchForms = async (req, res, next) => {
 
 exports.SearchFormsAnsweredsByEmployees = async (req, res, next) => {
 	const [response] = await sequelize.query(
-		`SELECT employees_forms.id,employees_forms.forms_id as id_form , employees.id as id_employee, employees.name as name_employee ,employees_forms.answered, employees_forms.created_at, employees_forms.updated_at
-		FROM employees INNER JOIN employees_forms on employees.id = employees_forms.employees_id`
+		`SELECT 
+		employees_forms.id,
+		employees_forms.forms_id as id_form, 
+		employees.id as id_employee,
+		employees.name as name_employee
+		,employees_forms.answered,
+		employees_forms.created_at,
+		employees_forms.updated_at
+		FROM employees 
+		INNER JOIN employees_forms on employees.id = employees_forms.employees_id`
 	);
 
 	res.status(status.OK).send(response);
 };
+
+exports.GetAnsweredsByForm = async (req, res, next) => {
+	const { form, answered } = req.query;
+
+	const [response] = await sequelize.query(
+		`SELECT 
+		employees_forms.id,
+		employees_forms.forms_id as id_form, 
+		employees.id as id_employee,
+		employees.name as name_employee
+		,employees_forms.answered,
+		employees_forms.created_at,
+		employees_forms.updated_at
+		FROM employees 
+		INNER JOIN employees_forms on employees.id = employees_forms.employees_id where employees_forms.forms_id = ${form} AND employees_forms.answered = ${answered}`
+	)
+
+	res.status(status.OK).send(response);
+}
 
 exports.GetFormsByEmployeeAndAnswered = async (req, res, next) => {
 	const {employee_id, answered} = req.query;
@@ -67,6 +94,7 @@ exports.GetFormsByEmployeeAndAnswered = async (req, res, next) => {
 		FROM employees_forms
 		LEFT JOIN forms on employees_forms.forms_id = forms.id WHERE employees_id = ${employee_id} AND answered = ${answered}`
 	)
+
 	res.status(status.OK).send(response);
 }
 

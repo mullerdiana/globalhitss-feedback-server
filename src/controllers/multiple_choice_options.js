@@ -55,12 +55,12 @@ exports.SearchOne = (req, res, next) => {
 		});
 };
 
-exports.SearchId = async (req, res, next) => {
-	const { search } = req.query;
+exports.GetOptionsByQuestion = async (req, res, next) => {
+	const { question } = req.query;
 
 	MultipleChoiceOptions.findAll({
 		where: {
-			question_id: search,
+			question_id: question,
 		},
 	})
 		.then((result) => {

@@ -12,8 +12,8 @@ multipleChoiceOptionsRoutes.get(
 	multipleChoiceOptionsController.SearchAll
 );
 multipleChoiceOptionsRoutes.get(
-	"/search",
-	multipleChoiceOptionsController.SearchId
+	"/get-options-by-question",
+	multipleChoiceOptionsController.GetOptionsByQuestion
 );
 multipleChoiceOptionsRoutes.get(
 	"/resposta/:id",
