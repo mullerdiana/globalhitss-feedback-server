@@ -1,18 +1,13 @@
-const express = require('express');
+const express = require("express");
 const formsRoutes = express.Router();
 
+const formsController = require("../controllers/forms");
 
-const formsController = require('../controllers/forms');
-
-formsRoutes.post('/cadastrar', formsController.Create);
-formsRoutes.get('/todos', formsController.SearchAll);
-formsRoutes.get('/formulario/:id', formsController.SearchOne);
-formsRoutes.get('/get-by-manager', formsController.GetByManager);
-formsRoutes.delete('/deletar/:id', formsController.Delete);
-formsRoutes.put('/editar/:id', formsController.Update);
-
-// //////////////////////////
-
-formsRoutes.get('/pergunta/:id', formsController.SearchOnePergsFormularios);
+formsRoutes.post("/create", formsController.Create);
+formsRoutes.get("/all", formsController.SearchAll);
+formsRoutes.get("/form/:id", formsController.SearchOne);
+formsRoutes.get("/get-by-manager", formsController.GetByManager);
+formsRoutes.delete("/delete/:id", formsController.Delete);
+formsRoutes.put("/edit/:id", formsController.Update);
 
 module.exports = formsRoutes;

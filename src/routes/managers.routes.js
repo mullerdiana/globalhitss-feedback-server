@@ -3,11 +3,11 @@ const managersRoutes = express.Router();
 
 const managersController = require("../controllers/managers");
 
-managersRoutes.post("/cadastrar", managersController.Create);
-managersRoutes.get("/todos", managersController.SearchAll);
-managersRoutes.get("/gestor/:id", managersController.SearchOne);
+managersRoutes.post("/create", managersController.Create);
+managersRoutes.get("/all", managersController.SearchAll);
+managersRoutes.get("/manager/:id", managersController.SearchOne);
 managersRoutes.get("/search", managersController.Search);
-managersRoutes.delete("/deletar/:id", managersController.Delete);
-managersRoutes.put("/editar/:id", managersController.Update);
+managersRoutes.delete("/delete/:id", managersController.Delete);
+managersRoutes.put("/edit/:id", managersController.Update);
 
 module.exports = managersRoutes;
