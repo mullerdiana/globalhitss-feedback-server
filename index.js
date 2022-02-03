@@ -19,19 +19,19 @@ const authentication = require("./src/middleware/auth");
 app.use(cors());
 app.use(express.json());
 app.use(loginRoutes);
-app.use("/colaboradores", authentication.auth, employeesRoutes);
-app.use("/gestores", managersRoutes);
-app.use("/times", teamsRoutes);
-app.use("/formularios", authentication.auth, formsRoutes);
-app.use("/perguntas", authentication.auth, questionsRoutes);
-app.use("/opcoes", authentication.auth, multipleChoiceOptionsRoutes);
-app.use("/respostas", authentication.auth, answersRoutes);
-app.use("/enviarforms", authentication.auth, employees_FormsRoutes);
+app.use("/employees", authentication.auth, employeesRoutes);
+app.use("/managers", managersRoutes);
+app.use("/teams", teamsRoutes);
+app.use("/forms", authentication.auth, formsRoutes);
+app.use("/questions", authentication.auth, questionsRoutes);
+app.use("/options", authentication.auth, multipleChoiceOptionsRoutes);
+app.use("/answers", authentication.auth, answersRoutes);
+app.use("/employees-forms", authentication.auth, employees_FormsRoutes);
 
 app.use((err, req, res, next) => {
-	if (process.env.NODE_ENV === "production")
-		res.status(500).json({ msg: "internal server error" });
-	else return next(err);
+    if (process.env.NODE_ENV === "production")
+        res.status(500).json({ msg: "internal server error" });
+    else return next(err);
 });
 
 app.listen(PORT);

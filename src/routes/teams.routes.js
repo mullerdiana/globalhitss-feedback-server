@@ -3,15 +3,10 @@ const teamsRoutes = express.Router();
 
 const teamsController = require("../controllers/teams");
 
-teamsRoutes.post("/cadastrar", teamsController.Create);
-teamsRoutes.get("/todos", teamsController.SearchAll);
-teamsRoutes.get("/time/:id", teamsController.SearchOne);
-teamsRoutes.delete("/deletar/:id", teamsController.Delete);
-teamsRoutes.put("/editar/:id", teamsController.Update);
-// /////////////////////////////////
-teamsRoutes.get("/usuarios", teamsController.SearchAllemployeesTimes);
-teamsRoutes.get("/usuario/:id", teamsController.SearchOneemployeesTimes);
-teamsRoutes.get("/formularios", teamsController.SearchAllFormsTimes);
-teamsRoutes.get("/formulario/:id", teamsController.SearchOneFormsTimes);
+teamsRoutes.post("/create", teamsController.Create);
+teamsRoutes.get("/all", teamsController.SearchAll);
+teamsRoutes.get("/team/:id", teamsController.SearchOne);
+teamsRoutes.delete("/delete/:id", teamsController.Delete);
+teamsRoutes.put("/edit/:id", teamsController.Update);
 
 module.exports = teamsRoutes;
