@@ -70,7 +70,11 @@ exports.SearchOne = (req, res, next) => {
 
 exports.SearchForAnswerValues = async (req, res, next) => {
     const [response] = await sequelize.query(
-        `SELECT questions.id as id_question, questions.title as title_question, questions.form_id as id_form, answers.id as id_answer, answers.value,
+        `SELECT questions.id as id_question, 
+        questions.title as title_question, 
+        questions.form_id as id_form, 
+        answers.id as id_answer, 
+        answers.value,
 		answers.employee_id as id_employee
 		FROM questions
 		INNER JOIN answers on questions.id = answers.question_id`

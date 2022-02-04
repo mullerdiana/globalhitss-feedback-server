@@ -5,6 +5,7 @@ const cors = require("cors");
 const PORT = process.env.DATABASE_PORT || 5000;
 const app = express();
 
+const swaggerUiExpress = require("swagger-ui-express");
 const employeesRoutes = require("./src/routes/employees.routes.js");
 const managersRoutes = require("./src/routes/managers.routes.js");
 const teamsRoutes = require("./src/routes/teams.routes.js");
@@ -15,18 +16,25 @@ const answersRoutes = require("./src/routes/answers.routes.js");
 const loginRoutes = require("./src/routes/login.routes.js");
 const employees_FormsRoutes = require("./src/routes/employees_forms.routes.js");
 const authentication = require("./src/middleware/auth");
+const swaggerFile = require("./swagger.json");
 
 app.use(cors());
 app.use(express.json());
 app.use(loginRoutes);
 app.use("/employees", authentication.auth, employeesRoutes);
-app.use("/managers", managersRoutes);
-app.use("/teams", teamsRoutes);
+app.use("/managers", authentication.auth, managersRoutes);
+app.use("/teams", authentication.auth, teamsRoutes);
 app.use("/forms", authentication.auth, formsRoutes);
 app.use("/questions", authentication.auth, questionsRoutes);
 app.use("/options", authentication.auth, multipleChoiceOptionsRoutes);
 app.use("/answers", authentication.auth, answersRoutes);
 app.use("/employees-forms", authentication.auth, employees_FormsRoutes);
+
+app.use(
+    "/api-docs",
+    swaggerUiExpress.serve,
+    swaggerUiExpress.setup(swaggerFile)
+);
 
 app.use((err, req, res, next) => {
     if (process.env.NODE_ENV === "production")

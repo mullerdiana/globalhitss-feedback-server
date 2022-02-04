@@ -39,7 +39,8 @@ exports.SearchAll = (req, res, next) => {
 
 exports.SearchForms = async (req, res, next) => {
     const [response] = await sequelize.query(
-        `SELECT forms.id as id_form, 
+        `SELECT 
+        forms.id as id_form, 
 		forms.title as title_form, 
 		employees_forms.id,
 		employees_forms.answered, 
