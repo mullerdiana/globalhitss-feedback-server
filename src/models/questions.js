@@ -6,6 +6,10 @@ const Questions = sequelize.define("questions", {
         type: Sequelize.STRING,
         allowNull: false,
     },
+    form_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+    },
     is_selectable: {
         type: Sequelize.INTEGER,
         allowNull: false,

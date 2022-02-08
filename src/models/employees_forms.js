@@ -2,7 +2,7 @@ const Sequelize = require("sequelize");
 const sequelize = require("../database/sequelize");
 
 const Employees_forms = sequelize.define("employees_forms", {
-    employees_id: {
+    employee_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
@@ -12,7 +12,7 @@ const Employees_forms = sequelize.define("employees_forms", {
         onDelete: "NO ACTION",
         onUpdate: "NO ACTION",
     },
-    forms_id: {
+    form_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {

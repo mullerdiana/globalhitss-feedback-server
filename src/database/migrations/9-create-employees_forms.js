@@ -9,7 +9,7 @@ module.exports = {
                 autoIncrement: true,
                 allowNull: false,
             },
-            employees_id: {
+            employee_id: {
                 type: Sequelize.INTEGER,
                 allowNull: false,
                 references: {
@@ -17,7 +17,7 @@ module.exports = {
                     key: "id",
                 },
             },
-            forms_id: {
+            form_id: {
                 type: Sequelize.INTEGER,
                 allowNull: false,
                 references: {
