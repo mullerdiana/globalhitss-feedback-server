@@ -56,7 +56,7 @@ exports.Search = async (req, res, next) => {
     const [response] = await sequelize.query(
         `SELECT * FROM Userss WHERE name LIKE '%${search}%' OR email LIKE '%${search}%'`
     );
-    //TODO: Validar se ao não encontrar usuário, é correto retornar status 200 e array vazio
+
     res.status(status.OK).send(response);
 };
 
@@ -88,7 +88,7 @@ exports.GetByManager = async (req, res, next) => {
         FROM users 
         JOIN employees_managers ON employees_managers.manager_id = ${manager} WHERE employees_managers.employee_id = users.id`
     );
-    //TODO: Validar se ao não encontrar usuário, é correto retornar status 200 e array vazio
+
     res.status(status.OK).send(response);
 };
 
@@ -98,7 +98,7 @@ exports.GetByManagerAndTeam = async (req, res, next) => {
     const [response] = await sequelize.query(
         `SELECT id, name, email, team_id, is_active FROM Users WHERE manager_id LIKE '%${manager}%' AND team_id LIKE '%${team}%'`
     );
-    //TODO: Validar se ao não encontrar usuário, é correto retornar status 200 e array vazio
+
     res.status(status.OK).send(response);
 };
 
@@ -108,44 +108,43 @@ exports.GetByManagerAndTeamNull = async (req, res, next) => {
     const [response] = await sequelize.query(
         `SELECT id, name, email, team_id, is_active FROM Users WHERE manager_id LIKE '%${manager}%' AND team_id IS NULL`
     );
-    //TODO: Validar se ao não encontrar usuário, é correto retornar status 200 e array vazio
+
     res.status(status.OK).send(response);
 };
 
-exports.Delete = (req, res, next) => {
+exports.UpdatePassword = (req, res, next) => {
     const { id } = req.params;
+    const { password } = req.body;
 
     Users.findByPk(id)
         .then((result) => {
             if (result) {
                 result
-                    .destroy({
-                        where: { id: id },
-                    })
+                    .update(
+                        {
+                            password: bcrypt.hashSync(password, 10),
+                        },
+                        { where: { id: id } }
+                    )
                     .then((result) => {
                         if (result) {
                             res.status(status.OK).json({
-                                msg: `Colaborador deletado`,
+                                msg: `Colaborador atualizado`,
                             });
                         }
                     })
                     .catch((error) => {
-                        console.log(error);
                         if (
                             error.name === "SequelizeForeignKeyConstraintError"
                         ) {
-                            res.status(status.BAD_REQUEST).json({
-                                msg: "O colaborador possui formulários atribuídos para resposta e não pode ser excluído",
-                            });
-                        } else {
-                            res.status(status.BAD_REQUEST).json({
+                            res.status(status.NOT_FOUND).json({
                                 msg: "Colaborador não encontrado",
                             });
                         }
                     });
             } else {
                 res.status(status.BAD_REQUEST).json({
-                    msg: "Colaborador não encontrado",
+                    msg: "Ocorreu um erro imprevisto",
                 });
             }
         })
@@ -156,9 +155,9 @@ exports.Delete = (req, res, next) => {
         });
 };
 
-exports.Update = (req, res, next) => {
+exports.UpdateNameAndEmail = (req, res, next) => {
     const { id } = req.params;
-    const { name, email, password, type, team_id } = req.body;
+    const { name, email } = req.body;
 
     Users.findByPk(id)
         .then((result) => {
@@ -168,9 +167,49 @@ exports.Update = (req, res, next) => {
                         {
                             name: name,
                             email: email,
-                            password: bcrypt.hashSync(password, 10),
-                            type: type,
-                            team_id: team_id,
+                        },
+                        { where: { id: id } }
+                    )
+                    .then((result) => {
+                        if (result) {
+                            res.status(status.OK).json({
+                                msg: `Colaborador atualizado`,
+                            });
+                        }
+                    })
+                    .catch((error) => {
+                        if (
+                            error.name === "SequelizeForeignKeyConstraintError"
+                        ) {
+                            res.status(status.NOT_FOUND).json({
+                                msg: "Colaborador não encontrado",
+                            });
+                        }
+                    });
+            } else {
+                res.status(status.BAD_REQUEST).json({
+                    msg: "Ocorreu um erro imprevisto",
+                });
+            }
+        })
+        .catch(() => {
+            res.status(status.NOT_FOUND).json({
+                msg: "Colaborador não encontrado",
+            });
+        });
+};
+
+exports.UpdateIsActive = (req, res, next) => {
+    const { id } = req.params;
+    const { is_active } = req.body;
+
+    Users.findByPk(id)
+        .then((result) => {
+            if (result) {
+                result
+                    .update(
+                        {
+                            is_active,
                         },
                         { where: { id: id } }
                     )
