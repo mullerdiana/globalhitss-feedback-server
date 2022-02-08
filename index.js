@@ -6,29 +6,31 @@ const PORT = process.env.DATABASE_PORT || 5000;
 const app = express();
 
 const swaggerUiExpress = require("swagger-ui-express");
-const employeesRoutes = require("./src/routes/employees.routes.js");
-const managersRoutes = require("./src/routes/managers.routes.js");
+const usersRoutes = require("./src/routes/users.routes.js");
 const teamsRoutes = require("./src/routes/teams.routes.js");
 const formsRoutes = require("./src/routes/forms.routes.js");
 const questionsRoutes = require("./src/routes/questions.routes.js");
-const multipleChoiceOptionsRoutes = require("./src/routes/multiple_choice_options.routes");
+const optionsRoutes = require("./src/routes/options.routes");
 const answersRoutes = require("./src/routes/answers.routes.js");
 const loginRoutes = require("./src/routes/login.routes.js");
 const employees_FormsRoutes = require("./src/routes/employees_forms.routes.js");
+const employees_managersRoutes = require("./src/routes/employees_managers.routes");
+const employees_teamsRoutes = require("./src/routes/employees_teams.routes");
 const authentication = require("./src/middleware/auth");
 const swaggerFile = require("./swagger.json");
 
 app.use(cors());
 app.use(express.json());
 app.use(loginRoutes);
-app.use("/employees", authentication.auth, employeesRoutes);
-app.use("/managers", authentication.auth, managersRoutes);
-app.use("/teams", authentication.auth, teamsRoutes);
-app.use("/forms", authentication.auth, formsRoutes);
-app.use("/questions", authentication.auth, questionsRoutes);
-app.use("/options", authentication.auth, multipleChoiceOptionsRoutes);
-app.use("/answers", authentication.auth, answersRoutes);
-app.use("/employees-forms", authentication.auth, employees_FormsRoutes);
+app.use("/users", usersRoutes);
+app.use("/teams", teamsRoutes);
+app.use("/forms", formsRoutes);
+app.use("/questions", questionsRoutes);
+app.use("/options", optionsRoutes);
+app.use("/answers", answersRoutes);
+app.use("/employees-forms", employees_FormsRoutes);
+app.use("/employees-managers", employees_managersRoutes);
+app.use("/employees-teams", employees_teamsRoutes);
 
 app.use(
     "/api-docs",
