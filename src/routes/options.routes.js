@@ -1,31 +1,13 @@
 const express = require("express");
-const multipleChoiceOptionsRoutes = express.Router();
+const optionsRoutes = express.Router();
 
-const multipleChoiceOptionsController = require("../controllers/multiple_choice_options");
+const optionsController = require("../controllers/options");
 
-multipleChoiceOptionsRoutes.post(
-    "/create",
-    multipleChoiceOptionsController.Create
-);
-multipleChoiceOptionsRoutes.get(
-    "/all",
-    multipleChoiceOptionsController.SearchAll
-);
-multipleChoiceOptionsRoutes.get(
-    "/get-by-question",
-    multipleChoiceOptionsController.GetOptionsByQuestion
-);
-multipleChoiceOptionsRoutes.get(
-    "/get-answer/:id",
-    multipleChoiceOptionsController.SearchOne
-);
-multipleChoiceOptionsRoutes.delete(
-    "/delete/:id",
-    multipleChoiceOptionsController.Delete
-);
-multipleChoiceOptionsRoutes.put(
-    "/edit/:id",
-    multipleChoiceOptionsController.Update
-);
+optionsRoutes.post("/create", optionsController.Create);
+optionsRoutes.get("/all", optionsController.SearchAll);
+optionsRoutes.get("/get-by-question", optionsController.GetOptionsByQuestion);
+optionsRoutes.get("/get-answer/:id", optionsController.SearchOne);
+optionsRoutes.delete("/delete/:id", optionsController.Delete);
+optionsRoutes.put("/edit/:id", optionsController.Update);
 
-module.exports = multipleChoiceOptionsRoutes;
+module.exports = optionsRoutes;

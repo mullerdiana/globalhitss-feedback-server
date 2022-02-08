@@ -18,7 +18,7 @@ const Users = sequelize.define("users", {
     },
     type: {
         allowNull: false,
-        type: Sequelize.INTEGER(100),
+        type: Sequelize.INTEGER,
     },
     is_active: {
         type: Sequelize.INTEGER,

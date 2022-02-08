@@ -1,5 +1,5 @@
 const Teams = require("../models/teams");
-const employees = require("../models/employees");
+const Users = require("../models/users");
 const status = require("http-status");
 const sequelize = require("../database/sequelize");
 
@@ -127,8 +127,8 @@ exports.Update = (req, res, next) => {
         });
 };
 
-exports.SearchAllemployeesTimes = (req, res, next) => {
-    Teams.findAll({ include: [{ model: employees, as: "employees" }] })
+exports.SearchAllUsersTimes = (req, res, next) => {
+    Teams.findAll({ include: [{ model: Users, as: "Users" }] })
         .then((result) => {
             if (result) {
                 res.status(status.OK).send(result);
@@ -141,10 +141,10 @@ exports.SearchAllemployeesTimes = (req, res, next) => {
         });
 };
 
-exports.SearchOneemployeesTimes = (req, res, next) => {
+exports.SearchOneUsersTimes = (req, res, next) => {
     const id = req.params.id;
 
-    Teams.findByPk(id, { include: [{ model: employees, as: "employees" }] })
+    Teams.findByPk(id, { include: [{ model: Users, as: "Users" }] })
         .then((result) => {
             if (result) {
                 res.status(status.OK).send(result);

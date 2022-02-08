@@ -11,9 +11,7 @@ exports.Create = (req, res, next) => {
     })
         .then((result) => {
             if (result) {
-                res.status(status.OK).send({
-                    msg: "Relação entre colaborador e gestor criada",
-                });
+                res.status(status.OK).json({ msg: `Usuário criado` });
             } else {
                 res.status(status.BAD_REQUEST).json({
                     msg: "Ocorreu um erro imprevisto",

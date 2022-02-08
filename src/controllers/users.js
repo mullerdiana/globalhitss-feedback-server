@@ -1,10 +1,11 @@
 const Users = require("../models/users");
+const Employees_managers = require("../models/employees_managers");
 const bcrypt = require("bcrypt");
 const status = require("http-status");
 const sequelize = require("../database/sequelize");
 
 exports.Create = (req, res, next) => {
-    const { name, email, password, type } = req.body;
+    const { name, email, password, type, manager_id } = req.body;
 
     Users.create({
         name,
@@ -14,6 +15,14 @@ exports.Create = (req, res, next) => {
     })
         .then((result) => {
             if (result) {
+                console.log(result.type);
+                if (result.type === 2) {
+                    Employees_managers.create({
+                        employee_id: result.id,
+                        manager_id: manager_id,
+                    });
+                }
+
                 res.status(status.OK).json({ msg: `Usuário criado` });
             } else {
                 res.status(status.BAD_REQUEST).json({
