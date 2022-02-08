@@ -1,32 +1,35 @@
 const Sequelize = require("sequelize");
 const sequelize = require("../database/sequelize");
-const Employees = require("./employees");
-const Managers = require("./managers");
 
 const Forms = sequelize.define("forms", {
-	title: {
-		allowNull: false,
-		type: Sequelize.STRING(100),
-	},
-	type: {
-		allowNull: false,
-		type: Sequelize.STRING(100),
-	},
-	is_active: {
-		type: Sequelize.BOOLEAN,
-	},
-});
-
-Forms.belongsTo(Managers, {
-	as: "Managers",
-	foreignKey: "manager_id",
+    title: {
+        type: Sequelize.STRING(4000),
+        allowNull: false,
+    },
+    manager_id: {
+        allowNull: false,
+        type: Sequelize.INTEGER,
+    },
+    type: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+    },
+    is_active: {
+        type: Sequelize.INTEGER,
+    },
 });
 
 Forms.associate = (models) => {
-	Forms.belongsToMany(models.Employees, {
-		through: "employees_forms",
-		as: "Forms_Employees",
-	});
+    Forms.belongsToMany(models.Users, {
+        through: "employees_forms",
+        as: "Form_Employee",
+        foreignKey: "form_id",
+    });
+
+    Forms.belongsTo(models.Users, {
+        as: "Form_User",
+        foreignKey: "manager_id",
+    });
 };
 
 module.exports = Forms;

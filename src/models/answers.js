@@ -1,23 +1,23 @@
 const Sequelize = require("sequelize");
 const sequelize = require("../database/sequelize");
-const Questions = require("./questions");
-const Employees = require("./employees");
 
 const Answers = sequelize.define("answers", {
-	value: {
-		allowNull: false,
-		type: Sequelize.STRING(1000),
-	},
+    value: {
+        type: Sequelize.STRING(4000),
+        allowNull: false,
+    },
 });
 
-Answers.belongsTo(Questions, {
-	as: "Questions",
-	foreignKey: "question_id",
-});
+Answers.associate = (models) => {
+    Answers.belongsTo(models.Questions, {
+        as: "Questions",
+        foreignKey: "question_id",
+    });
 
-Answers.belongsTo(Employees, {
-	as: "Employees",
-	foreignKey: "employee_id",
-});
+    Answers.belongsTo(models.Users, {
+        as: "Employee",
+        foreignKey: "employee_id",
+    });
+};
 
 module.exports = Answers;

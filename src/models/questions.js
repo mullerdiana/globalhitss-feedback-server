@@ -1,31 +1,29 @@
 const Sequelize = require("sequelize");
 const sequelize = require("../database/sequelize");
-const Forms = require("./forms");
-const MultipleChoiceOptions = require("./multiple_choice_options");
 
 const Questions = sequelize.define("questions", {
-	title: {
-		allowNull: false,
-		type: Sequelize.STRING,
-	},
-	is_selectable: {
-		type: Sequelize.BOOLEAN,
-	},
-	is_active: {
-		type: Sequelize.BOOLEAN,
-	},
+    title: {
+        type: Sequelize.STRING,
+        allowNull: false,
+    },
+    is_selectable: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+    },
+    is_active: {
+        type: Sequelize.INTEGER,
+    },
 });
 
-Questions.belongsTo(Forms, {
-	as: "Forms",
-	foreignKey: "form_id",
-});
-
-Questions.hasMany(MultipleChoiceOptions, {
-	as: "Questions",
-	foreignKey: "question_id",
-	onDelete: "CASCADE",
-	onUpdate: "CASCADE",
-});
+Questions.associate = (models) => {
+    Questions.belongsTo(models.Forms, {
+        as: "Forms",
+        foreignKey: "form_id",
+    });
+    Questions.hasMany(models.Options, {
+        as: "Question_Options",
+        foreignKey: "question_id",
+    });
+};
 
 module.exports = Questions;

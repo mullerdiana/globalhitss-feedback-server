@@ -6,7 +6,10 @@
 	"license": "MIT",
 	"scripts": {
 		"dev": "nodemon index.js",
-		"start": "node index.js"
+		"start": "node index.js",
+		"seed-admin": "node src/database/seeds/admin.js",
+		"seed-manager": "node src/database/seeds/manager.js",
+		"seed-employee": "node src/database/seeds/employee.js"
 	},
 	"dependencies": {
 		"bcrypt": "^5.0.0",
