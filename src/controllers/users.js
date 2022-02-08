@@ -81,10 +81,12 @@ exports.SearchOne = (req, res, next) => {
 };
 
 exports.GetByManager = async (req, res, next) => {
-    const { search } = req.query;
+    const { manager } = req.query;
 
     const [response] = await sequelize.query(
-        `SELECT id, name, email, team_id, is_active FROM Userss WHERE manager_id LIKE '%${search}%'`
+        `SELECT users.id, users.name, users.email, users.is_active 
+        FROM users 
+        JOIN employees_managers ON employees_managers.manager_id = ${manager} WHERE employees_managers.employee_id = users.id`
     );
     //TODO: Validar se ao não encontrar usuário, é correto retornar status 200 e array vazio
     res.status(status.OK).send(response);
@@ -94,7 +96,7 @@ exports.GetByManagerAndTeam = async (req, res, next) => {
     const { manager, team } = req.query;
 
     const [response] = await sequelize.query(
-        `SELECT id, name, email, team_id, is_active FROM Userss WHERE manager_id LIKE '%${manager}%' AND team_id LIKE '%${team}%'`
+        `SELECT id, name, email, team_id, is_active FROM Users WHERE manager_id LIKE '%${manager}%' AND team_id LIKE '%${team}%'`
     );
     //TODO: Validar se ao não encontrar usuário, é correto retornar status 200 e array vazio
     res.status(status.OK).send(response);
@@ -104,7 +106,7 @@ exports.GetByManagerAndTeamNull = async (req, res, next) => {
     const { manager } = req.query;
 
     const [response] = await sequelize.query(
-        `SELECT id, name, email, team_id, is_active FROM Userss WHERE manager_id LIKE '%${manager}%' AND team_id IS NULL`
+        `SELECT id, name, email, team_id, is_active FROM Users WHERE manager_id LIKE '%${manager}%' AND team_id IS NULL`
     );
     //TODO: Validar se ao não encontrar usuário, é correto retornar status 200 e array vazio
     res.status(status.OK).send(response);
