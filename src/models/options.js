@@ -3,8 +3,12 @@ const sequelize = require("../database/sequelize");
 
 const Options = sequelize.define("options", {
     title: {
-        allowNull: false,
         type: Sequelize.STRING(4000),
+        allowNull: false,
+    },
+    question_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
     },
 });
 

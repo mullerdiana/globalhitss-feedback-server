@@ -6,6 +6,14 @@ const Answers = sequelize.define("answers", {
         type: Sequelize.STRING(4000),
         allowNull: false,
     },
+    employee_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+    },
+    question_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+    },
 });
 
 Answers.associate = (models) => {
