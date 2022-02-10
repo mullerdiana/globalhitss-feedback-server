@@ -84,29 +84,42 @@ exports.GetByManager = async (req, res, next) => {
     const { manager } = req.query;
 
     const [response] = await sequelize.query(
-        `SELECT users.id, users.name, users.email, users.is_active 
+        `SELECT users.id, users.name, users.email 
         FROM users 
-        JOIN employees_managers ON employees_managers.manager_id = ${manager} WHERE employees_managers.employee_id = users.id`
+        JOIN employees_managers ON employees_managers.manager_id = ${manager} 
+        WHERE employees_managers.employee_id = users.id
+        AND users.is_active = 1
+        `
     );
 
     res.status(status.OK).send(response);
 };
 
-exports.GetByManagerAndTeam = async (req, res, next) => {
-    const { manager, team } = req.query;
+exports.GetByTeam = async (req, res, next) => {
+    const { team } = req.query;
 
     const [response] = await sequelize.query(
-        `SELECT id, name, email, team_id, is_active FROM Users WHERE manager_id LIKE '%${manager}%' AND team_id LIKE '%${team}%'`
+        `SELECT users.id, users.name, users.email 
+        FROM users 
+        JOIN employees_teams ON employees_teams.team_id = ${team} 
+        WHERE employees_teams.employee_id = users.id
+        AND users.is_active = 1
+        `
     );
 
     res.status(status.OK).send(response);
 };
 
-exports.GetByManagerAndTeamNull = async (req, res, next) => {
+exports.GetByManagerAndWithoutTeam = async (req, res, next) => {
     const { manager } = req.query;
 
     const [response] = await sequelize.query(
-        `SELECT id, name, email, team_id, is_active FROM Users WHERE manager_id LIKE '%${manager}%' AND team_id IS NULL`
+        `SELECT users.id, users.name, users.email, users.is_active
+        FROM users
+        INNER JOIN employees_managers ON employees_managers.employee_id = users.id 
+        WHERE employees_managers.manager_id = ${manager}
+        AND users.id NOT IN (SELECT employee_id FROM employees_teams)
+        AND users.is_active = 1`
     );
 
     res.status(status.OK).send(response);

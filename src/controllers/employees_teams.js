@@ -110,38 +110,40 @@ exports.Create = (req, res, next) => {
 //     res.status(status.OK).send(response);
 // };
 
-// exports.Delete = (req, res, next) => {
-//     const { id } = req.params;
+exports.Delete = (req, res, next) => {
+    const { id } = req.params;
 
-//     Employees_teams.findByPk(id)
-//         .then((result) => {
-//             if (result) {
-//                 result
-//                     .destroy({
-//                         where: { id: id },
-//                     })
-//                     .then((result) => {
-//                         if (result) {
-//                             res.status(status.OK).send();
-//                         }
-//                     })
-//                     .catch((error) => {
-//                         res.status(status.BAD_REQUEST).json({
-//                             msg: "Ocorreu um erro imprevisto",
-//                         });
-//                     });
-//             } else {
-//                 res.status(status.BAD_REQUEST).json({
-//                     msg: "Ocorreu um erro imprevisto",
-//                 });
-//             }
-//         })
-//         .catch(() => {
-//             res.status(status.NOT_FOUND).json({
-//                 msg: "Informação não encontrada",
-//             });
-//         });
-// };
+    Employees_teams.findByPk(id)
+        .then((result) => {
+            if (result) {
+                result
+                    .destroy({
+                        where: { id: id },
+                    })
+                    .then((result) => {
+                        if (result) {
+                            res.status(status.OK).json({
+                                msg: "Colaborador removido do time",
+                            });
+                        }
+                    })
+                    .catch((error) => {
+                        res.status(status.BAD_REQUEST).json({
+                            msg: "Ocorreu um erro imprevisto",
+                        });
+                    });
+            } else {
+                res.status(status.BAD_REQUEST).json({
+                    msg: "Ocorreu um erro imprevisto",
+                });
+            }
+        })
+        .catch(() => {
+            res.status(status.NOT_FOUND).json({
+                msg: "Informação não encontrada",
+            });
+        });
+};
 
 // exports.Update = (req, res, next) => {
 //     const { id } = req.params;
