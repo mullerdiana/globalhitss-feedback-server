@@ -12,7 +12,7 @@ exports.Create = (req, res, next) => {
         .then((result) => {
             if (result) {
                 res.status(status.OK).send({
-                    msg: "Relação entre colaborador e time criada",
+                    msg: "Colaborador adicionado ao time",
                 });
             } else {
                 res.status(status.BAD_REQUEST).json({
@@ -23,7 +23,7 @@ exports.Create = (req, res, next) => {
         .catch((error) => {
             console.log(error);
             res.status(status.BAD_REQUEST).json({
-                msg: "Não foi possível criar a relação entre colaborador e time.",
+                msg: "Não foi possível adicionar o colaborador ao time",
             });
         });
 };

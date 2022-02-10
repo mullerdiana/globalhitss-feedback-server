@@ -99,7 +99,7 @@ exports.GetByTeam = async (req, res, next) => {
     const { team } = req.query;
 
     const [response] = await sequelize.query(
-        `SELECT users.id, users.name, users.email 
+        `SELECT users.id, users.name, users.email, employees_teams.id as relation_id
         FROM users 
         JOIN employees_teams ON employees_teams.team_id = ${team} 
         WHERE employees_teams.employee_id = users.id
