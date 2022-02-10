@@ -24,6 +24,9 @@ employees_teamsRoutes.post("/create", employees_teamsController.Create);
 //     "/get-by-employee-and-answered",
 //     employees_teamsController.GetFormsByEmployeeAndAnswered
 // );
+
+employees_teamsRoutes.delete("/delete/:id", employees_teamsController.Delete);
+
 // employees_teamsRoutes.put("/edit/:id", employees_teamsController.Update);
 
 module.exports = employees_teamsRoutes;
