@@ -20,5 +20,9 @@ usersRoutes.patch(
 );
 usersRoutes.patch("/edit-is-active/:id", usersController.UpdateIsActive);
 usersRoutes.patch("/edit-team/:id", usersController.UpdateTeam);
+usersRoutes.patch(
+    "/edit-manager-specs/:id",
+    usersController.UpdateManagerSpecs
+);
 
 module.exports = usersRoutes;
