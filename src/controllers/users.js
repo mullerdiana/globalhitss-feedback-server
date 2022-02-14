@@ -5,17 +5,30 @@ const status = require("http-status");
 const sequelize = require("../database/sequelize");
 
 exports.Create = (req, res, next) => {
-    const { name, email, password, type, manager_id } = req.body;
+    const {
+        name,
+        email,
+        password,
+        type,
+        manager_id,
+        current_position,
+        admission_date,
+        project,
+        activities,
+    } = req.body;
 
     Users.create({
         name,
         email,
         password: bcrypt.hashSync(password, 10),
         type,
+        current_position,
+        admission_date,
+        project,
+        activities,
     })
         .then((result) => {
             if (result) {
-                console.log(result.type);
                 if (result.type === 2) {
                     Employees_managers.create({
                         employee_id: result.id,
@@ -123,6 +136,52 @@ exports.GetByManagerAndWithoutTeam = async (req, res, next) => {
     );
 
     res.status(status.OK).send(response);
+};
+
+exports.UpdateManagerSpecs = (req, res, next) => {
+    const { id } = req.params;
+    const { current_position, admission_date, project, activities } = req.body;
+
+    Users.findByPk(id)
+        .then((result) => {
+            if (result) {
+                result
+                    .update(
+                        {
+                            current_position,
+                            admission_date,
+                            project,
+                            activities,
+                        },
+                        { where: { id: id } }
+                    )
+                    .then((result) => {
+                        if (result) {
+                            res.status(status.OK).json({
+                                msg: `Colaborador atualizado`,
+                            });
+                        }
+                    })
+                    .catch((error) => {
+                        if (
+                            error.name === "SequelizeForeignKeyConstraintError"
+                        ) {
+                            res.status(status.NOT_FOUND).json({
+                                msg: "Colaborador não encontrado",
+                            });
+                        }
+                    });
+            } else {
+                res.status(status.BAD_REQUEST).json({
+                    msg: "Ocorreu um erro imprevisto",
+                });
+            }
+        })
+        .catch(() => {
+            res.status(status.NOT_FOUND).json({
+                msg: "Colaborador não encontrado",
+            });
+        });
 };
 
 exports.UpdatePassword = (req, res, next) => {

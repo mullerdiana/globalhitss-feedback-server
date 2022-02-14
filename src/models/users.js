@@ -23,6 +23,22 @@ const Users = sequelize.define("users", {
     is_active: {
         type: Sequelize.INTEGER,
     },
+    current_position: {
+        type: Sequelize.STRING(500),
+        allowNull: true,
+    },
+    admission_date: {
+        type: Sequelize.STRING(500),
+        allowNull: true,
+    },
+    project: {
+        type: Sequelize.STRING(500),
+        allowNull: true,
+    },
+    activities: {
+        type: Sequelize.STRING(500),
+        allowNull: true,
+    },
 });
 
 Users.associate = (models) => {
