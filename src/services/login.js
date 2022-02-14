@@ -21,7 +21,7 @@ module.exports = {
                         .json({ msg: "Usuário não encontrado" });
                 }
 
-                if (result.is_active) {
+                if (result.is_active === 1) {
                     if (!bcrypt.compareSync(password, result.password)) {
                         return res
                             .status(401)
@@ -34,6 +34,10 @@ module.exports = {
                         email: result.email,
                         type: result.type,
                         isActive: result.isActive,
+                        current_position: result.current_position,
+                        admission_date: result.admission_date,
+                        project: result.project,
+                        activities: result.activities,
                     };
 
                     let token = jwt.sign(jwtPayload, process.env.JWT_SECRET, {
