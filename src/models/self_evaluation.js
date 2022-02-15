@@ -16,6 +16,7 @@ const Self_evaluation = sequelize.define("self_evaluation", {
     },
     is_active: {
         type: Sequelize.INTEGER,
+        defaultValue: 1,
     },
 });
 
