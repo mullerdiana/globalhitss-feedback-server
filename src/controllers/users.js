@@ -140,7 +140,8 @@ exports.GetByManagerAndWithoutTeam = async (req, res, next) => {
 
 exports.UpdateManagerSpecs = (req, res, next) => {
     const { id } = req.params;
-    const { current_position, admission_date, project, activities } = req.body;
+    const { current_position, admission_date, project, activities, password } =
+        req.body;
 
     Users.findByPk(id)
         .then((result) => {
@@ -152,6 +153,7 @@ exports.UpdateManagerSpecs = (req, res, next) => {
                             admission_date,
                             project,
                             activities,
+                            password,
                         },
                         { where: { id: id } }
                     )
