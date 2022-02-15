@@ -81,14 +81,14 @@ exports.GetAnsweredsByForm = async (req, res, next) => {
     const [response] = await sequelize.query(
         `SELECT 
 		employees_forms.id,
-		employees_forms.forms_id as id_form, 
-		employees.id as id_employee,
-		employees.name as name_employee
+		employees_forms.form_id as id_form, 
+		users.id as id_employee,
+		users.name as name_employee
 		,employees_forms.answered,
 		employees_forms.created_at,
 		employees_forms.updated_at
-		FROM employees 
-		INNER JOIN employees_forms on employees.id = employees_forms.employees_id where employees_forms.forms_id = ${form} AND employees_forms.answered = ${answered}`
+		FROM users 
+		INNER JOIN employees_forms on users.id = employees_forms.employee_id where employees_forms.form_id = ${form} AND employees_forms.answered = ${answered}`
     );
 
     res.status(status.OK).send(response);
