@@ -52,6 +52,11 @@ Users.associate = (models) => {
         foreignKey: "manager_id",
     });
 
+    Users.hasMany(models.Self_evaluation, {
+        as: "User_Self_evaluation",
+        foreignKey: "user_id",
+    });
+
     Users.belongsToMany(models.Forms, {
         through: "employees_forms",
         foreignKey: "employee_id",
