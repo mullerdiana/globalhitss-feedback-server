@@ -97,7 +97,7 @@ exports.GetByManager = async (req, res, next) => {
     const { manager } = req.query;
 
     const [response] = await sequelize.query(
-        `SELECT users.id, users.name, users.email 
+        `SELECT users.id, users.name, users.email, users.current_position, users.admission_date, users.project, users.activities
         FROM users 
         JOIN employees_managers ON employees_managers.manager_id = ${manager} 
         WHERE employees_managers.employee_id = users.id
