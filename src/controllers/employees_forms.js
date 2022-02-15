@@ -3,11 +3,14 @@ const status = require("http-status");
 const sequelize = require("../database/sequelize");
 
 exports.Create = (req, res, next) => {
-    const { employees_id, forms_id } = req.body;
+    const { employee_id, form_id } = req.body;
+
+    console.log({ employee_id });
+    console.log({ form_id });
 
     Employees_forms.create({
-        employees_id,
-        forms_id,
+        employee_id,
+        form_id,
     })
         .then((result) => {
             if (result) {
@@ -97,11 +100,11 @@ exports.GetFormsByEmployeeAndAnswered = async (req, res, next) => {
     const [response] = await sequelize.query(
         `SELECT 
 		employees_forms.id,
-		employees_forms.forms_id as id_form,
+		employees_forms.form_id as id_form,
 		employees_forms.answered,
 		forms.title
 		FROM employees_forms
-		LEFT JOIN forms on employees_forms.forms_id = forms.id WHERE employees_id = ${employee_id} AND answered = ${answered}`
+		LEFT JOIN forms on employees_forms.form_id = forms.id WHERE employee_id = ${employee_id} AND answered = ${answered}`
     );
 
     res.status(status.OK).send(response);
