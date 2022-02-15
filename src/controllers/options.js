@@ -64,7 +64,7 @@ exports.GetOptionsByQuestion = async (req, res, next) => {
         },
     })
         .then((result) => {
-            if (result.length > 1) {
+            if (result.length >= 1) {
                 res.status(status.OK).send(result);
             } else {
                 res.status(status.NOT_FOUND).json({
