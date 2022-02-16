@@ -6,7 +6,18 @@
 	"license": "MIT",
 	"scripts": {
 		"dev": "nodemon index.js",
-		"start": "node index.js"
+		"start": "node index.js",
+		"seed-admin": "node src/database/seeds/admin.js",
+		"seed-manager": "node src/database/seeds/manager.js",
+		"seed-team": "node src/database/seeds/team.js",
+		"seed-form": "node src/database/seeds/form.js",
+		"seed-question": "node src/database/seeds/question.js",
+		"seed-option": "node src/database/seeds/option.js",
+		"seed-answer": "node src/database/seeds/answer.js",
+		"seed-employee": "node src/database/seeds/employee.js",
+		"seed-employees_managers": "node src/database/seeds/employees_managers.js",
+		"seed-employees_teams": "node src/database/seeds/employees_teams.js",
+		"seed-employees_forms": "node src/database/seeds/employees_forms.js"
 	},
 	"dependencies": {
 		"bcrypt": "^5.0.0",
@@ -21,6 +32,7 @@
 		"pg": "^8.7.1",
 		"react-scripts": "3.4.0",
 		"sequelize": "^6.3.5",
+		"swagger-ui-express": "^4.3.0",
 		"tedious": "^14.0.0"
 	},
 	"devDependencies": {

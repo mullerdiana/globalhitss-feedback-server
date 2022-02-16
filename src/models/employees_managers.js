@@ -1,7 +1,7 @@
 const Sequelize = require("sequelize");
 const sequelize = require("../database/sequelize");
 
-const Employees_forms = sequelize.define("employees_forms", {
+const Employees_managers = sequelize.define("employees_managers", {
     employee_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
@@ -12,19 +12,16 @@ const Employees_forms = sequelize.define("employees_forms", {
         onDelete: "NO ACTION",
         onUpdate: "NO ACTION",
     },
-    form_id: {
+    manager_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-            model: "forms",
+            model: "users",
             key: "id",
         },
         onDelete: "NO ACTION",
         onUpdate: "NO ACTION",
     },
-    answered: {
-        type: Sequelize.INTEGER,
-    },
 });
 
-module.exports = Employees_forms;
+module.exports = Employees_managers;

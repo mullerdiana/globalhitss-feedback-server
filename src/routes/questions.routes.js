@@ -3,15 +3,15 @@ const questionsRoutes = express.Router();
 
 const questionsController = require("../controllers/questions");
 
-questionsRoutes.post("/cadastrar", questionsController.Create);
-questionsRoutes.get("/todos", questionsController.SearchAll);
+questionsRoutes.post("/create", questionsController.Create);
+questionsRoutes.get("/all", questionsController.SearchAll);
 questionsRoutes.get("/search", questionsController.SearchId);
 questionsRoutes.get(
-	"/buscar-perguntas-do-formulario",
-	questionsController.SearchQuestionsByFormId
+    "/get-by-form",
+    questionsController.SearchQuestionsByFormId
 );
-questionsRoutes.get("/pergunta/:id", questionsController.SearchOne);
-questionsRoutes.delete("/deletar/:id", questionsController.Delete);
-questionsRoutes.put("/editar/:id", questionsController.Update);
+questionsRoutes.get("/question/:id", questionsController.SearchOne);
+questionsRoutes.delete("/delete/:id", questionsController.Delete);
+questionsRoutes.put("/edit/:id", questionsController.Update);
 
 module.exports = questionsRoutes;

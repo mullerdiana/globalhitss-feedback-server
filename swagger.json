@@ -1,0 +1,1820 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Global Hitss - Feedback - Server",
+        "description": "API para aplicação Global Hitss - Feedback",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/managers/create": {
+            "post": {
+                "tags": [
+                    "Managers"
+                ],
+                "summary": "Criar um gestor.",
+                "description": "Criar um novo usuário do tipo gestor.",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/Json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Managers"
+                            },
+                            "example": {
+                                "name": "Gestor Teste",
+                                "email": "gestorteste@globalhitss.com.br",
+                                "password": "123456",
+                                "type": "gestor"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Criado com sucesso",
+                        "content": {
+                            "application/Json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Managers"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erro"
+                    }
+                }
+            }
+        },
+        "/managers/all": {
+            "get": {
+                "tags": [
+                    "Managers"
+                ],
+                "summary": "Listar gestores.",
+                "description": "Lista todos os usuários do tipo gestor.",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "content": {
+                            "application/Json": {
+                                "schema": {
+                                    "type": "array",
+                                    "item": {
+                                        "$ref": "#/components/schemas/Managers"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erro"
+                    }
+                }
+            }
+        },
+        "/managers/search/{search}": {
+            "get": {
+                "tags": [
+                    "Managers"
+                ],
+                "parameters": [
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Nome do gestor para buscar",
+                        "require": true
+                    }
+                ],
+                "summary": "Buscar um gestor.",
+                "description": "Buscar um usuário do tipo gestor por nome.",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "content": {
+                            "application/Json": {
+                                "schema": {
+                                    "type": "array",
+                                    "item": {
+                                        "$ref": "#/components/schemas/Managers"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erro"
+                    }
+                }
+            }
+        },
+        "/managers/edit/{id}": {
+            "put": {
+                "tags": [
+                    "Managers"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id do gestor para editar",
+                        "require": true
+                    }
+                ],
+                "summary": "Editar um gestor.",
+                "description": "Editar um usuário do tipo gestor.",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/Json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Managers"
+                            },
+                            "example": {
+                                "name": "Gestor Teste",
+                                "email": "gestorteste@globalhitss.com.br",
+                                "password": "123456",
+                                "type": "gestor"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Editado com sucesso"
+                    },
+                    "500": {
+                        "description": "Erro"
+                    }
+                }
+            }
+        },
+        "/managers/delete/{id}": {
+            "delete": {
+                "tags": [
+                    "Managers"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id do gestor para deletar",
+                        "require": true
+                    }
+                ],
+                "summary": "Deletar um gestor.",
+                "description": "Deletar um usuário do tipo gestor.",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Deletado com sucesso"
+                    },
+                    "500": {
+                        "description": "Erro"
+                    }
+                }
+            }
+        },
+        "/employees/create": {
+            "post": {
+                "tags": [
+                    "Employees"
+                ],
+                "summary": "Criar um colaborador.",
+                "description": "Criar um novo usuário do tipo colaborador.",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/Json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Employees"
+                            },
+                            "example": {
+                                "name": "Colaborador Teste",
+                                "email": "colaboradorteste@globalhitss.com.br",
+                                "password": "123456",
+                                "type": "gestor"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Criado com sucesso",
+                        "content": {
+                            "application/Json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Employees"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erro"
+                    }
+                }
+            }
+        },
+        "/employees/all": {
+            "get": {
+                "tags": [
+                    "Employees"
+                ],
+                "summary": "Listar colaboradores.",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "description": "Lista todos os usuários do tipo colaborador.",
+                "responses": {
+                    "201": {
+                        "content": {
+                            "application/Json": {
+                                "schema": {
+                                    "type": "array",
+                                    "item": {
+                                        "$ref": "#/components/schemas/Employees"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erro"
+                    }
+                }
+            }
+        },
+        "/employees/search/search": {
+            "get": {
+                "tags": [
+                    "Employees"
+                ],
+                "parameters": [
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Nome do colaborador para buscar",
+                        "require": true
+                    }
+                ],
+                "summary": "Buscar um colaborador.",
+                "description": "Buscar um usuário do tipo colaborador por nome.",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "content": {
+                            "application/Json": {
+                                "schema": {
+                                    "type": "array",
+                                    "item": {
+                                        "$ref": "#/components/schemas/Employees"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erro"
+                    }
+                }
+            }
+        },
+        "/employees/get-by-manager?search={id}": {
+            "get": {
+                "tags": [
+                    "Employees"
+                ],
+                "parameters": [
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Id do gestor para buscar",
+                        "require": true
+                    }
+                ],
+                "summary": "Buscar um colaborador.",
+                "description": "Buscar um usuário do tipo colaborador por ID do gestor.",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "content": {
+                            "application/Json": {
+                                "schema": {
+                                    "type": "array",
+                                    "item": {
+                                        "$ref": "#/components/schemas/EmployeesByManager"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erro"
+                    }
+                }
+            }
+        },
+        "/employees/get-by-manager-and-team?manager={id}&team={id}": {
+            "get": {
+                "tags": [
+                    "Employees"
+                ],
+                "parameters": [
+                    {
+                        "name": "manager",
+                        "in": "query",
+                        "description": "Id do gestor para buscar",
+                        "require": true
+                    },
+                    {
+                        "name": "team",
+                        "in": "query",
+                        "description": "Id do time para buscar",
+                        "require": true
+                    }
+                ],
+                "summary": "Buscar um colaborador.",
+                "description": "Buscar um usuário do tipo colaborador por ID do gestor e ID do time.",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "content": {
+                            "application/Json": {
+                                "schema": {
+                                    "type": "array",
+                                    "item": {
+                                        "$ref": "#/components/schemas/EmployeesByManager"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erro"
+                    }
+                }
+            }
+        },
+        "/employees/get-by-manager-and-team-null?manager={id}": {
+            "get": {
+                "tags": [
+                    "Employees"
+                ],
+                "parameters": [
+                    {
+                        "name": "manager",
+                        "in": "query",
+                        "description": "Id do gestor para buscar",
+                        "require": true
+                    }
+                ],
+                "summary": "Buscar um colaborador.",
+                "description": "Buscar um usuário do tipo colaborador por ID do gestor e time NULL.",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "content": {
+                            "application/Json": {
+                                "schema": {
+                                    "type": "array",
+                                    "item": {
+                                        "$ref": "#/components/schemas/EmployeesByManager"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erro"
+                    }
+                }
+            }
+        },
+        "/employees/edit/{id}": {
+            "put": {
+                "tags": [
+                    "Employees"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id do colaborador para editar",
+                        "require": true
+                    }
+                ],
+                "summary": "Editar um colaborador.",
+                "description": "Editar um usuário do tipo colaborador.",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/Json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Employees"
+                            },
+                            "example": {
+                                "name": "Colaborador Teste",
+                                "email": "colaboradorteste@globalhitss.com.br",
+                                "password": "123456",
+                                "type": "colaborador"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Editado com sucesso"
+                    },
+                    "500": {
+                        "description": "Erro"
+                    }
+                }
+            }
+        },
+        "/employees/edit-team/{id}": {
+            "patch": {
+                "tags": [
+                    "Employees"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id do colaborador para editar",
+                        "require": true
+                    }
+                ],
+                "summary": "Editar um colaborador.",
+                "description": "Editar um usuário do tipo colaborador.",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/Json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/EmployeeEditTeam"
+                            },
+                            "example": {
+                                "team_id": "1 || null"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Editado com sucesso"
+                    },
+                    "500": {
+                        "description": "Erro"
+                    }
+                }
+            }
+        },
+        "/employees/delete/{id}": {
+            "delete": {
+                "tags": [
+                    "Employees"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id do colaborador para deletar",
+                        "require": true
+                    }
+                ],
+                "summary": "Deletar um colaborador.",
+                "description": "Deletar um usuário do tipo colaborador.",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Deletado com sucesso"
+                    },
+                    "500": {
+                        "description": "Erro"
+                    }
+                }
+            }
+        },
+        "/teams/create": {
+            "post": {
+                "tags": [
+                    "Teams"
+                ],
+                "summary": "Criar um time.",
+                "description": "Criar um novo time.",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/Json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Teams"
+                            },
+                            "example": {
+                                "name": "Time Teste",
+                                "manager_id": 1
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Criado com sucesso",
+                        "content": {
+                            "application/Json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Teams"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erro"
+                    }
+                }
+            }
+        },
+        "/teams/all": {
+            "get": {
+                "tags": [
+                    "Teams"
+                ],
+                "summary": "Listar times.",
+                "description": "Lista todos os times.",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "content": {
+                            "application/Json": {
+                                "schema": {
+                                    "type": "array",
+                                    "item": {
+                                        "$ref": "#/components/schemas/Teams"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erro"
+                    }
+                }
+            }
+        },
+        "/teams/edit/{id}": {
+            "put": {
+                "tags": [
+                    "Teams"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id do time para editar",
+                        "require": true
+                    }
+                ],
+                "summary": "Editar um time.",
+                "description": "Editar um time.",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/Json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Teams"
+                            },
+                            "example": {
+                                "name": "Time Teste",
+                                "manager_id": 1
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Editado com sucesso"
+                    },
+                    "500": {
+                        "description": "Erro"
+                    }
+                }
+            }
+        },
+        "/teams/delete/{id}": {
+            "delete": {
+                "tags": [
+                    "Teams"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id do time para deletar",
+                        "require": true
+                    }
+                ],
+                "summary": "Deletar um time.",
+                "description": "Deletar um time.",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Deletado com sucesso"
+                    },
+                    "500": {
+                        "description": "Erro"
+                    }
+                }
+            }
+        },
+        "/forms/create": {
+            "post": {
+                "tags": [
+                    "Forms"
+                ],
+                "summary": "Criar um formulário.",
+                "description": "Criar um novo formulário.",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/Json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Forms"
+                            },
+                            "example": {
+                                "name": "Formulário Teste",
+                                "manager_id": 1
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Criado com sucesso",
+                        "content": {
+                            "application/Json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Forms"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erro"
+                    }
+                }
+            }
+        },
+        "/forms/all": {
+            "get": {
+                "tags": [
+                    "Forms"
+                ],
+                "summary": "Listar formulários.",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "description": "Lista todos os formulários.",
+                "responses": {
+                    "201": {
+                        "content": {
+                            "application/Json": {
+                                "schema": {
+                                    "type": "array",
+                                    "item": {
+                                        "$ref": "#/components/schemas/Forms"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erro"
+                    }
+                }
+            }
+        },
+        "/forms/get-by-manager?manager={id}": {
+            "get": {
+                "tags": [
+                    "Forms"
+                ],
+                "parameters": [
+                    {
+                        "name": "manager",
+                        "in": "query",
+                        "description": "Id do gestor para buscar",
+                        "require": true
+                    }
+                ],
+                "summary": "Buscar formulários.",
+                "description": "Buscar formulários por ID do gestor.",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "content": {
+                            "application/Json": {
+                                "schema": {
+                                    "type": "array",
+                                    "item": {
+                                        "$ref": "#/components/schemas/FormsByManager"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erro"
+                    }
+                }
+            }
+        },
+        "/forms/edit/{id}": {
+            "put": {
+                "tags": [
+                    "Forms"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id do formulário para editar",
+                        "require": true
+                    }
+                ],
+                "summary": "Editar um formulário.",
+                "description": "Editar um formulário.",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/Json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Forms"
+                            },
+                            "example": {
+                                "name": "Formulário Teste",
+                                "manager_id": 1
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Editado com sucesso"
+                    },
+                    "500": {
+                        "description": "Erro"
+                    }
+                }
+            }
+        },
+        "/forms/delete/{id}": {
+            "delete": {
+                "tags": [
+                    "Forms"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id do formulário para deletar",
+                        "require": true
+                    }
+                ],
+                "summary": "Deletar um formulário.",
+                "description": "Deletar um formulário.",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Deletado com sucesso"
+                    },
+                    "500": {
+                        "description": "Erro"
+                    }
+                }
+            }
+        },
+        "/questions/create": {
+            "post": {
+                "tags": [
+                    "Questions"
+                ],
+                "summary": "Criar uma pergunta.",
+                "description": "Criar uma nova pergunta.",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/Json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Questions"
+                            },
+                            "example": {
+                                "name": "Pergunta Teste",
+                                "manager_id": 1
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Criado com sucesso",
+                        "content": {
+                            "application/Json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Questions"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erro"
+                    }
+                }
+            }
+        },
+        "/questions/all": {
+            "get": {
+                "tags": [
+                    "Questions"
+                ],
+                "summary": "Listar perguntas.",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "description": "Listar todas as perguntas.",
+                "responses": {
+                    "201": {
+                        "content": {
+                            "application/Json": {
+                                "schema": {
+                                    "type": "array",
+                                    "item": {
+                                        "$ref": "#/components/schemas/Questions"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erro"
+                    }
+                }
+            }
+        },
+        "/questions/get-by-form?form={id}": {
+            "get": {
+                "tags": [
+                    "Questions"
+                ],
+                "parameters": [
+                    {
+                        "name": "form",
+                        "in": "query",
+                        "description": "Id do formulário para buscar",
+                        "require": true
+                    }
+                ],
+                "summary": "Buscar perguntas.",
+                "description": "Buscar perguntas por ID do formulário.",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "content": {
+                            "application/Json": {
+                                "schema": {
+                                    "type": "array",
+                                    "item": {
+                                        "$ref": "#/components/schemas/QuestionByForm"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erro"
+                    }
+                }
+            }
+        },
+        "/questions/edit/{id}": {
+            "put": {
+                "tags": [
+                    "Questions"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id da pergunta para editar",
+                        "require": true
+                    }
+                ],
+                "summary": "Editar uma pergunta.",
+                "description": "Editar uma pergunta.",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/Json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Questions"
+                            },
+                            "example": {
+                                "name": "Pergunta Teste",
+                                "manager_id": 1
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Editado com sucesso"
+                    },
+                    "500": {
+                        "description": "Erro"
+                    }
+                }
+            }
+        },
+        "/questions/delete/{id}": {
+            "delete": {
+                "tags": [
+                    "Questions"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id da pergunta para deletar",
+                        "require": true
+                    }
+                ],
+                "summary": "Deletar uma pergunta.",
+                "description": "Deletar uma pergunta.",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Deletado com sucesso"
+                    },
+                    "500": {
+                        "description": "Erro"
+                    }
+                }
+            }
+        },
+        "/options/create": {
+            "post": {
+                "tags": [
+                    "Options"
+                ],
+                "summary": "Criar uma opção.",
+                "description": "Criar uma nova opção.",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/Json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Options"
+                            },
+                            "example": {
+                                "name": "Opção Teste",
+                                "manager_id": 1
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Criado com sucesso",
+                        "content": {
+                            "application/Json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Options"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erro"
+                    }
+                }
+            }
+        },
+        "/options/all": {
+            "get": {
+                "tags": [
+                    "Options"
+                ],
+                "summary": "Listar opções.",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "description": "Listar todas as opções.",
+                "responses": {
+                    "201": {
+                        "content": {
+                            "application/Json": {
+                                "schema": {
+                                    "type": "array",
+                                    "item": {
+                                        "$ref": "#/components/schemas/Options"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erro"
+                    }
+                }
+            }
+        },
+        "/options/get-by-question?question={id}": {
+            "get": {
+                "tags": [
+                    "Options"
+                ],
+                "parameters": [
+                    {
+                        "name": "question",
+                        "in": "query",
+                        "description": "Id da pergunta para buscar",
+                        "require": true
+                    }
+                ],
+                "summary": "Buscar opções.",
+                "description": "Buscar opções por ID da pergunta.",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "content": {
+                            "application/Json": {
+                                "schema": {
+                                    "type": "array",
+                                    "item": {
+                                        "$ref": "#/components/schemas/QuestionByForm"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erro"
+                    }
+                }
+            }
+        },
+        "/options/edit/{id}": {
+            "put": {
+                "tags": [
+                    "Options"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id da opção para editar",
+                        "require": true
+                    }
+                ],
+                "summary": "Editar uma opção.",
+                "description": "Editar uma opção.",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/Json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Options"
+                            },
+                            "example": {
+                                "name": "Opção Teste",
+                                "manager_id": 1
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Editado com sucesso"
+                    },
+                    "500": {
+                        "description": "Erro"
+                    }
+                }
+            }
+        },
+        "/options/delete/{id}": {
+            "delete": {
+                "tags": [
+                    "Options"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id da opção para deletar",
+                        "require": true
+                    }
+                ],
+                "summary": "Deletar uma opção.",
+                "description": "Deletar uma opção.",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Deletado com sucesso"
+                    },
+                    "500": {
+                        "description": "Erro"
+                    }
+                }
+            }
+        },
+        "/answers/create": {
+            "post": {
+                "tags": [
+                    "Answers"
+                ],
+                "summary": "Criar uma resposta.",
+                "description": "Criar uma nova resposta.",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/Json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Answers"
+                            },
+                            "example": {
+                                "value": "Resposta Teste"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Criado com sucesso",
+                        "content": {
+                            "application/Json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Answers"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erro"
+                    }
+                }
+            }
+        },
+        "/answers/all": {
+            "get": {
+                "tags": [
+                    "Answers"
+                ],
+                "summary": "Listar respostas.",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "description": "Listar todas as respostas.",
+                "responses": {
+                    "201": {
+                        "content": {
+                            "application/Json": {
+                                "schema": {
+                                    "type": "array",
+                                    "item": {
+                                        "$ref": "#/components/schemas/Answers"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erro"
+                    }
+                }
+            }
+        },
+        "/answers/get-answers-values-by-question": {
+            "get": {
+                "tags": [
+                    "Answers"
+                ],
+                "summary": "Buscar respostas.",
+                "description": "Buscar respostas por ID da pergunta (com retorno personalizado)",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "content": {
+                            "application/Json": {
+                                "schema": {
+                                    "type": "array",
+                                    "item": {
+                                        "$ref": "#/components/schemas/AnswersByQuestion"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erro"
+                    }
+                }
+            }
+        },
+        "/answers/get-answers-by-employee?employee={id}": {
+            "get": {
+                "tags": [
+                    "Answers"
+                ],
+                "parameters": [
+                    {
+                        "name": "employee",
+                        "in": "query",
+                        "description": "Id do colaborador para buscar",
+                        "require": true
+                    }
+                ],
+                "summary": "Buscar respostas.",
+                "description": "Buscar respostas por ID de colaborador.",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "content": {
+                            "application/Json": {
+                                "schema": {
+                                    "type": "array",
+                                    "item": {
+                                        "$ref": "#/components/schemas/AnswersByQuestion"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erro"
+                    }
+                }
+            }
+        },
+        "/answers/edit/{id}": {
+            "put": {
+                "tags": [
+                    "Answers"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id da opção para editar",
+                        "require": true
+                    }
+                ],
+                "summary": "Editar uma opção.",
+                "description": "Editar uma opção.",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/Json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Answers"
+                            },
+                            "example": {
+                                "value": "Resposta Teste"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Editado com sucesso"
+                    },
+                    "500": {
+                        "description": "Erro"
+                    }
+                }
+            }
+        },
+        "/employees-forms/create": {
+            "post": {
+                "tags": [
+                    "Employees Forms"
+                ],
+                "summary": "Criar uma relação.",
+                "description": "Criar uma nova relação de muitos-para-muitos entre colaboradores e formulários.",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/Json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/EmployeesForms"
+                            },
+                            "example": {
+                                "employees_id": 1,
+                                "forms_id": 1
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Criado com sucesso",
+                        "content": {
+                            "application/Json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/EmployeesForms"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erro"
+                    }
+                }
+            }
+        },
+        "/employees-forms/all": {
+            "get": {
+                "tags": [
+                    "Employees Forms"
+                ],
+                "summary": "Listar relações.",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "description": "Listar todas as relações entre colaboradores e formulários.",
+                "responses": {
+                    "201": {
+                        "content": {
+                            "application/Json": {
+                                "schema": {
+                                    "type": "array",
+                                    "item": {
+                                        "$ref": "#/components/schemas/EmployeesForms"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erro"
+                    }
+                }
+            }
+        },
+        "/employees-forms/get-data-employees-by-form": {
+            "get": {
+                "tags": [
+                    "Employees Forms"
+                ],
+                "summary": "Buscar dados do colaborador.",
+                "description": "Buscar dados do colaborador por ID de formulário (com retorno personalizado).",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "content": {
+                            "application/Json": {
+                                "schema": {
+                                    "type": "array",
+                                    "item": {
+                                        "$ref": "#/components/schemas/DataEmployeesByForm"
+                                    }
+                                },
+                                "example": {
+                                    "id_form": 1,
+                                    "title_form": 1,
+                                    "id": 1,
+                                    "answered": false,
+                                    "employees_id": 1,
+                                    "created_at": "2022-01-27T14:03:15.568Z",
+                                    "updated_at": "2022-01-27T14:03:15.568Z"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erro"
+                    }
+                }
+            }
+        },
+        "/employees-forms/edit/{id}": {
+            "put": {
+                "tags": [
+                    "Employees Forms"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id da relação para editar",
+                        "require": true
+                    }
+                ],
+                "summary": "Editar uma relação.",
+                "description": "Editar uma relação entre colaborador e formulário.",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/Json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/EmployeesForms"
+                            },
+                            "example": {
+                                "answered": true
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Editado com sucesso"
+                    },
+                    "500": {
+                        "description": "Erro"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Managers": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Employees": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "manager_id": {
+                        "type": "number"
+                    }
+                }
+            },
+            "EmployeesByManager": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "number"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "team_id": {
+                        "type": "number"
+                    },
+                    "is_active": {
+                        "type": "boolean"
+                    }
+                }
+            },
+            "EmployeeEditTeam": {
+                "type": "object",
+                "properties": {
+                    "team_id": {
+                        "type": "number"
+                    }
+                }
+            },
+            "Teams": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "manager_id": {
+                        "type": "number"
+                    }
+                }
+            },
+            "Forms": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "manager_id": {
+                        "type": "number"
+                    }
+                }
+            },
+            "FormsByManager": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "number"
+                    },
+                    "title": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "is_active": {
+                        "type": "boolean"
+                    }
+                }
+            },
+            "Questions": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string"
+                    },
+                    "is_selectable": {
+                        "type": "boolean"
+                    },
+                    "form_id": {
+                        "type": "number"
+                    }
+                }
+            },
+            "QuestionByForm": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "number"
+                    },
+                    "title": {
+                        "type": "string"
+                    },
+                    "is_active": {
+                        "type": "boolean"
+                    }
+                }
+            },
+            "Options": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string"
+                    },
+                    "question_id": {
+                        "type": "number"
+                    }
+                }
+            },
+            "Answers": {
+                "type": "object",
+                "properties": {
+                    "value": {
+                        "type": "string"
+                    }
+                }
+            },
+            "AnswersByQuestion": {
+                "type": "object",
+                "properties": {
+                    "id_question": {
+                        "type": "number"
+                    },
+                    "title_question": {
+                        "type": "string"
+                    },
+                    "id_form": {
+                        "type": "number"
+                    },
+                    "id_answer": {
+                        "type": "number"
+                    },
+                    "value": {
+                        "type": "string"
+                    },
+                    "id_employee": {
+                        "type": "number"
+                    }
+                }
+            },
+            "EmployeesForms": {
+                "type": "object",
+                "properties": {
+                    "employees_id": {
+                        "type": "number"
+                    },
+                    "forms_id": {
+                        "type": "number"
+                    }
+                }
+            },
+            "DataEmployeesByForm": {
+                "type": "object",
+                "properties": {
+                    "id_form": {
+                        "type": "number"
+                    },
+                    "title_form": {
+                        "type": "string"
+                    },
+                    "id": {
+                        "type": "number"
+                    },
+                    "answered": {
+                        "type": "boolean"
+                    },
+                    "employees_id": {
+                        "type": "number"
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "beaterFormat": "JWT"
+            }
+        }
+    }
+}
