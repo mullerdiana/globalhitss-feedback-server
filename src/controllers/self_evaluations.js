@@ -1,11 +1,11 @@
-const Self_evaluation = require("../models/self_evaluation");
+const Self_evaluations = require("../models/self_evaluations");
 const status = require("http-status");
 const sequelize = require("../database/sequelize");
 
 exports.Create = (req, res, next) => {
     const { user_id, strong, improve, knowledge, skills, attitudes } = req.body;
 
-    Self_evaluation.create({
+    Self_evaluations.create({
         user_id,
         strong,
         improve,

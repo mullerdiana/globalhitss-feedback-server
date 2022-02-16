@@ -16,6 +16,7 @@ const loginRoutes = require("./src/routes/login.routes.js");
 const employees_FormsRoutes = require("./src/routes/employees_forms.routes.js");
 const employees_managersRoutes = require("./src/routes/employees_managers.routes");
 const employees_teamsRoutes = require("./src/routes/employees_teams.routes");
+const self_evaluationsRoutes = require("./src/routes/self_evaluations.routes");
 const authentication = require("./src/middleware/auth");
 const swaggerFile = require("./swagger.json");
 
@@ -31,6 +32,7 @@ app.use("/answers", answersRoutes);
 app.use("/employees-forms", employees_FormsRoutes);
 app.use("/employees-managers", employees_managersRoutes);
 app.use("/employees-teams", employees_teamsRoutes);
+app.use("/self-evaluations", self_evaluationsRoutes);
 
 app.use(
     "/api-docs",
