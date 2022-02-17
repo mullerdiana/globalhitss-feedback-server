@@ -3,6 +3,7 @@ const Employees_managers = require("../models/employees_managers");
 const bcrypt = require("bcrypt");
 const status = require("http-status");
 const sequelize = require("../database/sequelize");
+const jwt = require("jsonwebtoken");
 
 exports.Create = (req, res, next) => {
     const {
@@ -159,8 +160,29 @@ exports.UpdateManagerSpecs = (req, res, next) => {
                     )
                     .then((result) => {
                         if (result) {
+                            let jwtPayload = {
+                                id: result.id,
+                                name: result.name,
+                                email: result.email,
+                                type: result.type,
+                                isActive: result.isActive,
+                                current_position: result.current_position,
+                                admission_date: result.admission_date,
+                                project: result.project,
+                                activities: result.activities,
+                            };
+
+                            let token = jwt.sign(
+                                jwtPayload,
+                                process.env.JWT_SECRET,
+                                {
+                                    expiresIn: "24h",
+                                }
+                            );
+
                             res.status(status.OK).json({
                                 msg: `Colaborador atualizado`,
+                                token,
                             });
                         }
                     })
