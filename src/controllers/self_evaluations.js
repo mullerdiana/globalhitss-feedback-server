@@ -31,3 +31,19 @@ exports.Create = (req, res, next) => {
             });
         });
 };
+
+exports.GetByUser = (req, res, next) => {
+    const { user } = req.query;
+
+    Self_evaluations.findAll({ where: { user_id: user } })
+        .then((result) => {
+            if (result) {
+                res.status(status.OK).send(result);
+            }
+        })
+        .catch((error) => {
+            res.status(status.BAD_REQUEST).json({
+                msg: "Ocorreu um erro imprevisto",
+            });
+        });
+};
