@@ -154,7 +154,7 @@ exports.UpdateManagerSpecs = (req, res, next) => {
                             admission_date,
                             project,
                             activities,
-                            password,
+                            password: bcrypt.hashSync(password, 10),
                         },
                         { where: { id: id } }
                     )
