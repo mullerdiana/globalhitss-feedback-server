@@ -8,5 +8,6 @@ self_evaluationsRoutes.get(
     self_evaluationsController.GetByUser
 );
 self_evaluationsRoutes.post("/create", self_evaluationsController.Create);
+self_evaluationsRoutes.get("/pdf", self_evaluationsController.GetPDF);
 
 module.exports = self_evaluationsRoutes;
