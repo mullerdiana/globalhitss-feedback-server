@@ -538,7 +538,6 @@ exports.GetPDF = async (req, res, next) => {
         defaultStyle: { font: "Helvetica" },
         pageSize: "A4",
         pageMargins: [0, 50, 0, 50],
-
         header: [title],
         content: [content],
         footer: Footer,
