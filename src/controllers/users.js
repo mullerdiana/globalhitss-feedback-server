@@ -139,6 +139,19 @@ exports.GetByManagerAndWithoutTeam = async (req, res, next) => {
     res.status(status.OK).send(response);
 };
 
+exports.GetManagerByEmployee = async (req, res, next) => {
+    const { employee } = req.query;
+
+    const [response] = await sequelize.query(
+        `SELECT users.name
+        FROM users
+        INNER JOIN employees_managers ON employees_managers.manager_id = users.id 
+        WHERE employees_managers.employee_id = ${employee}`
+    );
+
+    res.status(status.OK).send(response);
+};
+
 exports.UpdateManagerSpecs = (req, res, next) => {
     const { id } = req.params;
     const { current_position, admission_date, project, activities, password } =
