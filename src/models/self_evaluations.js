@@ -10,10 +10,6 @@ const Self_evaluations = sequelize.define("self_evaluations", {
             key: "id",
         },
     },
-    manager: {
-        type: Sequelize.STRING(4000),
-        allowNull: false,
-    },
     strong: {
         type: Sequelize.STRING(4000),
         allowNull: false,
