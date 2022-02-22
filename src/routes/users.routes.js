@@ -13,6 +13,10 @@ usersRoutes.get(
     "/get-by-manager-and-without-team",
     usersController.GetByManagerAndWithoutTeam
 );
+usersRoutes.get(
+    "/get-manager-by-employee",
+    usersController.GetManagerByEmployee
+);
 usersRoutes.patch("/edit-password/:id", usersController.UpdatePassword);
 usersRoutes.patch(
     "/edit-name-and-email/:id",
