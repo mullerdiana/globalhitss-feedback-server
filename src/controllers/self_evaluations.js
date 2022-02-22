@@ -3,12 +3,10 @@ const status = require("http-status");
 const sequelize = require("../database/sequelize");
 
 exports.Create = (req, res, next) => {
-    const { user_id, manager, strong, improve, knowledge, skills, attitudes } =
-        req.body;
+    const { user_id, strong, improve, knowledge, skills, attitudes } = req.body;
 
     Self_evaluations.create({
         user_id,
-        manager,
         strong,
         improve,
         knowledge,
