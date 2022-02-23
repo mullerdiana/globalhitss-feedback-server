@@ -3,6 +3,7 @@ const Employees_managers = require("../models/employees_managers");
 const bcrypt = require("bcrypt");
 const status = require("http-status");
 const sequelize = require("../database/sequelize");
+const jwt = require("jsonwebtoken");
 
 exports.Create = (req, res, next) => {
     const {
@@ -138,6 +139,19 @@ exports.GetByManagerAndWithoutTeam = async (req, res, next) => {
     res.status(status.OK).send(response);
 };
 
+exports.GetManagerByEmployee = async (req, res, next) => {
+    const { employee } = req.query;
+
+    const [response] = await sequelize.query(
+        `SELECT users.name
+        FROM users
+        INNER JOIN employees_managers ON employees_managers.manager_id = users.id 
+        WHERE employees_managers.employee_id = ${employee}`
+    );
+
+    res.status(status.OK).send(response);
+};
+
 exports.UpdateManagerSpecs = (req, res, next) => {
     const { id } = req.params;
     const { current_position, admission_date, project, activities, password } =
@@ -153,14 +167,35 @@ exports.UpdateManagerSpecs = (req, res, next) => {
                             admission_date,
                             project,
                             activities,
-                            password,
+                            password: bcrypt.hashSync(password, 10),
                         },
                         { where: { id: id } }
                     )
                     .then((result) => {
                         if (result) {
+                            let jwtPayload = {
+                                id: result.id,
+                                name: result.name,
+                                email: result.email,
+                                type: result.type,
+                                isActive: result.isActive,
+                                current_position: result.current_position,
+                                admission_date: result.admission_date,
+                                project: result.project,
+                                activities: result.activities,
+                            };
+
+                            let token = jwt.sign(
+                                jwtPayload,
+                                process.env.JWT_SECRET,
+                                {
+                                    expiresIn: "24h",
+                                }
+                            );
+
                             res.status(status.OK).json({
                                 msg: `Colaborador atualizado`,
+                                token,
                             });
                         }
                     })
