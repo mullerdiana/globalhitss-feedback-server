@@ -1,10 +1,8 @@
 const Self_evaluations = require("../models/self_evaluations");
-const User = require("../models/users");
 const status = require("http-status");
 const sequelize = require("../database/sequelize");
-
+const moment = require("moment");
 const PDFPrinter = require("pdfmake");
-const fs = require("fs");
 
 exports.Create = (req, res, next) => {
     const { user_id, strong, improve, knowledge, skills, attitudes } = req.body;
@@ -53,7 +51,7 @@ exports.GetByUser = (req, res, next) => {
 };
 
 exports.GetPDF = async (req, res, next) => {
-    const { user, self_evaluations } = req.query;
+    const { user, self_evaluations, manager } = req.query;
 
     const [response] = await sequelize.query(
         `SELECT users.name,
@@ -74,6 +72,52 @@ exports.GetPDF = async (req, res, next) => {
         AND self_evaluations.id = ${self_evaluations}
         `
     );
+
+    const enMonth = moment().format("MMMM");
+    let ptbrMonth;
+
+    switch (enMonth) {
+        case "January":
+            ptbrMonth = "janeiro";
+            break;
+        case "February":
+            ptbrMonth = "fevereiro";
+            break;
+        case "March":
+            ptbrMonth = "março";
+            break;
+        case "April":
+            ptbrMonth = "abril";
+            break;
+        case "May":
+            ptbrMonth = "maio";
+            break;
+        case "June":
+            ptbrMonth = "junho";
+            break;
+        case "July":
+            ptbrMonth = "junho";
+            break;
+        case "August":
+            ptbrMonth = "agosto";
+            break;
+        case "September":
+            ptbrMonth = "setembro";
+            break;
+        case "October":
+            ptbrMonth = "outubro";
+            break;
+        case "November":
+            ptbrMonth = "novembro";
+            break;
+        case "December":
+            ptbrMonth = "dezembro";
+            break;
+        default:
+            ptbrMonth = "null";
+    }
+
+    const date = response[0].admission_date.split("-").reverse().join("/");
 
     const fonts = {
         Helvetica: {
@@ -177,7 +221,7 @@ exports.GetPDF = async (req, res, next) => {
                             columns: [
                                 {
                                     width: 600,
-                                    text: response[0].admission_date,
+                                    text: `Data de admissão: ${date}`,
                                     fontSize: 12,
                                     fillColor: "#dedede",
                                     margin: [10, 0, 30, 0],
@@ -202,6 +246,30 @@ exports.GetPDF = async (req, res, next) => {
                                 {
                                     width: 600,
                                     text: `Cargo atual: ${response[0].current_position}`,
+                                    fontSize: 12,
+                                    fillColor: "#dedede",
+                                    margin: [10, 0, 30, 0],
+                                },
+                            ],
+                        },
+                    ],
+                ],
+            },
+        },
+        {
+            table: {
+                headerRows: 0,
+                body: [
+                    [
+                        {
+                            fillColor: "#FFF",
+
+                            border: [false, false, false, false],
+
+                            columns: [
+                                {
+                                    width: 600,
+                                    text: `Manager: ${manager}`,
                                     fontSize: 12,
                                     fillColor: "#dedede",
                                     margin: [10, 0, 30, 0],
@@ -500,6 +568,59 @@ exports.GetPDF = async (req, res, next) => {
                 ],
             },
         },
+        {
+            columns: [
+                {
+                    width: "*",
+                    text: "____________________________",
+                    fontSize: 16,
+                    fillColor: "#000000",
+                    alignment: "center",
+                    margin: [0, 30, 0, 10],
+                },
+                {
+                    width: "*",
+                    text: "____________________________",
+                    fontSize: 16,
+                    fillColor: "#000000",
+                    alignment: "center",
+                    margin: [0, 30, 0, 10],
+                },
+            ],
+        },
+        {
+            columns: [
+                {
+                    width: "*",
+                    text: response[0].name,
+                    fontSize: 12,
+                    fillColor: "#000000",
+                    alignment: "center",
+                },
+
+                {
+                    width: "*",
+                    text: manager,
+                    fontSize: 12,
+                    fillColor: "#000000",
+                    alignment: "center",
+                },
+            ],
+        },
+        {
+            columns: [
+                {
+                    width: "*",
+                    text: `${moment().format(
+                        "DD"
+                    )} de ${ptbrMonth} de ${moment().format("YYYY")}`,
+                    fontSize: 12,
+                    fillColor: "#000000",
+                    alignment: "center",
+                    margin: [0, 20, 0, 20],
+                },
+            ],
+        },
     ];
 
     function Footer(currentPage, pageCount) {
@@ -551,10 +672,10 @@ exports.GetPDF = async (req, res, next) => {
         chunks.push(chunk);
     });
 
-    pdfDoc.end();
+    res.setHeader("Content-type", "application/pdf");
+    res.setHeader("Content-disposition", 'inline; filename="nice.pdf"');
 
-    pdfDoc.on("end", () => {
-        const result = Buffer.concat(chunks);
-        res.send(result);
-    });
+    pdfDoc.pipe(res);
+
+    pdfDoc.end();
 };

@@ -33,7 +33,7 @@ app.use("/answers", answersRoutes);
 app.use("/employees-forms", employees_FormsRoutes);
 app.use("/employees-managers", employees_managersRoutes);
 app.use("/employees-teams", employees_teamsRoutes);
-app.use("/self-evaluations", self_evaluationsRoutes);
+app.use("/self-evaluations", authentication.auth, self_evaluationsRoutes);
 
 app.use(
     "/api-docs",
