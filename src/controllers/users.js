@@ -141,7 +141,7 @@ exports.GetByManagerAndWithoutTeam = async (req, res, next) => {
 
 exports.UpdateManagerSpecs = (req, res, next) => {
     const { id } = req.params;
-    const { current_position, admission_date, project, activities, password } =
+    const { current_position, admission_date, project, activities} =
         req.body;
 
     Users.findByPk(id)
@@ -154,7 +154,6 @@ exports.UpdateManagerSpecs = (req, res, next) => {
                             admission_date,
                             project,
                             activities,
-                            password: bcrypt.hashSync(password, 10),
                         },
                         { where: { id: id } }
                     )

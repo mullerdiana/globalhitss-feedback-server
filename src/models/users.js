@@ -25,7 +25,7 @@ const Users = sequelize.define("users", {
     },
     current_position: {
         type: Sequelize.STRING(500),
-        allowNull: true,
+        allowNull: true,    
     },
     admission_date: {
         type: Sequelize.STRING(500),
