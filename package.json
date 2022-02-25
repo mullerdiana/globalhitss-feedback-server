@@ -33,7 +33,9 @@
 		"react-scripts": "3.4.0",
 		"sequelize": "^6.3.5",
 		"swagger-ui-express": "^4.3.0",
-		"tedious": "^14.0.0"
+		"tedious": "^14.0.0",
+		"moment": "^2.29.1",
+		"pdfmake": "^0.2.4"
 	},
 	"devDependencies": {
 		"sequelize-cli": "^6.3.0"
