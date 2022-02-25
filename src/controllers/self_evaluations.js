@@ -1001,7 +1001,7 @@ exports.GetPDF = async (req, res, next) => {
         pageSize: "A4",
         pageMargins: [0, 50, 0, 50],
         header: [title],
-        content: response[0].type === 2 ? [contentEmployee] : [contentEmployee],
+        content: response[0].type === 2 ? [contentEmployee] : [contentManager],
         footer: Footer,
     };
 
