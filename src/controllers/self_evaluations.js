@@ -60,6 +60,7 @@ exports.GetPDF = async (req, res, next) => {
         users.admission_date,
         users.project,
         users.activities,
+        users.type,
         self_evaluations.strong,
         self_evaluations.improve,
         self_evaluations.knowledge,
@@ -159,48 +160,33 @@ exports.GetPDF = async (req, res, next) => {
         },
     ];
 
-    const content = [
+    const contentEmployee = [
         {
             table: {
-                headerRows: 0,
+                widths: ["*", "*"],
                 body: [
                     [
                         {
-                            fillColor: "#FFF",
-
                             border: [false, false, false, false],
-
                             columns: [
                                 {
-                                    width: 600,
+                                    width: "*",
                                     text: `Nome: ${response[0].name}`,
                                     fontSize: 12,
                                     fillColor: "#dedede",
-                                    margin: [10, 20, 30, 0],
+                                    margin: [10, 20, 0, 5],
                                 },
                             ],
                         },
-                    ],
-                ],
-            },
-        },
-        {
-            table: {
-                headerRows: 0,
-                body: [
-                    [
                         {
-                            fillColor: "#FFF",
-
                             border: [false, false, false, false],
-
                             columns: [
                                 {
-                                    width: 600,
+                                    width: "*",
                                     text: `Email: ${response[0].email}`,
                                     fontSize: 12,
                                     fillColor: "#dedede",
-                                    margin: [10, 0, 30, 0],
+                                    margin: [10, 20, 0, 5],
                                 },
                             ],
                         },
@@ -210,45 +196,30 @@ exports.GetPDF = async (req, res, next) => {
         },
         {
             table: {
-                headerRows: 0,
+                widths: ["*", "*"],
                 body: [
                     [
                         {
-                            fillColor: "#FFF",
-
                             border: [false, false, false, false],
-
                             columns: [
                                 {
-                                    width: 600,
+                                    width: "*",
                                     text: `Data de admissão: ${date}`,
                                     fontSize: 12,
                                     fillColor: "#dedede",
-                                    margin: [10, 0, 30, 0],
+                                    margin: [10, 0, 0, 5],
                                 },
                             ],
                         },
-                    ],
-                ],
-            },
-        },
-        {
-            table: {
-                headerRows: 0,
-                body: [
-                    [
                         {
-                            fillColor: "#FFF",
-
                             border: [false, false, false, false],
-
                             columns: [
                                 {
-                                    width: 600,
+                                    width: "*",
                                     text: `Cargo atual: ${response[0].current_position}`,
                                     fontSize: 12,
                                     fillColor: "#dedede",
-                                    margin: [10, 0, 30, 0],
+                                    margin: [10, 0, 0, 5],
                                 },
                             ],
                         },
@@ -258,45 +229,30 @@ exports.GetPDF = async (req, res, next) => {
         },
         {
             table: {
-                headerRows: 0,
+                widths: ["*", "*"],
                 body: [
                     [
                         {
-                            fillColor: "#FFF",
-
                             border: [false, false, false, false],
-
                             columns: [
                                 {
-                                    width: 600,
-                                    text: `Manager: ${manager}`,
-                                    fontSize: 12,
-                                    fillColor: "#dedede",
-                                    margin: [10, 0, 30, 0],
-                                },
-                            ],
-                        },
-                    ],
-                ],
-            },
-        },
-        {
-            table: {
-                headerRows: 0,
-                body: [
-                    [
-                        {
-                            fillColor: "#FFF",
-
-                            border: [false, false, false, false],
-
-                            columns: [
-                                {
-                                    width: 600,
+                                    width: "*",
                                     text: `Projeto: ${response[0].project}`,
                                     fontSize: 12,
                                     fillColor: "#dedede",
-                                    margin: [10, 0, 30, 0],
+                                    margin: [10, 0, 0, 5],
+                                },
+                            ],
+                        },
+                        {
+                            border: [false, false, false, false],
+                            columns: [
+                                {
+                                    width: "*",
+                                    text: `Gestor: ${manager}`,
+                                    fontSize: 12,
+                                    fillColor: "#dedede",
+                                    margin: [10, 0, 0, 5],
                                 },
                             ],
                         },
@@ -306,21 +262,18 @@ exports.GetPDF = async (req, res, next) => {
         },
         {
             table: {
-                headerRows: 0,
+                widths: ["*", "*"],
                 body: [
                     [
                         {
-                            fillColor: "#FFF",
-
                             border: [false, false, false, false],
-
                             columns: [
                                 {
-                                    width: 600,
+                                    width: "*",
                                     text: `Atividades: ${response[0].activities}`,
                                     fontSize: 12,
                                     fillColor: "#dedede",
-                                    margin: [10, 0, 30, 20],
+                                    margin: [10, 0, 0, 20],
                                 },
                             ],
                         },
@@ -572,7 +525,7 @@ exports.GetPDF = async (req, res, next) => {
             columns: [
                 {
                     width: "*",
-                    text: "__________",
+                    text: "_____________________________",
                     fontSize: 16,
                     fillColor: "#000000",
                     alignment: "center",
@@ -580,7 +533,7 @@ exports.GetPDF = async (req, res, next) => {
                 },
                 {
                     width: "*",
-                    text: "__________",
+                    text: "_____________________________",
                     fontSize: 16,
                     fillColor: "#000000",
                     alignment: "center",
@@ -601,6 +554,394 @@ exports.GetPDF = async (req, res, next) => {
                 {
                     width: "*",
                     text: manager,
+                    fontSize: 12,
+                    fillColor: "#000000",
+                    alignment: "center",
+                },
+            ],
+        },
+        {
+            columns: [
+                {
+                    width: "*",
+                    text: `${moment().format(
+                        "DD"
+                    )} de ${ptbrMonth} de ${moment().format("YYYY")}`,
+                    fontSize: 12,
+                    fillColor: "#000000",
+                    alignment: "center",
+                    margin: [0, 20, 0, 20],
+                },
+            ],
+        },
+    ];
+
+    const contentManager = [
+        {
+            table: {
+                widths: ["*", "*"],
+                body: [
+                    [
+                        {
+                            border: [false, false, false, false],
+                            columns: [
+                                {
+                                    width: "*",
+                                    text: `Nome: ${response[0].name}`,
+                                    fontSize: 12,
+                                    fillColor: "#dedede",
+                                    margin: [10, 20, 0, 5],
+                                },
+                            ],
+                        },
+                        {
+                            border: [false, false, false, false],
+                            columns: [
+                                {
+                                    width: "*",
+                                    text: `Email: ${response[0].email}`,
+                                    fontSize: 12,
+                                    fillColor: "#dedede",
+                                    margin: [10, 20, 0, 5],
+                                },
+                            ],
+                        },
+                    ],
+                ],
+            },
+        },
+        {
+            table: {
+                widths: ["*", "*"],
+                body: [
+                    [
+                        {
+                            border: [false, false, false, false],
+                            columns: [
+                                {
+                                    width: "*",
+                                    text: `Data de admissão: ${date}`,
+                                    fontSize: 12,
+                                    fillColor: "#dedede",
+                                    margin: [10, 0, 0, 5],
+                                },
+                            ],
+                        },
+                        {
+                            border: [false, false, false, false],
+                            columns: [
+                                {
+                                    width: "*",
+                                    text: `Cargo atual: ${response[0].current_position}`,
+                                    fontSize: 12,
+                                    fillColor: "#dedede",
+                                    margin: [10, 0, 0, 5],
+                                },
+                            ],
+                        },
+                    ],
+                ],
+            },
+        },
+        {
+            table: {
+                widths: ["*", "*"],
+                body: [
+                    [
+                        {
+                            border: [false, false, false, false],
+                            columns: [
+                                {
+                                    width: "*",
+                                    text: `Projeto: ${response[0].project}`,
+                                    fontSize: 12,
+                                    fillColor: "#dedede",
+                                    margin: [10, 0, 0, 5],
+                                },
+                            ],
+                        },
+                    ],
+                ],
+            },
+        },
+        {
+            table: {
+                widths: ["*", "*"],
+                body: [
+                    [
+                        {
+                            border: [false, false, false, false],
+                            columns: [
+                                {
+                                    width: "*",
+                                    text: `Atividades: ${response[0].activities}`,
+                                    fontSize: 12,
+                                    fillColor: "#dedede",
+                                    margin: [10, 0, 0, 20],
+                                },
+                            ],
+                        },
+                    ],
+                ],
+            },
+        },
+        {
+            table: {
+                headerRows: 0,
+                body: [
+                    [
+                        {
+                            fillColor: "#dee2e6",
+
+                            border: [false, false, false, false],
+
+                            columns: [
+                                {
+                                    width: 600,
+                                    text: "Pontos Fortes",
+                                    fontSize: 16,
+                                    fillColor: "#dedede",
+                                    margin: [10, 10, 0, 10],
+                                },
+                            ],
+                        },
+                    ],
+                ],
+            },
+        },
+        {
+            table: {
+                headerRows: 0,
+                body: [
+                    [
+                        {
+                            fillColor: "#FFF",
+
+                            border: [false, false, false, false],
+
+                            columns: [
+                                {
+                                    width: 600,
+                                    text: response[0].strong,
+                                    fontSize: 12,
+                                    fillColor: "#dedede",
+                                    margin: [10, 10, 30, 20],
+                                },
+                            ],
+                        },
+                    ],
+                ],
+            },
+        },
+        {
+            table: {
+                headerRows: 0,
+                body: [
+                    [
+                        {
+                            fillColor: "#dee2e6",
+
+                            border: [false, false, false, false],
+
+                            columns: [
+                                {
+                                    width: 600,
+                                    text: "Pontos a melhorar",
+                                    fontSize: 16,
+                                    fillColor: "#dedede",
+                                    margin: [10, 10, 0, 10],
+                                },
+                            ],
+                        },
+                    ],
+                ],
+            },
+        },
+        {
+            table: {
+                headerRows: 0,
+                body: [
+                    [
+                        {
+                            fillColor: "#FFF",
+
+                            border: [false, false, false, false],
+
+                            columns: [
+                                {
+                                    width: 600,
+                                    text: response[0].improve,
+                                    fontSize: 12,
+                                    fillColor: "#dedede",
+                                    margin: [10, 10, 30, 20],
+                                },
+                            ],
+                        },
+                    ],
+                ],
+            },
+        },
+        {
+            table: {
+                headerRows: 0,
+                body: [
+                    [
+                        {
+                            fillColor: "#dee2e6",
+
+                            border: [false, false, false, false],
+
+                            columns: [
+                                {
+                                    width: 600,
+                                    text: "Conhecimentos",
+                                    fontSize: 16,
+                                    fillColor: "#dedede",
+                                    margin: [10, 10, 0, 10],
+                                },
+                            ],
+                        },
+                    ],
+                ],
+            },
+        },
+        {
+            table: {
+                headerRows: 0,
+                body: [
+                    [
+                        {
+                            fillColor: "#FFF",
+
+                            border: [false, false, false, false],
+
+                            columns: [
+                                {
+                                    width: 600,
+                                    text: response[0].knowledge,
+                                    fontSize: 12,
+                                    fillColor: "#dedede",
+                                    margin: [10, 10, 30, 20],
+                                },
+                            ],
+                        },
+                    ],
+                ],
+            },
+        },
+        {
+            table: {
+                headerRows: 0,
+                body: [
+                    [
+                        {
+                            fillColor: "#dee2e6",
+
+                            border: [false, false, false, false],
+
+                            columns: [
+                                {
+                                    width: 600,
+                                    text: "Habilidades",
+                                    fontSize: 16,
+                                    fillColor: "#dedede",
+                                    margin: [10, 10, 0, 10],
+                                },
+                            ],
+                        },
+                    ],
+                ],
+            },
+        },
+        {
+            table: {
+                headerRows: 0,
+                body: [
+                    [
+                        {
+                            fillColor: "#FFF",
+
+                            border: [false, false, false, false],
+
+                            columns: [
+                                {
+                                    width: 600,
+                                    text: response[0].skills,
+                                    fontSize: 12,
+                                    fillColor: "#dedede",
+                                    margin: [10, 10, 30, 20],
+                                },
+                            ],
+                        },
+                    ],
+                ],
+            },
+        },
+        {
+            table: {
+                headerRows: 0,
+                body: [
+                    [
+                        {
+                            fillColor: "#dee2e6",
+
+                            border: [false, false, false, false],
+
+                            columns: [
+                                {
+                                    width: 600,
+                                    text: "Atitudes",
+                                    fontSize: 16,
+                                    fillColor: "#dedede",
+                                    margin: [10, 10, 0, 10],
+                                },
+                            ],
+                        },
+                    ],
+                ],
+            },
+        },
+        {
+            table: {
+                headerRows: 0,
+                body: [
+                    [
+                        {
+                            fillColor: "#FFF",
+
+                            border: [false, false, false, false],
+
+                            columns: [
+                                {
+                                    width: 600,
+                                    text: response[0].attitudes,
+                                    fontSize: 12,
+                                    fillColor: "#dedede",
+                                    margin: [10, 10, 30, 20],
+                                },
+                            ],
+                        },
+                    ],
+                ],
+            },
+        },
+        {
+            columns: [
+                {
+                    width: "*",
+                    text: "__________________________________",
+                    fontSize: 16,
+                    fillColor: "#000000",
+                    alignment: "center",
+                    margin: [0, 30, 0, 10],
+                },
+            ],
+        },
+        {
+            columns: [
+                {
+                    width: "*",
+                    text: response[0].name,
                     fontSize: 12,
                     fillColor: "#000000",
                     alignment: "center",
@@ -660,7 +1001,7 @@ exports.GetPDF = async (req, res, next) => {
         pageSize: "A4",
         pageMargins: [0, 50, 0, 50],
         header: [title],
-        content: [content],
+        content: response[0].type === 2 ? [contentEmployee] : [contentEmployee],
         footer: Footer,
     };
 
