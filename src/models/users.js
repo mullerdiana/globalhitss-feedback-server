@@ -57,6 +57,16 @@ Users.associate = (models) => {
         foreignKey: "user_id",
     });
 
+    Users.hasMany(models.Employees_evaluations, {
+        as: "User_Employees_evaluations",
+        foreignKey: "employee_id",
+    });
+
+    Users.hasMany(models.Employees_evaluations, {
+        as: "Manager_Employees_evaluations",
+        foreignKey: "manager_id",
+    });
+
     Users.belongsToMany(models.Forms, {
         through: "employees_forms",
         foreignKey: "employee_id",
